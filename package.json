@@ -1,10 +1,10 @@
 {
-  "name": "oneconcord",
+  "name": "app",
   "version": "1.0.0",
   "description": "",
   "author": "",
   "license": "ISC",
-  "main": "index.js",
+  "main": "server/index.ts",
   "scripts": {
     "task:lint": "eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
     "dev:build": "webpack --config build/webpack.config.js",
