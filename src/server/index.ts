@@ -1,6 +1,6 @@
 import express from 'express';
 import config from './config';
-import html from './html';
+import render from './render';
 
 function server(): void {
     const app = express();
@@ -8,10 +8,10 @@ function server(): void {
     app.use(express.static(config.CLIENT_ASSETS));
 
     app.get('/*', (req, res) => {
-        const content = html();
+        const html = render();
 
         res.status(200);
-        res.send(content);
+        res.send(html);
         res.end();
     });
 
