@@ -1,4 +1,4 @@
-import buildConfig from '../build/config';
+import buildConfig from '../../build/config';
 
 type AppConfig = {
     CLIENT_ASSETS: string;

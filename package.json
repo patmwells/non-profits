@@ -4,12 +4,12 @@
   "description": "",
   "author": "",
   "license": "ISC",
-  "main": "server/index.ts",
+  "main": "src/server/index.ts",
   "scripts": {
     "task:lint": "eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
     "dev:build": "webpack --config build/webpack.config.js",
     "dev:build:watch": "npm run dev:build -- --watch",
-    "dev:start": "nodemon --watch bin bin/index.js"
+    "dev:start": "nodemon --watch bin bin/server.js"
   },
   "dependencies": {
     "express": "4.17.1",

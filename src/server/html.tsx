@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import config from './config';
-import App from './scripts/components/App';
+import App from '../client/components/App';
 
-import type { InitialState } from './types/initialState';
+const initialState = {
+    clientRootId: config.CLIENT_ROOT_ID,
+    clientStateId: config.CLIENT_STATE_ID
+};
 
 export default function html(): string {
-    const initialState = `window.INITIAL_STATE = ${JSON.stringify({
-        clientRootId: config.CLIENT_ROOT_ID,
-        clientStateId: config.CLIENT_STATE_ID
-    } as InitialState)};`;
+    const serialized = JSON.stringify(initialState);
 
     const page = (
         <html lang="en">
@@ -23,7 +23,7 @@ export default function html(): string {
                 </div>
                 <script
                     id={config.CLIENT_STATE_ID}
-                    dangerouslySetInnerHTML={{ __html: initialState }}
+                    dangerouslySetInnerHTML={{ __html: `window.INITIAL_STATE = ${serialized};` }}
                 />
                 <script src={config.CLIENT_SCRIPT} />
             </body>
