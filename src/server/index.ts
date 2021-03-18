@@ -2,23 +2,16 @@ import express from 'express';
 import config from './config';
 import render from './render';
 
-function server(): void {
-    const app = express();
+const app = express();
 
-    app.use(express.static(config.CLIENT_ASSETS));
+app.use(express.static(config.CLIENT_ASSETS));
 
-    app.get('/*', (req, res) => {
-        const html = render();
+app.get('/*', (req, res) => {
+    const html = render();
 
-        res.status(200);
-        res.send(html);
-        res.end();
-    });
+    res.status(200);
+    res.send(html);
+    res.end();
+});
 
-    app.listen(config.SERVER_PORT);
-}
-
-/**
- * Start the server.
- */
-server();
+app.listen(config.SERVER_PORT);
