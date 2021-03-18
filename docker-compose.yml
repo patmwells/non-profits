@@ -2,19 +2,14 @@ version: "3.9"
 services:
   app:
     image: "${IMAGE_TAG}"
-    env_file:
-      - .env
+    environment:
+      - NODE_ENV
+      - SERVER_PORT
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
-      - "35729:35729"
-    volumes:
-      - .:/home/node/app
-  cypress:
-    image: "cypress/included:4.4.0"
+  automation:
+    build: automation
     depends_on:
       - app
     environment:
-      - CYPRESS_baseUrl=http://app:${SERVER_PORT}
-    working_dir: /tests
-    volumes:
-      - ./tests:/tests
+      - CYPRESS_BASE_URL=http://app:${SERVER_PORT}

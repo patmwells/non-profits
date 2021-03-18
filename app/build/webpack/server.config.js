@@ -13,8 +13,7 @@ const common = {
             { test: /\.(ts|tsx)?$/, use: 'ts-loader', exclude: /node_modules/ },
         ]
     },
-    resolve: { extensions: ['.tsx', '.ts', '.js', '.jsx'] },
-    optimization: { nodeEnv: false }
+    resolve: { extensions: ['.tsx', '.ts', '.js', '.jsx'] }
 };
 
 const dev = merge(common, { mode: 'development' });

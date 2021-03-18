@@ -5,8 +5,10 @@ FROM base as dev
 CMD /bin/bash -c "npm run dev:build; npm run dev:build:watch & npm run dev:start;"
 
 FROM base as build
-COPY . .
+COPY package.json .
+COPY package-lock.json .
 RUN npm install
+COPY . .
 RUN npm run task:lint
 RUN npm run prod:build
 RUN npm prune --production
