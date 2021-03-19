@@ -1,30 +1,24 @@
-# Set the IMAGE_TAG env variable to "app:local" if not already set
-export IMAGE_TAG ?= app:local
+dev:
+	@echo "\n ### DEV environment ### \n";
+	set -o allexport && source .env.dev && $(SHELL);
+prod:
+	@echo "\n ### PROD environment ### \n";
+	set -o allexport && source .env.prod && $(SHELL);
 
-dev: dev-env dev-build dev-start logs
+app: build start logs
 
-prod: prod-env prod-build prod-start logs
+ci: build automation down
 
-ci: prod-env prod-build automation down clean
-
-dev-env:
-	cp .env.dev .env
-dev-build:
-	docker build --tag $(IMAGE_TAG) --target dev --rm ./app
-dev-start:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --detach app
-prod-env:
-	cp .env.prod .env
-prod-build:
-	docker build --tag $(IMAGE_TAG) --target prod --rm ./app
-prod-start:
-	docker-compose up --detach app
-shell:
-	docker-compose exec app /bin/bash
+build:
+	docker build --tag $(IMAGE_TAG) --target $(BUILD_TARGET) --rm ./app
+start:
+	docker-compose $(COMPOSE_CONFIGS) up --detach app
 logs:
 	docker-compose logs --follow app
+shell:
+	docker-compose exec app /bin/bash
 automation:
-	docker-compose up --build automation
+	docker-compose $(COMPOSE_CONFIGS) up --build automation
 down:
 	docker-compose down
 clean:
