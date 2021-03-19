@@ -1,8 +1,6 @@
 # Set the IMAGE_TAG env variable to "app:local" if not already set
 export IMAGE_TAG ?= app:local
 
-.PHONY: env automation
-
 dev: dev-env dev-build dev-start logs
 
 prod: prod-env prod-build prod-start logs
