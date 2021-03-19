@@ -2,7 +2,7 @@ FROM node:latest as base
 WORKDIR /home/node/app
 
 FROM base as dev
-CMD /bin/bash -c "npm run dev:build; npm run dev:build:watch & npm run dev:start;"
+CMD npm run dev:build; npm run dev:build:watch & npm run dev:start;
 
 FROM base as build
 COPY package.json .

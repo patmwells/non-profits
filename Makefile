@@ -1,10 +1,3 @@
-dev:
-	@echo "\n ### DEV environment ### \n";
-	set -o allexport && source .env.dev && $(SHELL);
-prod:
-	@echo "\n ### PROD environment ### \n";
-	set -o allexport && source .env.prod && $(SHELL);
-
 app: build start logs
 
 ci: build automation down
@@ -23,3 +16,13 @@ down:
 	docker-compose down
 clean:
 	docker image prune --all --force
+
+dev:
+	@echo "\n ### DEV environment ### \n";
+	set -o allexport && source .env.dev && $(SHELL);
+prod:
+	@echo "\n ### PROD environment ### \n";
+	set -o allexport && source .env.prod && $(SHELL);
+verify:
+	@echo "\n ### Running local CI with PROD environment ### \n";
+	set -o allexport && source .env.prod && $(SHELL) -c "make ci";
