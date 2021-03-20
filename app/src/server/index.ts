@@ -1,17 +1,32 @@
 import express from 'express';
-import config from './config';
-import render from './render';
+import {
+    createConfig,
+    getClientAssetsDir,
+    getServerPort,
+} from './config';
+import { render } from './handlers/render';
 
-const app = express();
+/**
+ *
+ */
+function server() {
+    const app = express();
+    const config = createConfig();
+    const port = getServerPort(config);
+    const assetsDir = getClientAssetsDir(config);
 
-app.use(express.static(config.CLIENT_ASSETS));
+    app.use(express.static(assetsDir));
+    app.get('/*', (req, res) => {
+        const html = render(config);
 
-app.get('/*', (req, res) => {
-    const html = render();
+        res.status(200);
+        res.write(html);
+        res.end();
+    });
+    app.listen(port, () => console.log('-> Server running on port:', port));
+}
 
-    res.status(200);
-    res.send(html);
-    res.end();
-});
-
-app.listen(config.SERVER_PORT);
+/**
+ *
+ */
+server();

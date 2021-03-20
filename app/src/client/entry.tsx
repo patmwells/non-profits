@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import { getClientConfigFromWindow } from '../common/clientConfig';
+import { getClientConfigFromWindow } from './config';
 
 const clientConfig = getClientConfigFromWindow(window);
 
