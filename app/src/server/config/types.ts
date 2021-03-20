@@ -12,7 +12,7 @@ type BuildConfig = {
 /**
  *
  */
-type EnvConfig = {
+type ServerConfig = {
     serverPort: string;
 }
 
@@ -22,5 +22,5 @@ type EnvConfig = {
 export type AppConfig = {
     build: BuildConfig,
     client: ClientConfig,
-    env: EnvConfig
+    server: ServerConfig
 }

@@ -25,15 +25,15 @@ export function createConfig(): Config {
         client: {
             appRoot: 'appRoot'
         },
-        env: {
+        server: {
             serverPort: process.env.SERVER_PORT
         }
     };
 
-    return function get(accessKey: symbol): AppConfig {
+    return function config(accessKey: symbol): AppConfig {
 
         if (accessKey !== key) {
-            throw new Error('Invalid property access!');
+            throw new Error('Invalid config access!');
         }
 
         return appConfig;
@@ -53,7 +53,7 @@ export function getClientAssetsDir(config: Config): string {
  * @param config
  */
 export function getServerPort(config: Config): string {
-    return config(key).env.serverPort;
+    return config(key).server.serverPort;
 }
 
 /**
