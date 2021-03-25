@@ -1,22 +1,36 @@
-import type { AppConfig } from './types';
 import buildConfig from '../../../build/config';
-import { ConfigNamespace } from '../../common/types/clientConfig';
+import { ClientConfig, ConfigNamespace } from '../../common/types/clientConfig';
 
 /**
  *
  */
-export type Config = (accessKey: symbol) => AppConfig;
+type BuildConfig = {
+    clientAssets: string;
+    clientScript: string;
+    liveReload: string;
+};
 
 /**
  *
  */
-const key = Symbol();
+type ServerConfig = {
+    serverPort: string;
+};
 
 /**
  *
  */
-export function createConfig(): Config {
-    const appConfig: AppConfig = {
+export type AppConfig = {
+    build: BuildConfig;
+    client: ClientConfig;
+    server: ServerConfig;
+};
+
+/**
+ *
+ */
+export function createConfig(): AppConfig {
+    return {
         build: {
             clientAssets: buildConfig.client.output.path,
             clientScript: buildConfig.client.output.filename,
@@ -29,65 +43,43 @@ export function createConfig(): Config {
             serverPort: process.env.SERVER_PORT
         }
     };
-
-    return function config(accessKey: symbol): AppConfig {
-
-        if (accessKey !== key) {
-            throw new Error('Invalid config access!');
-        }
-
-        return appConfig;
-    };
 }
 
 /**
  *
  * @param config
  */
-export function getClientAssetsDir(config: Config): string {
-    return config(key).build.clientAssets;
+export function getClientAssetsDir(config: AppConfig): string {
+    return config.build.clientAssets;
 }
 
 /**
  *
  * @param config
  */
-export function getServerPort(config: Config): string {
-    return config(key).server.serverPort;
+export function getServerPort(config: AppConfig): string {
+    return config.server.serverPort;
 }
 
 /**
  *
  * @param config
+ * @param content
  */
-export function getClientHeaderScripts(config: Config): string {
-    return `<script type="application/javascript" src=${config(key).build.liveReload}></script>`;
-}
-
-/**
- *
- * @param config
- */
-export function getClientAppRoot(config: Config): string {
-    return config(key).client.appRoot;
-}
-
-/**
- *
- * @param config
- */
-export function getClientConfigScript(config: Config): string {
+export function getHtml(config: AppConfig, content: string): string {
     return `
-        <script type="application/javascript">
-            window.${ConfigNamespace} = ${JSON.stringify(config(key).client)}
-        </script>
+        <html lang="en">
+            <head>
+                <title>App</title>
+                <script type="application/javascript" src=${config.build.liveReload}></script>
+            </head>
+            <body>
+                <div id=${config.client.appRoot}>${content}</div>
+                <script type="application/javascript">
+                    window.${ConfigNamespace} = ${JSON.stringify(config.client)}
+                </script>
+                <script type="application/javascript" src=${config.build.clientScript}></script>
+            </body>
+        </html>
     `;
-}
-
-/**
- *
- * @param config
- */
-export function getClientFooterScripts(config: Config): string {
-    return `<script type="application/javascript" src=${config(key).build.clientScript}></script>`;
 }
