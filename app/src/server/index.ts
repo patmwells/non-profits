@@ -1,5 +1,5 @@
 import express from 'express';
-import renderHtml from './renderHtml';
+import render from './render';
 import {
     createServerConfig,
     getClientAssetsDir,
@@ -17,7 +17,7 @@ function server() {
 
     app.use(express.static(assetsDir));
     app.get('/*', (req, res) => {
-        const html = renderHtml(config);
+        const html = render(config);
 
         res.status(200);
         res.write(html);

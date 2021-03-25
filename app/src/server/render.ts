@@ -5,7 +5,7 @@ import { renderAppOnServer } from '../common/renderApp';
  *
  * @param serverConfig
  */
-export default function renderHtml(serverConfig: ServerConfig): string {
+export default function render(serverConfig: ServerConfig): string {
     return `
         <html lang="en">
             <head>
