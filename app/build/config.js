@@ -9,7 +9,7 @@ module.exports = {
         }
     },
     client: {
-        entry: path.resolve('src/client/entry.tsx'),
+        entry: path.resolve('src/client/index.ts'),
         output: {
             path: path.resolve('bin/client'),
             filename: 'index.bundle.js'

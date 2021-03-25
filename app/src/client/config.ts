@@ -1,9 +1,23 @@
-import { ConfigNamespace, ClientConfig } from '../common/types/clientConfig';
+/**
+ *
+ */
+export type ClientConfig = {
+    appRoot: 'appRoot';
+}
 
-export function getClientConfigFromWindow(window: Window): ClientConfig {
-    const clientConfig = window[ConfigNamespace];
+/**
+ *
+ */
+export function createClientConfig(): ClientConfig {
+    return {
+        appRoot: 'appRoot'
+    };
+}
 
-    delete window[ConfigNamespace];
-
-    return clientConfig;
+/**
+ *
+ * @param config
+ */
+export function getAppRoot(config: ClientConfig): string {
+    return config.appRoot;
 }

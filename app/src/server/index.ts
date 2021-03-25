@@ -1,23 +1,23 @@
 import express from 'express';
+import renderHtml from './renderHtml';
 import {
-    createConfig,
+    createServerConfig,
     getClientAssetsDir,
     getServerPort,
 } from './config';
-import { render } from './handlers/render';
 
 /**
  *
  */
 function server() {
     const app = express();
-    const config = createConfig();
+    const config = createServerConfig();
     const port = getServerPort(config);
     const assetsDir = getClientAssetsDir(config);
 
     app.use(express.static(assetsDir));
     app.get('/*', (req, res) => {
-        const html = render(config);
+        const html = renderHtml(config);
 
         res.status(200);
         res.write(html);
