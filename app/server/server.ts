@@ -1,19 +1,15 @@
 import express, { Application } from 'express';
-import { Config, getClientAssetsDir, setAppConfig } from './config';
+import type { Config } from './config';
 import { favicon, render } from './controllers';
 
 /**
- *
+ * 
  * @param app
  * @param config
  */
-export function createServer(app: Application, config: Config): Application {
-
-    const server = setAppConfig(app, config);
-
-    server.use(express.static(getClientAssetsDir(config)));
-    server.get('/favicon.ico', favicon);
-    server.get('/*', render);
-
-    return server;
+export function server(app: Application, config: Config): Application {
+    return app
+        .use(express.static(config.assets()))
+        .get('/favicon.ico', favicon)
+        .get('/*', render(config));
 }

@@ -1,20 +1,15 @@
 import express from 'express';
-import { createServer } from './server';
-import { getServerConfig, getServerPort } from './config';
+import config from './config';
+import { server } from './server';
 
 /**
  *
  */
-const config = getServerConfig();
-const port = getServerPort(config);
+const port = config.port();
 
 /**
  *
  */
-const app = express();
-const server = createServer(app, config);
-
-/**
- *
- */
-server.listen(port, () => console.log('-> Server running on port:', port));
+server(express(), config).listen(port, () => {
+    console.log('-> Server running on port:', port);
+});

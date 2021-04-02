@@ -1,6 +1,5 @@
-import { Request, Response } from 'express';
-import { getAppConfig } from '../config';
-import { getPageHTML } from '../view';
+import type { Request, Response } from 'express';
+import type { Config } from '../config';
 
 /**
  *
@@ -14,14 +13,22 @@ export function favicon(req: Request, res: Response): void {
 
 /**
  *
- * @param req
- * @param res
+ * @param config
  */
-export function render(req: Request, res: Response): void {
-    const config = getAppConfig(res);
-    const html = getPageHTML(config);
+export function render(config: Config): (req: Request, res: Response) => void {
 
-    res.status(200);
-    res.write(html);
-    res.end();
+    /**
+     *
+     * @param req
+     * @param res
+     */
+    function controller(req: Request, res: Response): void {
+        const html = config.getPageHTML(config);
+
+        res.status(200);
+        res.write(html);
+        res.end();
+    }
+
+    return controller;
 }
