@@ -1,3 +1,4 @@
+import { Application, Response } from 'express';
 import buildConfig from '../../build/config';
 
 /**
@@ -111,4 +112,22 @@ export function getConfigNamespace(config: Config): string {
  */
 export function getClientConfig(config: Config): Client {
     return config.client;
+}
+
+/**
+ *
+ * @param app
+ * @param config
+ */
+export function setAppConfig(app: Application, config: Config): Application {
+    app.locals.config = config;
+    return app;
+}
+
+/**
+ *
+ * @param res
+ */
+export function getAppConfig(res: Response): Config {
+    return res.app.locals.config;
 }

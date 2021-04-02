@@ -5,9 +5,16 @@ import { getServerConfig, getServerPort } from './config';
 /**
  *
  */
-const app = express();
 const config = getServerConfig();
 const port = getServerPort(config);
+
+/**
+ *
+ */
+const app = express();
 const server = createServer(app, config);
 
+/**
+ *
+ */
 server.listen(port, () => console.log('-> Server running on port:', port));

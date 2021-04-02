@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
-import { Config, getClientAssetsDir } from './config';
-import { getPageHTML } from './view';
+import { Config, getClientAssetsDir, setAppConfig } from './config';
+import { favicon, render } from './controllers';
 
 /**
  *
@@ -9,20 +9,11 @@ import { getPageHTML } from './view';
  */
 export function createServer(app: Application, config: Config): Application {
 
-    app.use(express.static(getClientAssetsDir(config)));
+    const server = setAppConfig(app, config);
 
-    app.get('/favicon.ico', (req, res) => {
-        res.status(404);
-        res.end();
-    });
+    server.use(express.static(getClientAssetsDir(config)));
+    server.get('/favicon.ico', favicon);
+    server.get('/*', render);
 
-    app.get('/*', (req, res) => {
-        const html = getPageHTML(config);
-
-        res.status(200);
-        res.write(html);
-        res.end();
-    });
-
-    return app;
+    return server;
 }
