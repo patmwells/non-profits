@@ -1,6 +1,3 @@
-/**
- *
- */
 export type Config = {
     assets;
     port;

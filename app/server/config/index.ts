@@ -1,31 +1,7 @@
-import { Config } from './types';
-import { getPageHTML } from './view';
-import { getSSRContent } from './ssr';
-import {
-    appRoot,
-    assets,
-    clientConfig,
-    clientNamespace,
-    footerScripts,
-    headerScripts,
-    port
-} from './static';
+import type { Config } from './types';
+import { config } from './config';
 
-/**
- *
- */
-const config: Config = {
-    appRoot,
-    assets,
-    clientConfig,
-    clientNamespace,
-    footerScripts,
-    getPageHTML,
-    headerScripts,
-    port,
-    getSSRContent
+export {
+    Config,
+    config
 };
-
-export { Config };
-
-export default config;
