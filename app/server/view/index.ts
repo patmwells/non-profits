@@ -7,7 +7,6 @@ import type { Server } from '../types';
 export function getPageHTML(server : Server): string {
     const title = server.title();
     const liveReload = server.liveReload();
-    const header = liveReload ? `<script type="application/javascript" src=${liveReload}></script>` : '';
     const appRoot = server.clientAppRoot();
     const content = server.getSSRContent();
     const configNamespace = server.clientConfigNamespace();
@@ -19,7 +18,7 @@ export function getPageHTML(server : Server): string {
         <html lang="en">
             <head>
                 <title>${title}</title>
-                ${header}
+                ${liveReload ? `<script type="application/javascript" src=${liveReload}></script>` : ''}
             </head>
             <body>
                 <div id=${appRoot}>${content}</div>
