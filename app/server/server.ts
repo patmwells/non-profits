@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import type { Config } from './config';
-import { favicon, render } from './controllers';
+import { favicon } from './favicon';
+import { render } from './view';
 
 /**
  * 
@@ -8,8 +9,11 @@ import { favicon, render } from './controllers';
  * @param config
  */
 export function server(app: Application, config: Config): Application {
+
+    app.locals.config = config;
+
     return app
         .use(express.static(config.assets()))
         .get('/favicon.ico', favicon)
-        .get('/*', render(config));
+        .get('/*', render);
 }

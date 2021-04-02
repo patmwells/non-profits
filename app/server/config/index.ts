@@ -1,7 +1,32 @@
-import type { Config } from './types';
-import { config } from './config';
+import {
+    appRoot,
+    assets,
+    clientConfig,
+    clientNamespace,
+    footerScripts,
+    headerScripts,
+    port
+} from './static';
 
-export {
-    Config,
-    config
+export type Config = {
+    appRoot,
+    assets,
+    clientConfig,
+    clientNamespace,
+    footerScripts,
+    headerScripts,
+    port
+};
+
+/**
+ *
+ */
+export const config: Config = {
+    appRoot,
+    assets,
+    clientConfig,
+    clientNamespace,
+    footerScripts,
+    headerScripts,
+    port
 };

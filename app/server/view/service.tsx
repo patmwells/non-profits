@@ -1,4 +1,14 @@
-import type { Config } from './types';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import App from '../public/scripts/components';
+import type { Config } from '../config';
+
+/**
+ *
+ */
+function getSSRContent(): string {
+    return ReactDOMServer.renderToString(<App />);
+}
 
 /**
  *
@@ -12,7 +22,7 @@ export function getPageHTML(config: Config): string {
                 ${config.headerScripts()}
             </head>
             <body>
-                <div id=${config.appRoot()}>${config.getSSRContent()}</div>
+                <div id=${config.appRoot()}>${getSSRContent()}</div>
                 <script type="application/javascript">
                     window.${config.clientNamespace()}=${JSON.stringify(config.clientConfig())}
                 </script>
