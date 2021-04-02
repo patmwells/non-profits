@@ -5,6 +5,6 @@ import App from '../public/scripts/components';
 /**
  *
  */
-export function renderReactAppOnServer(): string {
+export function getSSRContent(): string {
     return ReactDOMServer.renderToString(<App />);
 }

@@ -1,4 +1,4 @@
-import { renderReactAppOnServer } from './ssr';
+import { getSSRContent } from './ssr';
 import {
     Config,
     getAppRoot,
@@ -15,7 +15,7 @@ import {
 export function getPageHTML(config: Config): string {
     const headerScripts = getHeaderScripts(config);
     const appRoot = getAppRoot(config);
-    const content = renderReactAppOnServer();
+    const content = getSSRContent();
     const configNamespace = getConfigNamespace(config);
     const clientConfig = getClientConfig(config);
     const footerScripts = getFooterScripts(config);
