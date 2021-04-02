@@ -21,19 +21,21 @@ import {
 /**
  *
  */
-export const server: Server = {
-    assets,
-    clientAppRoot,
-    clientConfigNamespace,
-    clientScript,
-    clientConfig,
-    isDevelopment,
-    liveReload,
-    port,
-    title,
-    getSSRContent,
-    getPageHTML
-};
+export function create(): Server {
+    return {
+        assets,
+        clientAppRoot,
+        clientConfigNamespace,
+        clientScript,
+        clientConfig,
+        isDevelopment,
+        liveReload,
+        port,
+        title,
+        getSSRContent,
+        getPageHTML
+    };
+}
 
 /**
  *
