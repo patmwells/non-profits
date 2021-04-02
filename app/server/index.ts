@@ -1,9 +1,9 @@
 import express from 'express';
-import render from './render';
+import { getPageHTML } from './view';
 import {
-    createServerConfig,
     getClientAssetsDir,
-    getServerPort,
+    getServerConfig,
+    getServerPort
 } from './config';
 
 /**
@@ -11,18 +11,24 @@ import {
  */
 function server() {
     const app = express();
-    const config = createServerConfig();
+    const config = getServerConfig();
     const port = getServerPort(config);
-    const assetsDir = getClientAssetsDir(config);
 
-    app.use(express.static(assetsDir));
+    app.use(express.static(getClientAssetsDir(config)));
+
+    app.get('/favicon.ico', (req, res) => {
+        res.status(404);
+        res.end();
+    });
+
     app.get('/*', (req, res) => {
-        const html = render(config);
+        const html = getPageHTML(config);
 
         res.status(200);
         res.write(html);
         res.end();
     });
+
     app.listen(port, () => console.log('-> Server running on port:', port));
 }
 

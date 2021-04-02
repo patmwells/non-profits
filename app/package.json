@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "license": "ISC",
-  "main": "src/server/index.ts",
+  "main": "server/index.ts",
   "scripts": {
     "task:lint": "eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
     "task:build": "webpack --config build/webpack",
@@ -15,6 +15,7 @@
     "prod:start": "node bin/server.js"
   },
   "dependencies": {
+    "axios": "0.21.1",
     "express": "4.17.1",
     "react": "17.0.1",
     "react-dom": "17.0.1"

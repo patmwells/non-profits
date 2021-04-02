@@ -2,17 +2,17 @@ const path = require('path');
 
 module.exports = {
     server: {
-        entry: path.resolve('src/server/index.ts'),
+        entry: path.resolve('server/index.ts'),
         output: {
             path: path.resolve('bin'),
             filename: 'server.js'
         }
     },
     client: {
-        entry: path.resolve('src/client/index.ts'),
+        entry: path.resolve('server/public/scripts/index.tsx'),
         output: {
-            path: path.resolve('bin/client'),
-            filename: 'index.bundle.js'
+            path: path.resolve('bin/public'),
+            filename: 'scripts/index.bundle.js'
         },
         liveReload: {
             script: 'http://localhost:35729/livereload.js',
