@@ -1,15 +1,7 @@
 import express from 'express';
-import { config } from './config';
-import { server } from './server';
+import { configure, server } from './server';
 
-/**
- *
- */
-const port = config.port();
+const app = configure(express(), server);
+const port = server.port();
 
-/**
- *
- */
-server(express(), config).listen(port, () => {
-    console.log('-> Server running on port:', port);
-});
+app.listen(port, () => console.log('-> Server running on port:', port));

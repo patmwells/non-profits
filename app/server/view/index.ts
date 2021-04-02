@@ -1,15 +1,33 @@
-import { Request, Response } from 'express';
-import { getPageHTML } from './service';
+import type { Server } from '../types';
 
 /**
  *
- * @param req
- * @param res
+ * @param server
  */
-export function render(req: Request, res: Response): void {
-    const html = getPageHTML(res.app.locals.config);
+export function getPageHTML(server : Server): string {
+    const title = server.title();
+    const liveReload = server.liveReload();
+    const header = liveReload ? `<script type="application/javascript" src=${liveReload}></script>` : '';
+    const appRoot = server.clientAppRoot();
+    const content = server.getSSRContent();
+    const configNamespace = server.clientConfigNamespace();
+    const clientConfig = server.clientConfig();
+    const clientScript = server.clientScript();
 
-    res.status(200);
-    res.write(html);
-    res.end();
+    return `
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+                <title>${title}</title>
+                ${header}
+            </head>
+            <body>
+                <div id=${appRoot}>${content}</div>
+                <script type="application/javascript">
+                    window.${configNamespace}=${JSON.stringify(clientConfig)}
+                </script>
+                <script type="application/javascript" src=${clientScript}></script>
+            </body>
+        </html>
+    `;
 }

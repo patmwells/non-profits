@@ -1,19 +1,48 @@
-import express, { Application } from 'express';
-import type { Config } from './config';
-import { favicon } from './favicon';
-import { render } from './view';
+import type { Application } from 'express';
+import express from 'express';
+
+import { favicon, render } from './controllers';
+
+import type { Server } from './types';
+import { getSSRContent } from './ssr';
+import { getPageHTML } from './view';
+import {
+    assets,
+    clientAppRoot,
+    clientConfigNamespace,
+    clientConfig,
+    clientScript,
+    isDevelopment,
+    liveReload,
+    port,
+    title
+} from './config';
 
 /**
- * 
- * @param app
- * @param config
+ *
  */
-export function server(app: Application, config: Config): Application {
+export const server: Server = {
+    assets,
+    clientAppRoot,
+    clientConfigNamespace,
+    clientScript,
+    clientConfig,
+    isDevelopment,
+    liveReload,
+    port,
+    title,
+    getSSRContent,
+    getPageHTML
+};
 
-    app.locals.config = config;
-
+/**
+ *
+ * @param app
+ * @param server
+ */
+export function configure(app: Application, server: Server): Application {
     return app
-        .use(express.static(config.assets()))
+        .use(express.static(server.assets()))
         .get('/favicon.ico', favicon)
-        .get('/*', render);
+        .get('/*', render(server));
 }

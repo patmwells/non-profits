@@ -8,7 +8,7 @@ const common = {
     module: {
         rules: [
             { test: /\.(js|jsx)$/, use: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.(ts|tsx)?$/, use: 'ts-loader', exclude: /node_modules/ },
+            { test: /\.(ts|tsx)$/, use: 'ts-loader', exclude: /node_modules/ },
         ]
     },
     resolve: { extensions: ['.tsx', '.ts', '.js', '.jsx'] }
@@ -16,6 +16,7 @@ const common = {
 
 const dev = merge(common, {
     mode: 'development',
+    devtool: 'source-map',
     plugins: [new LiveReloadPlugin({ delay: config.client.liveReload.delay })]
 });
 
