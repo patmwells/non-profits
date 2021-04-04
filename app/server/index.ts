@@ -1,18 +1,20 @@
-import createConfig from './config';
-import createApp from './app';
-import build from '../build/config';
+import buildConfig from '../build/config';
+import type { EnvConfig } from './types';
+import { createAppConfig } from './config';
+import { createAppServer } from './server';
 
 /**
  *
  */
-const config = createConfig(build, process.env);
-const app = createApp(config);
+const envConfig = process.env as unknown as EnvConfig;
+const config = createAppConfig(buildConfig, envConfig);
+const server = createAppServer(config);
 
 /**
  *
  */
 const port = config.port();
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('-> Server running on port:', port);
 });

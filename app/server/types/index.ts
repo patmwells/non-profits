@@ -25,6 +25,14 @@ export interface ClientConfig {
 /**
  *
  */
+export interface EnvConfig {
+    NODE_ENV: string;
+    SERVER_PORT: string;
+}
+
+/**
+ *
+ */
 export interface AppConfig {
     assets: () => string;
     clientAppRoot: () => string;

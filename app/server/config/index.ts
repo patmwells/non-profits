@@ -1,4 +1,4 @@
-import type { AppConfig, BuildConfig, ClientConfig } from '../types';
+import type { AppConfig, BuildConfig, ClientConfig, EnvConfig } from '../types';
 
 /**
  *
@@ -10,14 +10,14 @@ class Config implements AppConfig {
      */
     private readonly build: BuildConfig;
     private readonly client: ClientConfig;
-    private readonly env: NodeJS.ProcessEnv;
+    private readonly env: EnvConfig;
 
     /**
      *
      * @param build
      * @param env
      */
-    constructor(build: BuildConfig, env: NodeJS.ProcessEnv) {
+    constructor(build: BuildConfig, env: EnvConfig) {
         this.build = build;
         this.env = env;
         this.client = {
@@ -66,7 +66,7 @@ class Config implements AppConfig {
      *
      */
     clientConfig(): ClientConfig {
-        return Object.assign({}, this.client, {});
+        return Object.assign({}, this.client);
     }
 
     /**
@@ -96,6 +96,6 @@ class Config implements AppConfig {
  * @param build
  * @param env
  */
-export default function createConfig(build: BuildConfig, env: NodeJS.ProcessEnv): Config {
+export function createAppConfig(build: BuildConfig, env: EnvConfig): Config {
     return new Config(build, env);
 }

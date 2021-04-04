@@ -22,7 +22,7 @@ function createServerConfig(config: AppConfig): ServerConfig {
  *
  * @param config
  */
-export default function createApp(config: AppConfig): Application {
+export function createAppServer(config: AppConfig): Application {
     const app = express();
     const server = createServerConfig(config);
 

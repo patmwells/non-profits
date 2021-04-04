@@ -1,10 +1,7 @@
-import createConfig from '../server/config';
-import { AppConfig } from '../server/types';
-
 /**
  *
  */
-const testBuildConfig = {
+export const buildConfig = {
     client: {
         output: {
             path: 'bin/public',
@@ -15,14 +12,6 @@ const testBuildConfig = {
         }
     }
 };
-
-/**
- *
- * @param environment
- */
-export function createTestConfig(environment: unknown): AppConfig {
-    return createConfig(testBuildConfig, environment as NodeJS.ProcessEnv);
-}
 
 /**
  *
