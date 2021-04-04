@@ -1,20 +1,34 @@
 import type { Application } from 'express';
 import express from 'express';
 
-import type { AppConfig } from './types';
-import { createServerConfig, setServerConfig } from './server';
+import type { AppConfig, ServerConfig } from './types';
+import { getSSRContent } from './ssr';
+import { getPageHTML } from './view';
 import { favicon, render } from './controllers';
 
 /**
  *
  * @param config
  */
-export function createApp(config: AppConfig): Application {
+function createServerConfig(config: AppConfig): ServerConfig {
+    return {
+        config,
+        getSSRContent,
+        getPageHTML
+    };
+}
+
+/**
+ *
+ * @param config
+ */
+export default function createApp(config: AppConfig): Application {
     const app = express();
     const server = createServerConfig(config);
 
-    return setServerConfig(app, server)
-        .use(express.static(server.config.assets()))
-        .get('/favicon.ico', favicon)
-        .get('/*', render);
+    app.use(express.static(server.config.assets()));
+    app.get('/favicon.ico', favicon);
+    app.get('/*', render(server));
+
+    return app;
 }

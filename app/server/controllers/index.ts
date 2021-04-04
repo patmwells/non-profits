@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { getServerConfig } from '../server';
+import type { ServerConfig } from '../types';
 
 /**
  *
@@ -13,14 +13,20 @@ export function favicon(req: Request, res: Response): void {
 
 /**
  *
- * @param req
- * @param res
+ * @param server
  */
-export function render(req: Request, res: Response): void {
-    const server = getServerConfig(req);
-    const html = server.getPageHTML(server);
+export function render(server: ServerConfig) {
 
-    res.status(200);
-    res.write(html);
-    res.end();
+    /**
+     *
+     * @param req
+     * @param res
+     */
+    return function (req: Request, res: Response): void {
+        const html = server.getPageHTML(server);
+
+        res.status(200);
+        res.write(html);
+        res.end();
+    };
 }

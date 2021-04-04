@@ -96,6 +96,6 @@ class Config implements AppConfig {
  * @param build
  * @param env
  */
-export function createAppConfig(build: BuildConfig, env: NodeJS.ProcessEnv): Config {
+export default function createConfig(build: BuildConfig, env: NodeJS.ProcessEnv): Config {
     return new Config(build, env);
 }
