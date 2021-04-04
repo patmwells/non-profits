@@ -1,37 +1,15 @@
-import type { Application } from 'express';
-import express from 'express';
-
-import { favicon, render } from './controllers';
-
-import type { Server } from './types';
+import type { Application, Request } from 'express';
+import type { AppConfig, ServerConfig } from './types';
 import { getSSRContent } from './ssr';
 import { getPageHTML } from './view';
-import {
-    assets,
-    clientAppRoot,
-    clientConfigNamespace,
-    clientConfig,
-    clientScript,
-    isDevelopment,
-    liveReload,
-    port,
-    title
-} from './config';
 
 /**
  *
+ * @param config
  */
-export function create(): Server {
+export function createServerConfig(config: AppConfig): ServerConfig {
     return {
-        assets,
-        clientAppRoot,
-        clientConfigNamespace,
-        clientScript,
-        clientConfig,
-        isDevelopment,
-        liveReload,
-        port,
-        title,
+        config,
         getSSRContent,
         getPageHTML
     };
@@ -42,9 +20,16 @@ export function create(): Server {
  * @param app
  * @param server
  */
-export function configure(app: Application, server: Server): Application {
-    return app
-        .use(express.static(server.assets()))
-        .get('/favicon.ico', favicon)
-        .get('/*', render(server));
+export function setServerConfig(app: Application, server: ServerConfig): Application {
+    app.locals.server = server;
+
+    return app;
+}
+
+/**
+ *
+ * @param req
+ */
+export function getServerConfig(req: Request): ServerConfig {
+    return req.app.locals.server;
 }

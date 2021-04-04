@@ -1,116 +1,101 @@
-import buildConfig from '../../build/config';
+import type { AppConfig, BuildConfig, ClientConfig } from '../types';
 
 /**
  *
  */
-type Build = {
-    clientAssets: string;
-    clientScript: string;
-    liveReload: string;
-};
+class Config implements AppConfig {
+    /**
+     *
+     * @private
+     */
+    private readonly build: BuildConfig;
+    private readonly client: ClientConfig;
+    private readonly env: NodeJS.ProcessEnv;
 
-/**
- *
- */
-const build: Build = {
-    clientAssets: buildConfig.client.output.path,
-    clientScript: buildConfig.client.output.filename,
-    liveReload: buildConfig.client.liveReload.script
-};
+    /**
+     *
+     * @param build
+     * @param env
+     */
+    constructor(build: BuildConfig, env: NodeJS.ProcessEnv) {
+        this.build = build;
+        this.env = env;
+        this.client = {
+            appRoot: 'appRoot',
+            title: 'App',
+            namespace: '__client_config__',
+        };
+    }
 
-/**
- *
- */
-export type Client = {
-    appRoot: string;
-    title: string;
-    namespace: string;
-};
+    /**
+     *
+     */
+    port(): string {
+        return this.env.SERVER_PORT;
+    }
 
-/**
- *
- */
-const client: Client = {
-    appRoot: 'appRoot',
-    title: 'App',
-    namespace: '__client_config__',
-};
+    /**
+     *
+     */
+    isDevelopment(): boolean {
+        return this.env.NODE_ENV === 'development';
+    }
 
-/**
- *
- */
-type Env = {
-    isDevelopment: boolean;
-    serverPort: string;
-};
+    /**
+     *
+     */
+    clientAppRoot(): string {
+        return this.client.appRoot;
+    }
 
-/**
- *
- */
-const env: Env = {
-    serverPort: process.env.SERVER_PORT,
-    isDevelopment: process.env.NODE_ENV === 'development'
-};
+    /**
+     *
+     */
+    title(): string {
+        return this.client.title;
+    }
 
-/**
- *
- */
-export function assets(): string {
-    return build.clientAssets;
+    /**
+     *
+     */
+    clientConfigNamespace(): string {
+        return this.client.namespace;
+    }
+
+    /**
+     *
+     */
+    clientConfig(): ClientConfig {
+        return Object.assign({}, this.client, {});
+    }
+
+    /**
+     *
+     */
+    clientScript(): string {
+        return this.build.client.output.filename;
+    }
+
+    /**
+     *
+     */
+    liveReload(): string {
+        return this.isDevelopment() ? this.build.client.liveReload.script : '';
+    }
+
+    /**
+     *
+     */
+    assets(): string {
+        return this.build.client.output.path;
+    }
 }
 
 /**
  *
+ * @param build
+ * @param env
  */
-export function liveReload(): string {
-    return isDevelopment() ? build.liveReload : '';
-}
-
-/**
- *
- */
-export function clientScript(): string {
-    return build.clientScript;
-}
-
-/**
- *
- */
-export function clientConfig(): Client {
-    return Object.assign({}, client, {}) as Client;
-}
-
-/**
- *
- */
-export function clientConfigNamespace(): string {
-    return client.namespace;
-}
-
-/**
- *
- */
-export function title(): string {
-    return client.title;
-}
-
-/**
- *
- */
-export function clientAppRoot(): string {
-    return client.appRoot;
-}
-
-/**
- *
- */
-export function isDevelopment(): boolean {
-    return env.isDevelopment;
-}
-
-/**
- *
- */
-export function port(): string {
-    return env.serverPort;
+export function createAppConfig(build: BuildConfig, env: NodeJS.ProcessEnv): Config {
+    return new Config(build, env);
 }

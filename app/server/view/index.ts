@@ -1,17 +1,17 @@
-import type { Server } from '../types';
+import type { ServerConfig } from '../types';
 
 /**
  *
  * @param server
  */
-export function getPageHTML(server : Server): string {
-    const title = server.title();
-    const liveReload = server.liveReload();
-    const appRoot = server.clientAppRoot();
-    const content = server.getSSRContent();
-    const configNamespace = server.clientConfigNamespace();
-    const clientConfig = server.clientConfig();
-    const clientScript = server.clientScript();
+export function getPageHTML({ config, getSSRContent }: ServerConfig): string {
+    const title = config.title();
+    const liveReload = config.liveReload();
+    const appRoot = config.clientAppRoot();
+    const content = getSSRContent();
+    const configNamespace = config.clientConfigNamespace();
+    const clientConfig = config.clientConfig();
+    const clientScript = config.clientScript();
 
     return `
         <!DOCTYPE html>
