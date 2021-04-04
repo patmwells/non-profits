@@ -52,6 +52,42 @@
     "webpack-merge": "5.7.3",
     "webpack-node-externals": "2.5.2"
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "mocha": true
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:cypress/recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "semi": ["error", "always"],
+      "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+      "@typescript-eslint/no-var-requires": "off"
+    }
+  },
   "nyc": {
     "check-coverage": true,
     "branches": 90,
