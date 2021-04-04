@@ -8,7 +8,8 @@
   "scripts": {
     "task:lint": "eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
     "task:build": "webpack --config build/webpack",
-    "task:test:integration": "mocha --require ts-node/register server/**/*.spec.ts",
+    "task:test:integration": "mocha --require ts-node/register --require source-map-support/register server/**/*.spec.ts",
+    "task:test:coverage": "nyc npm run task:test:integration",
     "dev:build": "npm run task:build -- --env dev",
     "dev:build:watch": "npm run dev:build -- --watch",
     "dev:start": "nodemon --watch bin bin/server.js",
@@ -40,6 +41,8 @@
     "eslint-plugin-react": "7.22.0",
     "mocha": "8.3.2",
     "nodemon": "2.0.7",
+    "nyc": "15.1.0",
+    "source-map-support": "0.5.19",
     "ts-loader": "8.0.18",
     "ts-node": "9.1.1",
     "typescript": "4.2.3",
@@ -48,5 +51,23 @@
     "webpack-livereload-plugin": "3.0.1",
     "webpack-merge": "5.7.3",
     "webpack-node-externals": "2.5.2"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "branches": 90,
+    "lines": 90,
+    "functions": 90,
+    "statements": 90,
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "include": [
+      "server/**/*"
+    ],
+    "reporter": [
+      "text"
+    ],
+    "all": true
   }
 }

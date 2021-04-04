@@ -1,7 +1,7 @@
 import { createAppConfig } from './config';
 import { createAppServer } from './server';
 import { request, expect } from '../test/chai';
-import { buildConfig, getProdHTML } from '../test/helpers';
+import { buildConfig, getDevHTML, getProdHTML } from '../test/helpers';
 
 describe('App Specification', () => {
 
@@ -9,23 +9,29 @@ describe('App Specification', () => {
         const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
         const server = createAppServer(config);
 
-        return request(server)
-            .get('/favicon.ico')
-            .then((response) => {
-                expect(response).to.have.status(404);
-            });
+        return request(server).get('/favicon.ico').then((response) => {
+            expect(response).to.have.status(404);
+        });
     });
 
-    it('should return 200 and the correct html for the / route', () => {
+    it('(Dev) should return 200 and the correct html for the / route', () => {
+        const config = createAppConfig(buildConfig, { NODE_ENV: 'development', SERVER_PORT: '3000' });
+        const server = createAppServer(config);
+
+        return request(server).get('/').then((response) => {
+            expect(response).to.have.status(200);
+            expect(response.text).to.be.eq(getDevHTML());
+        });
+    });
+
+    it('(Prod) should return 200 and the correct html for the / route', () => {
         const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
         const server = createAppServer(config);
 
-        return request(server)
-            .get('/')
-            .then((response) => {
-                expect(response).to.have.status(200);
-                expect(response.text).to.be.eq(getProdHTML());
-            });
+        return request(server).get('/').then((response) => {
+            expect(response).to.have.status(200);
+            expect(response.text).to.be.eq(getProdHTML());
+        });
     });
 
 });

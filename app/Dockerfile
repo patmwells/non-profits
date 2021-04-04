@@ -10,7 +10,7 @@ COPY package-lock.json .
 RUN npm install
 COPY . .
 RUN npm run task:lint
-RUN npm run task:test:integration
+RUN npm run task:test:coverage
 RUN npm run prod:build
 RUN npm prune --production
 

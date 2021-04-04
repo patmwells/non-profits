@@ -34,3 +34,25 @@ export function getProdHTML(): string {
         </html>
     `;
 }
+
+/**
+ *
+ */
+export function getDevHTML(): string {
+    return `
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+                <title>App</title>
+                <script type="application/javascript" src="livereload.js"></script>
+            </head>
+            <body>
+                <div id="appRoot"><div data-reactroot="">Hello World!</div></div>
+                <script type="application/javascript">
+                    window.__client_config__={"appRoot":"appRoot","title":"App","namespace":"__client_config__"}
+                </script>
+                <script type="application/javascript" src="scripts/index.bundle.js"></script>
+            </body>
+        </html>
+    `;
+}
