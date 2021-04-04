@@ -18,14 +18,14 @@ export function getPageHTML({ config, getSSRContent }: ServerConfig): string {
         <html lang="en">
             <head>
                 <title>${title}</title>
-                ${liveReload ? `<script type="application/javascript" src=${liveReload}></script>` : ''}
+                ${liveReload ? `<script type="application/javascript" src="${liveReload}"></script>` : ''}
             </head>
             <body>
-                <div id=${appRoot}>${content}</div>
+                <div id="${appRoot}">${content}</div>
                 <script type="application/javascript">
                     window.${configNamespace}=${JSON.stringify(clientConfig)}
                 </script>
-                <script type="application/javascript" src=${clientScript}></script>
+                <script type="application/javascript" src="${clientScript}"></script>
             </body>
         </html>
     `;
