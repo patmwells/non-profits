@@ -6,7 +6,6 @@ import type { AppConfig, BuildConfig, ClientConfig, EnvConfig } from '../types';
 class Config implements AppConfig {
     /**
      *
-     * @private
      */
     private readonly build: BuildConfig;
     private readonly client: ClientConfig;

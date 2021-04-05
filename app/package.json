@@ -99,6 +99,13 @@
           "allowTemplateLiterals": true
         }
       ],
+      "require-jsdoc": ["error", {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true
+        }
+      }],
       "@typescript-eslint/no-var-requires": "off",
       "tsdoc/syntax": "warn"
     }
