@@ -104,21 +104,21 @@
     }
   },
   "nyc": {
+    "require": "ts-node/register",
+    "all": true,
+    "cache": false,
+    "branches": 80,
+    "lines": 80,
+    "functions": 80,
+    "statements": 80,
     "check-coverage": true,
-    "branches": 90,
-    "lines": 90,
-    "functions": 90,
-    "statements": 90,
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "include": [
-      "server/**/*"
+    "exclude": [
+      "bin/**/*",
+      "build/**/*",
+      "test/**/*"
     ],
     "reporter": [
       "text"
-    ],
-    "all": true
+    ]
   }
 }
