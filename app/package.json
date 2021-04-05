@@ -88,8 +88,17 @@
       "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-      "semi": ["error", "always"],
-      "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "quotes": [
+        "error",
+        "single",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
       "@typescript-eslint/no-var-requires": "off",
       "tsdoc/syntax": "warn"
     }
