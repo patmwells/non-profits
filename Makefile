@@ -20,6 +20,9 @@ clean:
 dev:
 	@echo "\n ### DEV environment ### \n";
 	set -o allexport && source .env.dev && $(SHELL);
+hooks:
+	cp -a .hooks/. .git/hooks/
+	chmod +x .git/hooks/*
 prod:
 	@echo "\n ### PROD environment ### \n";
 	set -o allexport && source .env.prod && $(SHELL);
