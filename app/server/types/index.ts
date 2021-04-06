@@ -1,4 +1,4 @@
-import { GeocoderConfig} from './census';
+import { GeocoderConfig } from './census';
 
 /**
  *
