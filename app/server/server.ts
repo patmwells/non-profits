@@ -4,7 +4,8 @@ import express from 'express';
 import type { AppConfig, ServerConfig } from './types';
 import { getSSRContent } from './ssr';
 import { getPageHTML } from './view';
-import { favicon, render } from './controllers';
+import { getGeocoderConfigs } from './census';
+import { getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
 
 /**
  *
@@ -13,6 +14,7 @@ import { favicon, render } from './controllers';
 function createServerConfig(config: AppConfig): ServerConfig {
     return {
         config,
+        getGeocoderConfigs,
         getSSRContent,
         getPageHTML
     };
@@ -27,8 +29,9 @@ export function createAppServer(config: AppConfig): Application {
     const server = createServerConfig(config);
 
     app.use(express.static(server.config.assets()));
-    app.get('/favicon.ico', favicon);
-    app.get('/*', render(server));
+    app.use(getFaviconRouter());
+    app.use('/api/v1', getCensusRouter(server));
+    app.use(getViewRouter(server));
 
     return app;
 }

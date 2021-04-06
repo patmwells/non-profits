@@ -48,8 +48,17 @@ export interface AppConfig {
 /**
  *
  */
+export interface GeocoderConfigs {
+    returntype: string;
+    searchtype: string[];
+}
+
+/**
+ *
+ */
 export interface ServerConfig {
     config: AppConfig;
+    getGeocoderConfigs: () => GeocoderConfigs[];
     getSSRContent: () => string;
     getPageHTML: (server: ServerConfig) => string;
 }
