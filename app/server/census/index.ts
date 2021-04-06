@@ -5,13 +5,13 @@
 import type { GeocoderConfigs } from '../types';
 
 const options = {
-    getGeographiesReturnType: () => 'geographies',
-    getLocationsReturnType: () => 'locations',
-    getBenchmark: () => 'Public_AR_Current',
-    getVintage: () => 'Current_Current',
-    getOneLineAddressSearchType: () => 'onelineaddress',
-    getAddressSearchType: () => 'address',
-    getCoordinatesSearchType: () => 'coordinates',
+    getGeographiesReturnType: (): string => 'geographies',
+    getLocationsReturnType: (): string => 'locations',
+    getBenchmark: (): string => 'Public_AR_Current',
+    getVintage: (): string => 'Current_Current',
+    getOneLineAddressSearchType: (): string => 'onelineaddress',
+    getAddressSearchType: (): string => 'address',
+    getCoordinatesSearchType: (): string => 'coordinates',
 };
 
 const geographies = {
