@@ -1,6 +1,9 @@
 import { Router } from 'express';
-import type { ServerConfig } from '../types';
-import { getGeocoderConfigHandler, getRenderViewHandler, handleFaviconRequest } from './controllers';
+import {
+    geocoderConfigHandler,
+    handleFaviconRequest,
+    renderViewHandler
+} from './controllers';
 
 /**
  *
@@ -15,24 +18,22 @@ export function getFaviconRouter(): Router {
 
 /**
  *
- * @param server
  */
-export function getCensusRouter(server: ServerConfig): Router {
+export function getCensusRouter(): Router {
     const router = Router();
 
-    router.get('/census/geocoder/configs', getGeocoderConfigHandler(server));
+    router.get('/census/geocoder/configs', geocoderConfigHandler);
 
     return router;
 }
 
 /**
  *
- * @param server
  */
-export function getViewRouter(server: ServerConfig): Router {
+export function getViewRouter(): Router {
     const router = Router();
 
-    router.get('/*', getRenderViewHandler(server));
+    router.get('/*', renderViewHandler);
 
     return router;
 }

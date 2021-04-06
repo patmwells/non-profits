@@ -1,5 +1,5 @@
 import { createAppConfig } from './config';
-import { createAppServer } from './server';
+import { createServer, createServerConfig } from './server';
 import { request, expect } from '../test/chai';
 import { buildConfig, getDevHTML, getProdHTML } from '../test/helpers';
 
@@ -7,7 +7,7 @@ describe('Server Specification', () => {
 
     it('should return 404 for the /favicon.ico route', () => {
         const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
-        const server = createAppServer(config);
+        const server = createServer(createServerConfig(config));
 
         return request(server).get('/favicon.ico').then((response) => {
             expect(response).to.have.status(404);
@@ -16,7 +16,7 @@ describe('Server Specification', () => {
 
     it('should return 200 and the correct html for the / route when NODE_ENV=development', () => {
         const config = createAppConfig(buildConfig, { NODE_ENV: 'development', SERVER_PORT: '3000' });
-        const server = createAppServer(config);
+        const server = createServer(createServerConfig(config));
 
         return request(server).get('/').then((response) => {
             expect(response).to.have.status(200);
@@ -26,7 +26,7 @@ describe('Server Specification', () => {
 
     it('should return 200 and the correct html for the / route when NODE_ENV=production', () => {
         const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
-        const server = createAppServer(config);
+        const server = createServer(createServerConfig(config));
 
         return request(server).get('/').then((response) => {
             expect(response).to.have.status(200);
@@ -43,7 +43,7 @@ describe('Server Specification', () => {
             ];
 
             const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
-            const server = createAppServer(config);
+            const server = createServer(createServerConfig(config));
 
             return request(server).get('/api/v1/census/geocoder/configs').then((response) => {
                 expect(response).to.have.status(200);

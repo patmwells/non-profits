@@ -1,5 +1,13 @@
-import type { Request, Response, Handler } from 'express';
+import type { Request, Response } from 'express';
 import type { ServerConfig } from '../types';
+
+/**
+ *
+ * @param req
+ */
+function getServer(req: Request): ServerConfig {
+    return req.app.locals.server;
+}
 
 /**
  *
@@ -13,40 +21,28 @@ export function handleFaviconRequest(req: Request, res: Response): void {
 
 /**
  *
- * @param server
+ * @param req
+ * @param res
  */
-export function getRenderViewHandler(server: ServerConfig): Handler {
+export function renderViewHandler(req: Request, res: Response): void {
+    const server = getServer(req);
+    const html = server.getPageHTML(server);
 
-    /**
-     *
-     * @param req
-     * @param res
-     */
-    return function(req: Request, res: Response): void {
-        const html = server.getPageHTML(server);
-
-        res.status(200);
-        res.write(html);
-        res.end();
-    };
+    res.status(200);
+    res.write(html);
+    res.end();
 }
 
 /**
  *
- * @param server
+ * @param req
+ * @param res
  */
-export function getGeocoderConfigHandler(server: ServerConfig): Handler {
+export function geocoderConfigHandler(req: Request, res: Response): void {
+    const server = getServer(req);
+    const configs = server.getGeocoderConfigs();
 
-    /**
-     *
-     * @param req
-     * @param res
-     */
-    return function(req: Request, res: Response): void {
-        const configs = server.getGeocoderConfigs();
-
-        res.status(200);
-        res.send(configs);
-        res.end();
-    };
+    res.status(200);
+    res.send(configs);
+    res.end();
 }

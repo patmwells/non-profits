@@ -1,14 +1,14 @@
-import buildConfig from '../build/config';
 import type { EnvConfig } from './types';
+import buildConfig from '../build/config';
 import { createAppConfig } from './config';
-import { createAppServer } from './server';
+import { createServer, createServerConfig } from './server';
 
 /**
  *
  */
 const envConfig = process.env as unknown as EnvConfig;
 const config = createAppConfig(buildConfig, envConfig);
-const server = createAppServer(config);
+const server = createServer(createServerConfig(config));
 
 /**
  *
