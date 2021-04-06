@@ -15,14 +15,14 @@ export function handleFaviconRequest(req: Request, res: Response): void {
  *
  * @param server
  */
-export function getRenderViewHandler(server: ServerConfig) {
+export function getRenderViewHandler(server: ServerConfig): Handler {
 
     /**
      *
      * @param req
      * @param res
      */
-    return function (req: Request, res: Response): void {
+    return function(req: Request, res: Response): void {
         const html = server.getPageHTML(server);
 
         res.status(200);
@@ -42,7 +42,7 @@ export function getGeocoderConfigHandler(server: ServerConfig): Handler {
      * @param req
      * @param res
      */
-    return function (req: Request, res: Response) {
+    return function(req: Request, res: Response): void {
         const configs = server.getGeocoderConfigs();
 
         res.status(200);
