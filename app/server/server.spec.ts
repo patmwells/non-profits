@@ -38,8 +38,21 @@ describe('Server Specification', () => {
 
         it('should return 200 and an array of GeocoderConfigs for the /census/geocoder/configs route', () => {
             const expected = [
-                { returntype: 'geographies', searchtype: [ 'onelineaddress', 'address', 'coordinates' ] },
-                { returntype: 'locations', searchtype: [ 'onelineaddress', 'address' ] }
+                {   returntype: 'geographies',
+                    searchtype: [ 'onelineaddress', 'address', 'coordinates' ],
+                    configs: {
+                        onelineaddress: [ { type: 'address' } ],
+                        address: [ { type: 'street' }, { type: 'city' }, { type: 'state' } ],
+                        coordinates: [ { type: 'x' }, { type: 'y' } ]
+                    }
+                },
+                {   returntype: 'locations',
+                    searchtype: [ 'onelineaddress', 'address' ],
+                    configs: {
+                        onelineaddress: [ { type: 'address' } ],
+                        address: [ { type: 'street' }, { type: 'city' }, { type: 'state' } ]
+                    }
+                }
             ];
 
             const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
