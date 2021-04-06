@@ -19,7 +19,7 @@ export const buildConfig = {
 export function getProdHTML(): string {
     const clientConfig = JSON.stringify({
         apiRoutes:{
-            geocoderConfigs: '/census/geocoder/configs'
+            geocoderConfigs: '/api/v1/census/geocoder/configs'
         },
         appRoot: 'appRoot',
         title: 'App',
@@ -50,7 +50,7 @@ export function getProdHTML(): string {
 export function getDevHTML(): string {
     const clientConfig = JSON.stringify({
         apiRoutes:{
-            geocoderConfigs: '/census/geocoder/configs'
+            geocoderConfigs: '/api/v1/census/geocoder/configs'
         },
         appRoot: 'appRoot',
         title: 'App',
