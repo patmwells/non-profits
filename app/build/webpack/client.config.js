@@ -1,5 +1,6 @@
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const { merge } = require('webpack-merge');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const config = require('../config');
 
 const common = {
@@ -11,7 +12,8 @@ const common = {
             { test: /\.(ts|tsx)$/, use: 'ts-loader', exclude: /node_modules/ }
         ]
     },
-    resolve: { extensions: ['.tsx', '.ts', '.js', '.jsx'] }
+    resolve: { extensions: ['.tsx', '.ts', '.js', '.jsx'] },
+    plugins: [new CleanWebpackPlugin()]
 };
 
 const dev = merge(common, {

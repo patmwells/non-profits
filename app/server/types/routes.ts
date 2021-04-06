@@ -11,6 +11,6 @@ export type ServerRoutesType = typeof ServerRoutes;
  *
  */
 export enum ApiRoutes {
-    geocoderConfigs = '/census/geocoder/configs'
+    geocoderConfigs = '/api/v1/census/geocoder/configs'
 }
 export type ApiRoutesType = typeof ApiRoutes;

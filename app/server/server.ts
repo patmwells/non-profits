@@ -7,6 +7,7 @@ import { getSSRContent } from './ssr';
 import { getPageHTML } from './view';
 import { getGeocoderConfigs } from './census';
 import { getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
+import { logger } from './middleware';
 
 /**
  *
@@ -31,9 +32,10 @@ export function createServer(server: ServerConfig): Application {
     const app = express();
 
     app.locals.server = server;
+    app.use(logger);
     app.use(express.static(server.config.assets()));
     app.use(getFaviconRouter(server));
-    app.use('/api/v1', getCensusRouter(server));
+    app.use(getCensusRouter(server));
     app.use(getViewRouter(server));
 
     return app;

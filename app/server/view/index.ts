@@ -7,8 +7,8 @@ import type { ServerConfig } from '../types';
 export function getPageHTML(server: ServerConfig): string {
     const { config, getSSRContent } = server;
     const liveReload = config.liveReload();
-    const content = getSSRContent();
     const clientConfig = config.clientConfig(server);
+    const content = getSSRContent(clientConfig);
     const clientScript = config.clientScript();
 
     return `

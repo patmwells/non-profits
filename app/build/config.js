@@ -4,8 +4,8 @@ module.exports = {
     server: {
         entry: path.resolve('server/index.ts'),
         output: {
-            path: path.resolve('bin'),
-            filename: 'server.js'
+            path: path.resolve('bin/server'),
+            filename: 'index.js'
         }
     },
     client: {

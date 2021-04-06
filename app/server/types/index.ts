@@ -54,6 +54,6 @@ export interface ServerConfig {
     apiRoutes: ApiRoutesType;
     serverRoutes: ServerRoutesType;
     getGeocoderConfigs: () => GeocoderConfig[];
-    getSSRContent: () => string;
+    getSSRContent: (clientConfig: ClientConfig) => string;
     getPageHTML: (server: ServerConfig) => string;
 }
