@@ -11,7 +11,7 @@ const options = {
     getVintage: (): string => 'Current_Current',
     getOneLineAddressSearchType: (): string => 'onelineaddress',
     getAddressSearchType: (): string => 'address',
-    getCoordinatesSearchType: (): string => 'coordinates',
+    getCoordinatesSearchType: (): string => 'coordinates'
 };
 
 const geographies = {

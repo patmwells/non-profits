@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import {
-    geocoderConfigHandler,
-    handleFaviconRequest,
-    renderViewHandler
+    onFaviconRequest,
+    onGeocoderConfigRequest,
+    onRenderViewRequest
 } from './controllers';
 
 /**
@@ -11,7 +11,7 @@ import {
 export function getFaviconRouter(): Router {
     const router = Router();
 
-    router.get('/favicon.ico', handleFaviconRequest);
+    router.get('/favicon.ico', onFaviconRequest);
 
     return router;
 }
@@ -22,7 +22,7 @@ export function getFaviconRouter(): Router {
 export function getCensusRouter(): Router {
     const router = Router();
 
-    router.get('/census/geocoder/configs', geocoderConfigHandler);
+    router.get('/census/geocoder/configs', onGeocoderConfigRequest);
 
     return router;
 }
@@ -33,7 +33,7 @@ export function getCensusRouter(): Router {
 export function getViewRouter(): Router {
     const router = Router();
 
-    router.get('/*', renderViewHandler);
+    router.get('/*', onRenderViewRequest);
 
     return router;
 }

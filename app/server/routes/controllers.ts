@@ -14,7 +14,7 @@ function getServer(req: Request): ServerConfig {
  * @param req
  * @param res
  */
-export function handleFaviconRequest(req: Request, res: Response): void {
+export function onFaviconRequest(req: Request, res: Response): void {
     res.status(404);
     res.end();
 }
@@ -24,12 +24,12 @@ export function handleFaviconRequest(req: Request, res: Response): void {
  * @param req
  * @param res
  */
-export function renderViewHandler(req: Request, res: Response): void {
+export function onGeocoderConfigRequest(req: Request, res: Response): void {
     const server = getServer(req);
-    const html = server.getPageHTML(server);
+    const configs = server.getGeocoderConfigs();
 
     res.status(200);
-    res.write(html);
+    res.send(configs);
     res.end();
 }
 
@@ -38,11 +38,11 @@ export function renderViewHandler(req: Request, res: Response): void {
  * @param req
  * @param res
  */
-export function geocoderConfigHandler(req: Request, res: Response): void {
+export function onRenderViewRequest(req: Request, res: Response): void {
     const server = getServer(req);
-    const configs = server.getGeocoderConfigs();
+    const html = server.getPageHTML(server);
 
     res.status(200);
-    res.send(configs);
+    res.write(html);
     res.end();
 }

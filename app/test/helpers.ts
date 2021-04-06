@@ -8,7 +8,7 @@ export const buildConfig = {
             filename: 'scripts/index.bundle.js'
         },
         liveReload: {
-            script: 'livereload.js',
+            script: 'livereload.js'
         }
     }
 };
