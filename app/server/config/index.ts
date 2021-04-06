@@ -22,7 +22,7 @@ class Config implements AppConfig {
         this.client = {
             appRoot: 'appRoot',
             title: 'App',
-            namespace: '__client_config__',
+            namespace: '__client_config__'
         };
     }
 

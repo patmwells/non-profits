@@ -4,15 +4,17 @@ import express from 'express';
 import type { AppConfig, ServerConfig } from './types';
 import { getSSRContent } from './ssr';
 import { getPageHTML } from './view';
-import { favicon, render } from './controllers';
+import { getGeocoderConfigs } from './census';
+import { getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
 
 /**
  *
  * @param config
  */
-function createServerConfig(config: AppConfig): ServerConfig {
+export function createServerConfig(config: AppConfig): ServerConfig {
     return {
         config,
+        getGeocoderConfigs,
         getSSRContent,
         getPageHTML
     };
@@ -20,15 +22,16 @@ function createServerConfig(config: AppConfig): ServerConfig {
 
 /**
  *
- * @param config
+ * @param server
  */
-export function createAppServer(config: AppConfig): Application {
+export function createServer(server: ServerConfig): Application {
     const app = express();
-    const server = createServerConfig(config);
 
+    app.locals.server = server;
     app.use(express.static(server.config.assets()));
-    app.get('/favicon.ico', favicon);
-    app.get('/*', render(server));
+    app.use(getFaviconRouter());
+    app.use('/api/v1', getCensusRouter());
+    app.use(getViewRouter());
 
     return app;
 }

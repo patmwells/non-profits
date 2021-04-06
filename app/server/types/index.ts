@@ -1,3 +1,5 @@
+import { GeocoderConfig } from './census';
+
 /**
  *
  */
@@ -50,6 +52,7 @@ export interface AppConfig {
  */
 export interface ServerConfig {
     config: AppConfig;
+    getGeocoderConfigs: () => GeocoderConfig[];
     getSSRContent: () => string;
     getPageHTML: (server: ServerConfig) => string;
 }
