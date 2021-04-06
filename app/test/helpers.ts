@@ -17,6 +17,15 @@ export const buildConfig = {
  *
  */
 export function getProdHTML(): string {
+    const clientConfig = JSON.stringify({
+        apiRoutes:{
+            geocoderConfigs: '/census/geocoder/configs'
+        },
+        appRoot: 'appRoot',
+        title: 'App',
+        namespace: '__client_config__'
+    });
+
     return `
         <!DOCTYPE html>
         <html lang="en">
@@ -27,7 +36,7 @@ export function getProdHTML(): string {
             <body>
                 <div id="appRoot"><div data-reactroot="">Hello World!</div></div>
                 <script type="application/javascript">
-                    window.__client_config__={"appRoot":"appRoot","title":"App","namespace":"__client_config__"}
+                    window.__client_config__=${clientConfig}
                 </script>
                 <script type="application/javascript" src="scripts/index.bundle.js"></script>
             </body>
@@ -39,6 +48,15 @@ export function getProdHTML(): string {
  *
  */
 export function getDevHTML(): string {
+    const clientConfig = JSON.stringify({
+        apiRoutes:{
+            geocoderConfigs: '/census/geocoder/configs'
+        },
+        appRoot: 'appRoot',
+        title: 'App',
+        namespace: '__client_config__'
+    });
+
     return `
         <!DOCTYPE html>
         <html lang="en">
@@ -49,7 +67,7 @@ export function getDevHTML(): string {
             <body>
                 <div id="appRoot"><div data-reactroot="">Hello World!</div></div>
                 <script type="application/javascript">
-                    window.__client_config__={"appRoot":"appRoot","title":"App","namespace":"__client_config__"}
+                    window.__client_config__=${clientConfig}
                 </script>
                 <script type="application/javascript" src="scripts/index.bundle.js"></script>
             </body>

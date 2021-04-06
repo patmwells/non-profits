@@ -1,4 +1,4 @@
-import type { AppConfig, BuildConfig, ClientConfig, EnvConfig } from '../types';
+import type { AppConfig, BuildConfig, ClientConfig, EnvConfig, ServerConfig } from '../types';
 
 /**
  *
@@ -8,7 +8,6 @@ class Config implements AppConfig {
      *
      */
     private readonly build: BuildConfig;
-    private readonly client: ClientConfig;
     private readonly env: EnvConfig;
 
     /**
@@ -19,11 +18,6 @@ class Config implements AppConfig {
     constructor(build: BuildConfig, env: EnvConfig) {
         this.build = build;
         this.env = env;
-        this.client = {
-            appRoot: 'appRoot',
-            title: 'App',
-            namespace: '__client_config__'
-        };
     }
 
     /**
@@ -42,30 +36,15 @@ class Config implements AppConfig {
 
     /**
      *
+     * @param server
      */
-    clientAppRoot(): string {
-        return this.client.appRoot;
-    }
-
-    /**
-     *
-     */
-    title(): string {
-        return this.client.title;
-    }
-
-    /**
-     *
-     */
-    clientConfigNamespace(): string {
-        return this.client.namespace;
-    }
-
-    /**
-     *
-     */
-    clientConfig(): ClientConfig {
-        return Object.assign({}, this.client);
+    clientConfig(server: ServerConfig): ClientConfig {
+        return {
+            apiRoutes: server.apiRoutes,
+            appRoot: 'appRoot',
+            title: 'App',
+            namespace: '__client_config__'
+        };
     }
 
     /**

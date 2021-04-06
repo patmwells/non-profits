@@ -1,4 +1,5 @@
-import { GeocoderConfig } from './census';
+import type { GeocoderConfig } from './census';
+import type { ApiRoutesType, ServerRoutesType } from './routes';
 
 /**
  *
@@ -19,6 +20,7 @@ export interface BuildConfig {
  *
  */
 export interface ClientConfig {
+    apiRoutes: ApiRoutesType;
     appRoot: string;
     title: string;
     namespace: string;
@@ -37,14 +39,11 @@ export interface EnvConfig {
  */
 export interface AppConfig {
     assets: () => string;
-    clientAppRoot: () => string;
-    clientConfigNamespace: () => string;
     clientScript: () => string;
-    clientConfig: () => ClientConfig;
+    clientConfig: (server: ServerConfig) => ClientConfig;
     isDevelopment: () => boolean;
     liveReload: () => string;
     port: () => string;
-    title: () => string;
 }
 
 /**
@@ -52,6 +51,8 @@ export interface AppConfig {
  */
 export interface ServerConfig {
     config: AppConfig;
+    apiRoutes: ApiRoutesType;
+    serverRoutes: ServerRoutesType;
     getGeocoderConfigs: () => GeocoderConfig[];
     getSSRContent: () => string;
     getPageHTML: (server: ServerConfig) => string;

@@ -4,26 +4,24 @@ import type { ServerConfig } from '../types';
  *
  * @param server
  */
-export function getPageHTML({ config, getSSRContent }: ServerConfig): string {
-    const title = config.title();
+export function getPageHTML(server: ServerConfig): string {
+    const { config, getSSRContent } = server;
     const liveReload = config.liveReload();
-    const appRoot = config.clientAppRoot();
     const content = getSSRContent();
-    const configNamespace = config.clientConfigNamespace();
-    const clientConfig = config.clientConfig();
+    const clientConfig = config.clientConfig(server);
     const clientScript = config.clientScript();
 
     return `
         <!DOCTYPE html>
         <html lang="en">
             <head>
-                <title>${title}</title>
+                <title>${clientConfig.title}</title>
                 ${liveReload ? `<script type="application/javascript" src="${liveReload}"></script>` : ''}
             </head>
             <body>
-                <div id="${appRoot}">${content}</div>
+                <div id="${clientConfig.appRoot}">${content}</div>
                 <script type="application/javascript">
-                    window.${configNamespace}=${JSON.stringify(clientConfig)}
+                    window.${clientConfig.namespace}=${JSON.stringify(clientConfig)}
                 </script>
                 <script type="application/javascript" src="${clientScript}"></script>
             </body>
