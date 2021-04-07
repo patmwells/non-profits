@@ -2,11 +2,10 @@ import type { Application } from 'express';
 import express from 'express';
 
 import type { AppConfig, ServerConfig } from './types';
-import { getSSRContent } from './ssr';
-import { getPageHTML } from './view';
+import { getSSRPage } from './view';
 import { getGeocoderConfigs } from './census';
-import { apiRoutes, getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
 import { logger } from './middleware';
+import { apiRoutes, getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
 
 /**
  *
@@ -16,9 +15,8 @@ export function createServerConfig(config: AppConfig): ServerConfig {
     return {
         config,
         apiRoutes,
-        getGeocoderConfigs,
-        getSSRContent,
-        getPageHTML
+        getSSRPage,
+        getGeocoderConfigs
     };
 }
 

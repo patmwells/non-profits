@@ -11,7 +11,5 @@ export default function App({ config }: { config: ClientConfig }): JSX.Element {
         config.fetchGeocoderConfig(config).then(setGeocoderConfigs);
     }, []);
 
-    return (
-        <div>Hello World!</div>
-    );
+    return <div>Hello World!</div>;
 }

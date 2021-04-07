@@ -40,7 +40,7 @@ export function onGeocoderConfigRequest(req: Request, res: Response): void {
  */
 export function onRenderViewRequest(req: Request, res: Response): void {
     const server = getServer(req);
-    const html = server.getPageHTML(server);
+    const html = server.getSSRPage(server);
 
     res.status(200);
     res.write(html);

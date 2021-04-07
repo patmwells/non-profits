@@ -1,4 +1,4 @@
-import type { AppConfig, BuildConfig, ClientConfig, EnvConfig, ServerConfig } from '../types';
+import type { AppConfig, BuildConfig, EnvConfig } from '../types';
 
 /**
  *
@@ -32,19 +32,6 @@ class Config implements AppConfig {
      */
     isDevelopment(): boolean {
         return this.env.NODE_ENV === 'development';
-    }
-
-    /**
-     *
-     * @param server
-     */
-    clientConfig(server: ServerConfig): ClientConfig {
-        return {
-            apiRoutes: server.apiRoutes,
-            appRoot: 'appRoot',
-            title: 'App',
-            namespace: '__client_config__'
-        };
     }
 
     /**

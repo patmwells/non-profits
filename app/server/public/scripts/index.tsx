@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createClientConfig } from './config';
+import { getClientConfigFromWindow } from './config';
 
 /**
  *
  */
-const configFromServer = window['__client_config__'];
-
-delete window['__client_config__'];
-
-const config = createClientConfig(configFromServer);
+const config = getClientConfigFromWindow(window);
 
 ReactDOM.hydrate(<config.App config={config} />, window.document.getElementById(config.appRoot));

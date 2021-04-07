@@ -1,18 +1,37 @@
 import axios from 'axios';
-import App from './components';
-import { ClientConfig as ClientConfigFromServer } from '../../types';
-import { ClientConfig } from './types';
+import type { ClientApiRoutes, ClientConfig } from './types';
+import App from './components/App';
+import Html from './components/Html';
 import { fetchGeocoderConfig } from './api';
 
 /**
  *
- * @param config
  */
-export function createClientConfig(config: ClientConfigFromServer): ClientConfig {
+const serverToClientNamespace = '__client_config__';
+
+/**
+ *
+ */
+export function getClientConfigFromWindow(window: Window): ClientConfig {
+    const configFromServer = window[serverToClientNamespace];
+
+    delete window[serverToClientNamespace];
+
+    return createClientConfig(configFromServer.apiRoutes);
+}
+
+/**
+ *
+ * @param apiRoutes
+ */
+export function createClientConfig(apiRoutes: ClientApiRoutes): ClientConfig {
     return {
         App,
-        appRoot: config.appRoot,
-        apiRoutes: config.apiRoutes,
+        Html,
+        appRoot: 'appRoot',
+        title: 'App',
+        namespace: serverToClientNamespace,
+        apiRoutes,
         request: axios,
         fetchGeocoderConfig
     };

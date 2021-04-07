@@ -19,16 +19,6 @@ export interface BuildConfig {
 /**
  *
  */
-export interface ClientConfig {
-    apiRoutes: ApiRoutes;
-    appRoot: string;
-    title: string;
-    namespace: string;
-}
-
-/**
- *
- */
 export interface EnvConfig {
     NODE_ENV: string;
     SERVER_PORT: string;
@@ -40,7 +30,6 @@ export interface EnvConfig {
 export interface AppConfig {
     assets: () => string;
     clientScript: () => string;
-    clientConfig: (server: ServerConfig) => ClientConfig;
     isDevelopment: () => boolean;
     liveReload: () => string;
     port: () => string;
@@ -52,7 +41,6 @@ export interface AppConfig {
 export interface ServerConfig {
     config: AppConfig;
     apiRoutes: ApiRoutes;
+    getSSRPage: (server: ServerConfig) => string;
     getGeocoderConfigs: () => GeocoderConfig[];
-    getSSRContent: (clientConfig: ClientConfig) => string;
-    getPageHTML: (server: ServerConfig) => string;
 }
