@@ -33,8 +33,7 @@ export function getSSRPage(server: ServerConfig): string {
         content,
         clientScript
     };
-    const html = <clientConfig.Html {...renderProps}/>;
-    const markup = ReactDOMServer.renderToStaticMarkup(html);
+    const html = <clientConfig.Html {...renderProps} />;
 
-    return `<!DOCTYPE html>${markup}`;
+    return `<!DOCTYPE html>${ReactDOMServer.renderToStaticMarkup(html)}`;
 }
