@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { ClientApiRoutes, ClientConfig } from './types';
 import App from './components/App';
 import Html from './components/Html';
+import { getSSRPage } from './ssr';
 import { fetchGeocoderConfig } from './api';
 
 /**
@@ -33,6 +34,7 @@ export function createClientConfig(apiRoutes: ClientApiRoutes): ClientConfig {
         namespace: serverToClientNamespace,
         apiRoutes,
         request: axios,
+        getSSRPage,
         fetchGeocoderConfig
     };
 }

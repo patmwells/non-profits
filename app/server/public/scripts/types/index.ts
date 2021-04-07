@@ -26,6 +26,15 @@ export interface HtmlProps {
 /**
  *
  */
+export interface SSRPageOptions {
+    config: ClientConfig;
+    headerScript: string;
+    clientScript: string;
+}
+
+/**
+ *
+ */
 export interface ClientConfig {
     App: React.FunctionComponent<{ config: ClientConfig }>;
     Html: React.FunctionComponent<HtmlProps>;
@@ -34,5 +43,6 @@ export interface ClientConfig {
     namespace: string;
     apiRoutes: ClientApiRoutes;
     request: AxiosStatic;
+    getSSRPage: (options: SSRPageOptions) => string;
     fetchGeocoderConfig: (config: ClientConfig) => Promise<unknown>;
 }
