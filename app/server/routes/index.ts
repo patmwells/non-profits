@@ -8,10 +8,25 @@ import {
 /**
  *
  */
+const serverRoutes = {
+    favicon: '/favicon.ico',
+    view: '*'
+};
+
+/**
+ *
+ */
+export const apiRoutes = {
+    geocoderConfigs: '/api/v1/census/geocoder/configs'
+};
+
+/**
+ *
+ */
 export function getFaviconRouter(): Router {
     const router = Router();
 
-    router.get('/favicon.ico', onFaviconRequest);
+    router.get(serverRoutes.favicon, onFaviconRequest);
 
     return router;
 }
@@ -22,7 +37,7 @@ export function getFaviconRouter(): Router {
 export function getCensusRouter(): Router {
     const router = Router();
 
-    router.get('/census/geocoder/configs', onGeocoderConfigRequest);
+    router.get(apiRoutes.geocoderConfigs, onGeocoderConfigRequest);
 
     return router;
 }
@@ -33,7 +48,7 @@ export function getCensusRouter(): Router {
 export function getViewRouter(): Router {
     const router = Router();
 
-    router.get('/*', onRenderViewRequest);
+    router.get(serverRoutes.view, onRenderViewRequest);
 
     return router;
 }

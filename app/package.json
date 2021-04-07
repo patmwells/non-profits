@@ -12,9 +12,9 @@
     "task:test:coverage": "nyc npm run task:test:integration",
     "dev:build": "npm run task:build -- --env dev",
     "dev:build:watch": "npm run dev:build -- --watch",
-    "dev:start": "nodemon --watch bin bin/server.js",
+    "dev:start": "nodemon --watch bin bin/server/index.js",
     "prod:build": "npm run task:build -- --env prod",
-    "prod:start": "node bin/server.js"
+    "prod:start": "node bin/server/index.js"
   },
   "dependencies": {
     "axios": "0.21.1",
@@ -35,6 +35,7 @@
     "babel-loader": "8.2.2",
     "chai": "4.3.4",
     "chai-http": "4.3.0",
+    "clean-webpack-plugin": "3.0.0",
     "cypress": "6.2.0",
     "eslint": "7.22.0",
     "eslint-plugin-cypress": "2.11.2",
@@ -99,27 +100,43 @@
           "allowTemplateLiterals": true
         }
       ],
-      "comma-dangle": ["error", "never"],
-      "require-jsdoc": ["error", {
-        "require": {
-          "FunctionDeclaration": true,
-          "MethodDefinition": true,
-          "ClassDeclaration": true
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "require-jsdoc": [
+        "error",
+        {
+          "require": {
+            "FunctionDeclaration": true,
+            "MethodDefinition": true,
+            "ClassDeclaration": true
+          }
         }
-      }],
+      ],
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/member-delimiter-style": ["error"],
+      "@typescript-eslint/member-delimiter-style": [
+        "error"
+      ],
       "tsdoc/syntax": "warn"
     },
-    "overrides": [{
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "@typescript-eslint/explicit-function-return-type": ["error", {
-          "allowHigherOrderFunctions": false
-        }]
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
+        "rules": {
+          "@typescript-eslint/explicit-function-return-type": [
+            "error",
+            {
+              "allowHigherOrderFunctions": false
+            }
+          ]
+        }
       }
-    }]
+    ]
   },
   "nyc": {
     "require": "ts-node/register",
