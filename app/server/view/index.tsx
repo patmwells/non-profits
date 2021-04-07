@@ -23,7 +23,7 @@ export function getSSRPage(server: ServerConfig): string {
      */
     const { appRoot, title, namespace, apiRoutes } = clientConfig;
     const renderProps = {
-        config: {
+        renderConfig: {
             appRoot,
             title,
             namespace,

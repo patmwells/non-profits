@@ -12,7 +12,7 @@ export interface ClientApiRoutes {
  *
  */
 export interface HtmlProps {
-    config: {
+    renderConfig: {
         title: string;
         appRoot: string;
         namespace: string;
