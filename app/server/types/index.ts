@@ -1,5 +1,5 @@
 import type { GeocoderConfig } from './census';
-import type { ApiRoutesType, ServerRoutesType } from './routes';
+import type { ApiRoutes } from './routes';
 
 /**
  *
@@ -20,7 +20,7 @@ export interface BuildConfig {
  *
  */
 export interface ClientConfig {
-    apiRoutes: ApiRoutesType;
+    apiRoutes: ApiRoutes;
     appRoot: string;
     title: string;
     namespace: string;
@@ -51,8 +51,7 @@ export interface AppConfig {
  */
 export interface ServerConfig {
     config: AppConfig;
-    apiRoutes: ApiRoutesType;
-    serverRoutes: ServerRoutesType;
+    apiRoutes: ApiRoutes;
     getGeocoderConfigs: () => GeocoderConfig[];
     getSSRContent: (clientConfig: ClientConfig) => string;
     getPageHTML: (server: ServerConfig) => string;

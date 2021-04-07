@@ -1,11 +1,20 @@
 import type React from 'react';
 import type { AxiosStatic } from 'axios';
-import type { ApiRoutesType } from '../../../types/routes';
 
+/**
+ *
+ */
+interface ClientApiRoutes {
+    geocoderConfigs: string;
+}
+
+/**
+ *
+ */
 export interface ClientConfig {
     App: React.FunctionComponent<{ config: ClientConfig }>;
     appRoot: string;
-    apiRoutes: ApiRoutesType;
+    apiRoutes: ClientApiRoutes;
     request: AxiosStatic;
     fetchGeocoderConfig: (config: ClientConfig) => Promise<unknown>;
 }

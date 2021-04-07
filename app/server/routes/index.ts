@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import type { ServerConfig } from '../types';
 import {
     onFaviconRequest,
     onGeocoderConfigRequest,
@@ -9,10 +8,25 @@ import {
 /**
  *
  */
-export function getFaviconRouter(server: ServerConfig): Router {
+const serverRoutes = {
+    favicon: '/favicon.ico',
+    view: '*'
+};
+
+/**
+ *
+ */
+export const apiRoutes = {
+    geocoderConfigs: '/api/v1/census/geocoder/configs'
+};
+
+/**
+ *
+ */
+export function getFaviconRouter(): Router {
     const router = Router();
 
-    router.get(server.serverRoutes.favicon, onFaviconRequest);
+    router.get(serverRoutes.favicon, onFaviconRequest);
 
     return router;
 }
@@ -20,10 +34,10 @@ export function getFaviconRouter(server: ServerConfig): Router {
 /**
  *
  */
-export function getCensusRouter(server: ServerConfig): Router {
+export function getCensusRouter(): Router {
     const router = Router();
 
-    router.get(server.apiRoutes.geocoderConfigs, onGeocoderConfigRequest);
+    router.get(apiRoutes.geocoderConfigs, onGeocoderConfigRequest);
 
     return router;
 }
@@ -31,10 +45,10 @@ export function getCensusRouter(server: ServerConfig): Router {
 /**
  *
  */
-export function getViewRouter(server: ServerConfig): Router {
+export function getViewRouter(): Router {
     const router = Router();
 
-    router.get(server.serverRoutes.view, onRenderViewRequest);
+    router.get(serverRoutes.view, onRenderViewRequest);
 
     return router;
 }
