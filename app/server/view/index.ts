@@ -5,7 +5,7 @@ import { createClientConfig } from '../public/scripts/config';
  *
  * @param server
  */
-export function getSSRPage(server: ServerConfig): string {
+export function getClientView(server: ServerConfig): string {
     const headerScript = server.config.liveReload();
     const clientScript = server.config.clientScript();
     const config = createClientConfig(server.apiRoutes);

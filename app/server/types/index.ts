@@ -41,6 +41,6 @@ export interface AppConfig {
 export interface ServerConfig {
     config: AppConfig;
     apiRoutes: ApiRoutes;
-    getSSRPage: (server: ServerConfig) => string;
+    getClientView: (server: ServerConfig) => string;
     getGeocoderConfigs: () => GeocoderConfig[];
 }

@@ -2,7 +2,7 @@ import type { Application } from 'express';
 import express from 'express';
 
 import type { AppConfig, ServerConfig } from './types';
-import { getSSRPage } from './view';
+import { getClientView } from './view';
 import { getGeocoderConfigs } from './census';
 import { logger } from './middleware';
 import { apiRoutes, getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
@@ -15,7 +15,7 @@ export function createServerConfig(config: AppConfig): ServerConfig {
     return {
         config,
         apiRoutes,
-        getSSRPage,
+        getClientView,
         getGeocoderConfigs
     };
 }
