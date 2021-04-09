@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Client, ClientApiRoutes } from './types';
+import type {Client, ClientApiRoutes, ClientConfig} from './types';
 import { App } from './app';
 import { Html } from './ssr';
 import { createClientApi } from './api';
@@ -7,17 +7,21 @@ import { renderOnClient, renderOnServer } from './render';
 
 /**
  *
+ */
+const AppTitle = 'App';
+const AppRoot = 'appRoot';
+const ClientNamespace = '__client_config__';
+
+/**
+ *
  * @param window
  */
-export function getClient(window: Window): Client {
+export function getClientConfig(window: Window): ClientConfig {
     return {
-        request: axios,
-        appRoot: 'appRoot',
-        config: window['__client_config__'],
-        createClientApi,
-        renderOnClient,
-        App,
-        Html
+        renderConfig: {
+            appRoot: AppRoot
+        },
+        config: window[ClientNamespace]
     };
 }
 
@@ -36,17 +40,34 @@ interface SSRClientOptions {
  * @param clientScript
  * @param apiRoutes
  */
-export function getSSRClient({ headerScript, clientScript, apiRoutes }: SSRClientOptions): Client {
+export function getSSRClientConfig({ headerScript, clientScript, apiRoutes }: SSRClientOptions): ClientConfig {
+    return {
+        renderConfig: {
+            headerScript,
+            clientScript,
+            appRoot: AppRoot,
+            title: AppTitle,
+            namespace: ClientNamespace
+        },
+        config: {
+            apiRoutes
+        }
+    };
+}
+
+/**
+ *
+ * @param config
+ * @param renderConfig
+ */
+export function createClient({ config, renderConfig }: ClientConfig): Client {
     return {
         request: axios,
-        headerScript,
-        clientScript,
-        appRoot: 'appRoot',
-        title: 'App',
-        namespace: '__client_config__',
-        config: { apiRoutes },
+        renderConfig,
+        config,
         createClientApi,
         renderOnServer,
+        renderOnClient,
         App,
         Html
     };

@@ -1,8 +1,8 @@
-import { getClient } from './client';
+import { createClient, getClientConfig } from './client';
 
 /**
  *
  */
-const client = getClient(window);
+const client = createClient(getClientConfig(window));
 
 client.renderOnClient(client);

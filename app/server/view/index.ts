@@ -1,5 +1,5 @@
 import type { ServerConfig } from '../types';
-import { getSSRClient } from '../public/scripts/client';
+import { createClient, getSSRClientConfig } from '../public/scripts/client';
 
 /**
  *
@@ -9,7 +9,7 @@ import { getSSRClient } from '../public/scripts/client';
 export function getClientView({ config, apiRoutes } : ServerConfig): string {
     const headerScript = config.liveReload();
     const clientScript = config.clientScript();
-    const client = getSSRClient({ apiRoutes, headerScript, clientScript });
+    const client = createClient(getSSRClientConfig({ apiRoutes, headerScript, clientScript }));
 
     return client.renderOnServer(client);
 }
