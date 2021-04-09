@@ -18,9 +18,6 @@ export const buildConfig = {
  */
 export function getProdHTML(): string {
     const clientConfig = JSON.stringify({
-        appRoot: 'appRoot',
-        title: 'App',
-        namespace: '__client_config__',
         apiRoutes:{
             geocoderConfigs: '/api/v1/census/geocoder/configs'
         }
@@ -48,9 +45,6 @@ export function getProdHTML(): string {
  */
 export function getDevHTML(): string {
     const clientConfig = JSON.stringify({
-        appRoot: 'appRoot',
-        title: 'App',
-        namespace: '__client_config__',
         apiRoutes:{
             geocoderConfigs: '/api/v1/census/geocoder/configs'
         }
