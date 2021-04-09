@@ -1,14 +1,15 @@
 import type { ServerConfig } from '../types';
-import { createClientConfig } from '../public/scripts/config';
+import { getSSRClient } from '../public/scripts/client';
 
 /**
  *
- * @param server
+ * @param config
+ * @param apiRoutes
  */
-export function getClientView(server: ServerConfig): string {
-    const headerScript = server.config.liveReload();
-    const clientScript = server.config.clientScript();
-    const config = createClientConfig(server.apiRoutes);
+export function getClientView({ config, apiRoutes } : ServerConfig): string {
+    const headerScript = config.liveReload();
+    const clientScript = config.clientScript();
+    const client = getSSRClient({ apiRoutes, headerScript, clientScript });
 
-    return config.getSSRPage({ config, headerScript, clientScript });
+    return client.renderOnServer(client);
 }

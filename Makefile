@@ -1,4 +1,4 @@
-app: build start logs
+app: down build start logs
 
 ci: build automation down
 

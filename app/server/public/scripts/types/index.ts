@@ -1,48 +1,29 @@
 import type React from 'react';
 import type { AxiosStatic } from 'axios';
 
-/**
- *
- */
 export interface ClientApiRoutes {
     geocoderConfigs: string;
 }
 
-/**
- *
- */
-export interface HtmlProps {
-    renderConfig: {
-        title: string;
-        appRoot: string;
-        namespace: string;
-        apiRoutes: ClientApiRoutes;
-    };
-    headerScript: string;
-    content: string;
-    clientScript: string;
+export interface ClientApi {
+    getGeocoderConfigs: () => Promise<unknown>;
 }
 
-/**
- *
- */
-export interface SSRPageOptions {
-    config: ClientConfig;
-    headerScript: string;
-    clientScript: string;
-}
-
-/**
- *
- */
-export interface ClientConfig {
-    App: React.FunctionComponent<{ config: ClientConfig }>;
-    Html: React.FunctionComponent<HtmlProps>;
+interface ClientConfig {
     appRoot: string;
     title: string;
     namespace: string;
     apiRoutes: ClientApiRoutes;
+}
+
+export interface Client {
     request: AxiosStatic;
-    getSSRPage: (options: SSRPageOptions) => string;
-    fetchGeocoderConfig: (config: ClientConfig) => Promise<unknown>;
+    headerScript?: string;
+    clientScript?: string;
+    config: ClientConfig;
+    createClientApi: (client: Client) => ClientApi;
+    renderOnClient?: (client: Client) => void;
+    renderOnServer?: (client: Client) => string;
+    App: React.FunctionComponent<{ config: { api: ClientApi } }>;
+    Html: React.FunctionComponent<{ client: Client; content: string }>;
 }

@@ -1,11 +1,38 @@
-import { ClientConfig } from '../types';
+import { ClientApi } from '../types';
 
 /**
  *
- * @param config
  */
-export async function fetchGeocoderConfig(config: ClientConfig): Promise<unknown> {
-    const response = await config.request.get(config.apiRoutes.geocoderConfigs);
+class Api implements ClientApi {
+    private request;
+    private routes;
 
-    return response.data;
+    /**
+     *
+     * @param request
+     * @param routes
+     */
+    constructor(request, routes) {
+        this.request = request;
+        this.routes = routes;
+    }
+
+    /**
+     *
+     */
+    async getGeocoderConfigs(): Promise<unknown> {
+        const response = await this.request.get(this.routes.geocoderConfigs);
+
+        return response.data;
+    }
+
+}
+
+/**
+ *
+ * @param request
+ * @param routes
+ */
+export function createClientApi({ request, config }): ClientApi {
+    return new Api(request, config.apiRoutes);
 }
