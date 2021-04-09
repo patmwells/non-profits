@@ -12,8 +12,7 @@ interface HtmlProps {
  * @param content
  */
 export function Html({ client, content }: HtmlProps): JSX.Element {
-    const { headerScript, config, clientScript } = client;
-    const { title, appRoot, namespace } = config;
+    const { title, appRoot, namespace, headerScript, config, clientScript } = client;
 
     return (
         <html lang="en">

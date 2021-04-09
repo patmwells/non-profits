@@ -1,4 +1,4 @@
-import { ClientApi } from '../types';
+import type { Client, ClientApi } from '../types';
 
 /**
  *
@@ -33,6 +33,6 @@ class Api implements ClientApi {
  * @param request
  * @param routes
  */
-export function createClientApi({ request, config }): ClientApi {
+export function createClientApi({ request, config }: Client): ClientApi {
     return new Api(request, config.apiRoutes);
 }

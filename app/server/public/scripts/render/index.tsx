@@ -10,7 +10,7 @@ import type { Client } from '../types';
 export function renderOnClient(client: Client): void {
     const api = client.createClientApi(client);
 
-    ReactDOM.hydrate(<client.App config={{ api }} />, document.getElementById(client.config.appRoot));
+    ReactDOM.hydrate(<client.App config={{ api }} />, document.getElementById(client.appRoot));
 }
 
 /**

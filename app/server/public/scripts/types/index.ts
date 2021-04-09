@@ -10,9 +10,6 @@ export interface ClientApi {
 }
 
 interface ClientConfig {
-    appRoot: string;
-    title: string;
-    namespace: string;
     apiRoutes: ClientApiRoutes;
 }
 
@@ -20,6 +17,9 @@ export interface Client {
     request: AxiosStatic;
     headerScript?: string;
     clientScript?: string;
+    appRoot: string;
+    title?: string;
+    namespace?: string;
     config: ClientConfig;
     createClientApi: (client: Client) => ClientApi;
     renderOnClient?: (client: Client) => void;

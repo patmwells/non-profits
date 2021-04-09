@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Client, ClientApiRoutes } from './types';
 import { App } from './app';
-import { Html } from './ssr/Html';
+import { Html } from './ssr';
 import { createClientApi } from './api';
 import { renderOnClient, renderOnServer } from './render';
 
@@ -12,6 +12,7 @@ import { renderOnClient, renderOnServer } from './render';
 export function getClient(window: Window): Client {
     return {
         request: axios,
+        appRoot: 'appRoot',
         config: window['__client_config__'],
         createClientApi,
         renderOnClient,
@@ -40,12 +41,10 @@ export function getSSRClient({ headerScript, clientScript, apiRoutes }: SSRClien
         request: axios,
         headerScript,
         clientScript,
-        config: {
-            appRoot: 'appRoot',
-            title: 'App',
-            namespace: '__client_config__',
-            apiRoutes
-        },
+        appRoot: 'appRoot',
+        title: 'App',
+        namespace: '__client_config__',
+        config: { apiRoutes },
         createClientApi,
         renderOnServer,
         App,
