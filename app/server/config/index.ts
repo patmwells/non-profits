@@ -1,4 +1,4 @@
-import type { AppConfig, BuildConfig, EnvConfig } from '../types';
+import type { AppConfig, BuildConfig, EnvConfig } from '@server/types';
 
 /**
  *

@@ -1,4 +1,4 @@
-import type { Client, ClientApi } from '../types';
+import type { Client, ClientApi } from '@client/types';
 
 /**
  *

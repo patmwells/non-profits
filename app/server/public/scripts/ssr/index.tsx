@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Client } from '../types';
+import type { Client } from '@client/types';
 
 interface HtmlProps {
     client: Client;

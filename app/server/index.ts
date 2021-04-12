@@ -1,4 +1,4 @@
-import type { EnvConfig } from './types';
+import type { EnvConfig } from '@server/types';
 import buildConfig from '../build/config';
 import { createAppConfig } from './config';
 import { createServer, createServerConfig } from './server';

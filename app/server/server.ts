@@ -1,7 +1,7 @@
 import type { Application } from 'express';
 import express from 'express';
 
-import type { AppConfig, ServerConfig } from './types';
+import type { AppConfig, ServerConfig } from '@server/types';
 import { getClientView } from './view';
 import { getGeocoderConfigs } from './census';
 import { logger } from './middleware';

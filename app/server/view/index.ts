@@ -1,4 +1,4 @@
-import type { ServerConfig } from '../types';
+import type { ServerConfig } from '@server/types';
 import { createClient, getSSRClientConfig } from '../public/scripts/client';
 
 /**

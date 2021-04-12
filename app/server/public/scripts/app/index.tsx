@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import type { ClientApi } from '../types';
+import type { ClientApi } from '@client/types';
 
 interface AppProps {
     config: {

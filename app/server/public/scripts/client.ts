@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type {Client, ClientApiRoutes, ClientConfig} from './types';
+import type { Client, ClientApiRoutes, ClientConfig } from '@client/types';
 import { App } from './app';
 import { Html } from './ssr';
 import { createClientApi } from './api';

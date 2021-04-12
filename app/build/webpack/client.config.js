@@ -19,7 +19,11 @@ const common = {
 const dev = merge(common, {
     mode: 'development',
     devtool: 'source-map',
-    plugins: [new LiveReloadPlugin({ delay: config.client.liveReload.delay })]
+    plugins: [new LiveReloadPlugin({ delay: config.client.liveReload.delay })],
+    watchOptions: {
+        poll: true,
+        ignored: /node_modules/
+    }
 });
 
 const prod = merge(common, { mode: 'production' });

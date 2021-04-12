@@ -2,31 +2,50 @@
 // https://geocoding.geo.census.gov/geocoder/benchmarks
 // https://geocoding.geo.census.gov/geocoder/geographies/address?benchmark=Public_AR_Census2020&vintage=Census2020_Census2020&layers=10&format=json
 
-import type { GeocoderConfig } from '../types/census';
-import { ConfigType, ReturnType, SearchType } from '../types/census';
+import type { ReturnType, SearchType, GeocoderConfig, ConfigType } from '@server/types';
+
+const returnType: ReturnType = {
+    geographies: 'geographies',
+    locations: 'locations'
+};
+
+const searchType: SearchType = {
+    onelineaddress: 'onelineaddress',
+    address: 'address',
+    coordinates: 'coordinates'
+};
+
+const configType: ConfigType = {
+    address: 'address',
+    street: 'street',
+    city: 'city',
+    state: 'state',
+    x: 'x',
+    y: 'y'
+};
 
 /**
  *
  */
 const geographies = {
-    returntype: ReturnType.geographies,
+    returntype: returnType.geographies,
     searchtype: [
-        SearchType.onelineaddress,
-        SearchType.address,
-        SearchType.coordinates
+        searchType.onelineaddress,
+        searchType.address,
+        searchType.coordinates
     ],
     configs: {
-        [SearchType.onelineaddress]: [
-            { type: ConfigType.address }
+        [searchType.onelineaddress]: [
+            { type: configType.address }
         ],
-        [SearchType.address]: [
-            { type: ConfigType.street },
-            { type: ConfigType.city },
-            { type: ConfigType.state }
+        [searchType.address]: [
+            { type: configType.street },
+            { type: configType.city },
+            { type: configType.state }
         ],
-        [SearchType.coordinates]: [
-            { type: ConfigType.x },
-            { type: ConfigType.y }
+        [searchType.coordinates]: [
+            { type: configType.x },
+            { type: configType.y }
         ]
     }
 };
@@ -35,20 +54,21 @@ const geographies = {
  *
  */
 const locations = {
-    returntype: ReturnType.locations,
+    returntype: returnType.locations,
     searchtype: [
-        SearchType.onelineaddress,
-        SearchType.address
+        searchType.onelineaddress,
+        searchType.address
     ],
     configs: {
-        [SearchType.onelineaddress]: [
-            { type: ConfigType.address }
+        [searchType.onelineaddress]: [
+            { type: configType.address }
         ],
-        [SearchType.address]: [
-            { type: ConfigType.street },
-            { type: ConfigType.city },
-            { type: ConfigType.state }
-        ]
+        [searchType.address]: [
+            { type: configType.street },
+            { type: configType.city },
+            { type: configType.state }
+        ],
+        [searchType.coordinates]: null
     }
 };
 

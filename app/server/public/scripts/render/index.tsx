@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import type { Client } from '../types';
+import type { Client } from '@client/types';
 
 /**
  *

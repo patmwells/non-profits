@@ -16,7 +16,7 @@ module.exports = {
         },
         liveReload: {
             script: 'http://localhost:35729/livereload.js',
-            delay: 5000
+            delay: 3000
         }
     }
 };
