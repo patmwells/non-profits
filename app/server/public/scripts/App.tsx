@@ -1,30 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import type { ClientApi } from './api';
+import React from 'react';
+import { ClientApi } from './Api';
+import { createIntroCard, IntroCardController } from './IntroCard';
 
 /**
  *
  */
-export type App = typeof App;
+export type createClientAppConfig = typeof createClientAppConfig;
+
+/**
+ *
+ */
+interface ClientAppConfig {
+    App: typeof App;
+    IntroCard: IntroCardController;
+}
 
 /**
  *
  */
 interface AppProps {
-    api: ClientApi;
+    config: ClientAppConfig;
 }
 
 /**
  *
  * @param config
  */
-export function App({ api }: AppProps): JSX.Element {
-    const [geocoderConfigs, setGeocoderConfigs] = useState([]);
-
-    useEffect(() => {
-        api.getGeocoderConfigs().then(setGeocoderConfigs);
-    }, []);
-
-    console.log({ geocoderConfigs });
-
-    return <div>Hello World!</div>;
+function App({ config: { IntroCard } }: AppProps): JSX.Element {
+    return <IntroCard.Component controller={IntroCard} />;
 }
+
+/**
+ *
+ * @param api
+ */
+export function createClientAppConfig(api: ClientApi): ClientAppConfig {
+    return {
+        App,
+        IntroCard: createIntroCard(api)
+    };
+}
+
