@@ -50,7 +50,8 @@ describe('Server Specification', () => {
                     searchtype: [ 'onelineaddress', 'address' ],
                     configs: {
                         onelineaddress: [ { type: 'address' } ],
-                        address: [ { type: 'street' }, { type: 'city' }, { type: 'state' } ]
+                        address: [ { type: 'street' }, { type: 'city' }, { type: 'state' } ],
+                        coordinates: null
                     }
                 }
             ];
