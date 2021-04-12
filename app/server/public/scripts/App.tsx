@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import type { ClientApi } from '../api';
+import type { ClientApi } from './api';
 
 /**
  *

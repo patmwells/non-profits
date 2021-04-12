@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Client } from '../client';
+import type { Client } from './client';
 
 /**
  *

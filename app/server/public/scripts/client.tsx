@@ -1,8 +1,10 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
 import axios, { AxiosStatic } from 'axios';
-import { App } from './app';
-import { Html } from './ssr';
+import { App } from './App';
+import { Html } from './Html';
 import { createClientApi } from './api';
-import { renderOnClient, renderOnServer } from './render';
 
 /**
  *
@@ -19,8 +21,8 @@ export interface Client {
     renderConfig: ClientRenderConfig;
     config: ClientConfigFromServer;
     createClientApi: createClientApi;
-    renderOnClient: renderOnClient;
-    renderOnServer: renderOnServer;
+    renderOnClient: typeof renderOnClient;
+    renderOnServer: typeof renderOnServer;
     App: App;
     Html: Html;
 }
@@ -72,6 +74,28 @@ interface ClientRenderConfig {
 interface ClientConfig {
     renderConfig: ClientRenderConfig;
     config: ClientConfigFromServer;
+}
+
+/**
+ *
+ * @param client
+ */
+function renderOnClient(client: Client): void {
+    const api = client.createClientApi(client);
+
+    ReactDOM.hydrate(<client.App api={api} />, document.getElementById(client.renderConfig.appRoot));
+}
+
+/**
+ *
+ * @param client
+ */
+function renderOnServer(client: Client): string {
+    const api = client.createClientApi(client);
+    const content = ReactDOMServer.renderToString(<client.App api={api} />);
+    const markup = ReactDOMServer.renderToStaticMarkup(<client.Html client={client} content={content} />);
+
+    return `<!DOCTYPE html>${markup}`;
 }
 
 /**
