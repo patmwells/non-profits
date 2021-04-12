@@ -30,7 +30,7 @@ export function getProdHTML(): string {
                 '<title>App</title>' +
             '</head>' +
             '<body>' +
-                '<div id="appRoot"><div data-reactroot="">Hello World!</div></div>' +
+                '<div id="appRoot"><div data-reactroot="">Hello IntroCard!</div></div>' +
                 '<script type="application/javascript">' +
                     'window.__client_config__=' + clientConfig +
                 '</script>' +
@@ -58,7 +58,7 @@ export function getDevHTML(): string {
                 '<script type="application/javascript" src="livereload.js"></script>' +
             '</head>' +
             '<body>' +
-                '<div id="appRoot"><div data-reactroot="">Hello World!</div></div>' +
+                '<div id="appRoot"><div data-reactroot="">Hello IntroCard!</div></div>' +
                 '<script type="application/javascript">' +
                     'window.__client_config__=' + clientConfig +
                 '</script>' +
