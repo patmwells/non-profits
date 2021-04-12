@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import type { ClientApi } from '@client/types';
+import type { ClientApi } from '../api';
 
+/**
+ *
+ */
+export type App = typeof App;
+
+/**
+ *
+ */
 interface AppProps {
     config: {
         api: ClientApi;

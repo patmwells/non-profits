@@ -6,11 +6,6 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
-    "jsx": "react",
-    "baseUrl": ".",
-    "paths": {
-      "@server/types": ["./server/types"],
-      "@client/types": ["./server/public/scripts/types"]
-    }
+    "jsx": "react"
   }
 }

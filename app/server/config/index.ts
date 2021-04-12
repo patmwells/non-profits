@@ -1,4 +1,35 @@
-import type { AppConfig, BuildConfig, EnvConfig } from '@server/types';
+/**
+ *
+ */
+export type createAppConfig = typeof createAppConfig;
+
+/**
+ *
+ */
+export interface BuildConfig {
+    client: {
+        output: {
+            path: string;
+            filename: string;
+        };
+        liveReload: {
+            script: string;
+        };
+    };
+}
+
+export interface EnvConfig {
+    NODE_ENV: string;
+    SERVER_PORT: string;
+}
+
+export interface AppConfig {
+    assets: () => string;
+    clientScript: () => string;
+    isDevelopment: () => boolean;
+    liveReload: () => string;
+    port: () => string;
+}
 
 /**
  *
@@ -61,6 +92,6 @@ class Config implements AppConfig {
  * @param build
  * @param env
  */
-export function createAppConfig(build: BuildConfig, env: EnvConfig): Config {
-    return new Config(build, env);
+export function createAppConfig(build: BuildConfig, env: EnvConfig | NodeJS.ProcessEnv): Config {
+    return new Config(build, env as EnvConfig);
 }

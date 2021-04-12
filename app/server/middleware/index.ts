@@ -2,6 +2,11 @@ import type { NextFunction, Request, Response } from 'express';
 
 /**
  *
+ */
+export type logger = typeof logger;
+
+/**
+ *
  * @param options
  */
 function log(options: unknown): void {

@@ -1,11 +1,27 @@
 import type { Application } from 'express';
 import express from 'express';
 
-import type { AppConfig, ServerConfig } from '@server/types';
+import type { AppConfig } from './config';
 import { getClientView } from './view';
 import { getGeocoderConfigs } from './census';
 import { logger } from './middleware';
 import { apiRoutes, getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
+
+/**
+ *
+ */
+export type createServerConfig = typeof createServerConfig;
+export type createServer = typeof createServer;
+
+/**
+ *
+ */
+export interface ServerConfig {
+    config: AppConfig;
+    apiRoutes: apiRoutes;
+    getClientView: getClientView;
+    getGeocoderConfigs: getGeocoderConfigs;
+}
 
 /**
  *

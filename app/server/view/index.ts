@@ -1,5 +1,10 @@
-import type { ServerConfig } from '@server/types';
+import type { ServerConfig } from '../server';
 import { createClient, getSSRClientConfig } from '../public/scripts/client';
+
+/**
+ *
+ */
+export type getClientView = typeof getClientView;
 
 /**
  *

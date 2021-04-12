@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import type { Client } from '@client/types';
+import type { Client } from '../client';
+
+/**
+ *
+ */
+export type renderOnClient = typeof renderOnClient;
+export type renderOnServer = typeof renderOnServer;
 
 /**
  *

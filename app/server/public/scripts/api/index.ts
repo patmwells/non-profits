@@ -1,4 +1,16 @@
-import type { Client, ClientApi } from '@client/types';
+import type { Client } from '../client';
+
+/**
+ *
+ */
+export type createClientApi = typeof createClientApi;
+
+/**
+ *
+ */
+export interface ClientApi {
+    getGeocoderConfigs: () => Promise<unknown>;
+}
 
 /**
  *

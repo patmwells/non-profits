@@ -1,4 +1,3 @@
-import type { EnvConfig } from '@server/types';
 import buildConfig from '../build/config';
 import { createAppConfig } from './config';
 import { createServer, createServerConfig } from './server';
@@ -6,8 +5,7 @@ import { createServer, createServerConfig } from './server';
 /**
  *
  */
-const envConfig = process.env as unknown as EnvConfig;
-const config = createAppConfig(buildConfig, envConfig);
+const config = createAppConfig(buildConfig, process.env);
 const server = createServer(createServerConfig(config));
 
 /**

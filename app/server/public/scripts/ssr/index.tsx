@@ -1,6 +1,14 @@
 import React from 'react';
-import type { Client } from '@client/types';
+import type { Client } from '../client';
 
+/**
+ *
+ */
+export type Html = typeof Html;
+
+/**
+ *
+ */
 interface HtmlProps {
     client: Client;
     content: string;

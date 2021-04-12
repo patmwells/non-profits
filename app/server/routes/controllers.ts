@@ -1,5 +1,12 @@
 import type { Request, Response } from 'express';
-import type { ServerConfig } from '@server/types';
+import type { ServerConfig } from '../server';
+
+/**
+ *
+ */
+export type onFaviconRequest = typeof onFaviconRequest;
+export type onGeocoderConfigRequest = typeof onGeocoderConfigRequest;
+export type onRenderViewRequest = typeof onRenderViewRequest;
 
 /**
  *
