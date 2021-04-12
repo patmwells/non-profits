@@ -10,20 +10,18 @@ export type App = typeof App;
  *
  */
 interface AppProps {
-    config: {
-        api: ClientApi;
-    };
+    api: ClientApi;
 }
 
 /**
  *
  * @param config
  */
-export function App({ config }: AppProps): JSX.Element {
+export function App({ api }: AppProps): JSX.Element {
     const [geocoderConfigs, setGeocoderConfigs] = useState([]);
 
     useEffect(() => {
-        config.api.getGeocoderConfigs().then(setGeocoderConfigs);
+        api.getGeocoderConfigs().then(setGeocoderConfigs);
     }, []);
 
     console.log({ geocoderConfigs });

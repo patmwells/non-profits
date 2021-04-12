@@ -6,7 +6,18 @@ export type createAppConfig = typeof createAppConfig;
 /**
  *
  */
-export interface BuildConfig {
+export interface AppConfig {
+    assets: () => string;
+    clientScript: () => string;
+    isDevelopment: () => boolean;
+    liveReload: () => string;
+    port: () => string;
+}
+
+/**
+ *
+ */
+interface BuildConfig {
     client: {
         output: {
             path: string;
@@ -18,17 +29,12 @@ export interface BuildConfig {
     };
 }
 
-export interface EnvConfig {
+/**
+ *
+ */
+interface EnvConfig {
     NODE_ENV: string;
     SERVER_PORT: string;
-}
-
-export interface AppConfig {
-    assets: () => string;
-    clientScript: () => string;
-    isDevelopment: () => boolean;
-    liveReload: () => string;
-    port: () => string;
 }
 
 /**
