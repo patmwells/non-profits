@@ -1,6 +1,7 @@
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const config = require('../config');
 
 const common = {
@@ -13,7 +14,12 @@ const common = {
         ]
     },
     resolve: { extensions: ['.tsx', '.ts', '.js', '.jsx'] },
-    plugins: [new CleanWebpackPlugin()]
+    plugins: [
+        new CleanWebpackPlugin(),
+        new CopyPlugin({
+            patterns: [ { from: config.client.fonts.src, to: config.client.fonts.dest }]
+        })
+    ]
 };
 
 const dev = merge(common, {

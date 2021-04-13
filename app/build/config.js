@@ -1,5 +1,7 @@
 const path = require('path');
 
+const outputPath = path.resolve('bin/public');
+
 module.exports = {
     server: {
         entry: path.resolve('server/index.ts'),
@@ -11,12 +13,16 @@ module.exports = {
     client: {
         entry: path.resolve('server/public/scripts/index.ts'),
         output: {
-            path: path.resolve('bin/public'),
+            path: outputPath,
             filename: 'scripts/index.bundle.js'
         },
         liveReload: {
             script: 'http://localhost:35729/livereload.js',
-            delay: 3000
+            delay: 5000
+        },
+        fonts: {
+            src: path.resolve('server/public/fonts'),
+            dest: path.resolve(`${outputPath}/fonts`)
         }
     }
 };
