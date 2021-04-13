@@ -152,7 +152,8 @@
     "exclude": [
       "bin/**/*",
       "build/**/*",
-      "test/**/*"
+      "test/**/*",
+      "server/public/**/*"
     ],
     "reporter": [
       "text"

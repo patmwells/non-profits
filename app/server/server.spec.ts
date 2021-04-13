@@ -1,7 +1,7 @@
 import { createAppConfig } from './config';
 import { createServer, createServerConfig } from './server';
 import { request, expect } from '../test/chai';
-import { buildConfig, getDevHTML, getProdHTML } from '../test/helpers';
+import { buildConfig } from '../test/helpers';
 
 describe('Server Specification', () => {
 
@@ -14,23 +14,21 @@ describe('Server Specification', () => {
         });
     });
 
-    it('should return 200 and the correct html for the / route when NODE_ENV=development', () => {
+    it('should return 200 for the / route when NODE_ENV=development', () => {
         const config = createAppConfig(buildConfig, { NODE_ENV: 'development', SERVER_PORT: '3000' });
         const server = createServer(createServerConfig(config));
 
         return request(server).get('/').then((response) => {
             expect(response).to.have.status(200);
-            expect(response.text).to.eq(getDevHTML());
         });
     });
 
-    it('should return 200 and the correct html for the / route when NODE_ENV=production', () => {
+    it('should return 200 for the / route when NODE_ENV=production', () => {
         const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
         const server = createServer(createServerConfig(config));
 
         return request(server).get('/').then((response) => {
             expect(response).to.have.status(200);
-            expect(response.text).to.eq(getProdHTML());
         });
     });
 
