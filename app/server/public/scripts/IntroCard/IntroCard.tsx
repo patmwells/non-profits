@@ -1,4 +1,6 @@
 import React from 'react';
+import type { BaseProps } from '../Common';
+import type { IntroCardController } from './index';
 
 /**
  *
@@ -8,28 +10,27 @@ export type IntroCard = typeof IntroCard;
 /**
  *
  */
-export interface Controller {
-    onItemClick: (controller: Controller) => void;
-}
-
-/**
- *
- */
-interface IntroCardProps {
-    controller: Controller;
-}
-
-/**
- *
- */
-export function IntroCard({ controller }: IntroCardProps): JSX.Element {
+export function IntroCard({ controller }: BaseProps<IntroCardController>): JSX.Element {
+    const { Common, viewHeader, headerText, bodyText, buttonText, onClick } = controller;
+    const { Components } = Common;
 
     /**
      *
      */
-    function onClick(): void {
-        controller.onItemClick(controller);
+    function handleClick(): void {
+        onClick(controller);
     }
 
-    return <div onClick={onClick}>Hello IntroCard!</div>;
+    return (
+        <Components.View>
+            <Components.ViewHeader>{viewHeader}</Components.ViewHeader>
+            <Components.Card>
+                <Components.Container>
+                    <Components.Header>{headerText}</Components.Header>
+                    <Components.Body>{bodyText}</Components.Body>
+                    <Components.PrimaryButton onClick={handleClick}>{buttonText}</Components.PrimaryButton>
+                </Components.Container>
+            </Components.Card>
+        </Components.View>
+    );
 }

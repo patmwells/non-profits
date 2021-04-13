@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Client } from './client';
 import { css } from 'styled-components';
+import type { Client } from './client';
 
 /**
  *
@@ -15,7 +15,7 @@ interface HtmlProps {
     content: string;
 }
 
-const fontFaces = css`
+const globalStyles = css`
   @font-face {
     font-family: 'Poppins';
     src: url('fonts/Poppins-Regular.ttf');
@@ -49,9 +49,9 @@ export function Html({ client, content }: HtmlProps): JSX.Element {
                 <title>{title}</title>
                 {headerScript && <script type="application/javascript" src={headerScript} />}
             </head>
-            <style dangerouslySetInnerHTML={{ __html: fontFaces }} type="text/css" media="screen, print" />
+            <style dangerouslySetInnerHTML={{ __html: globalStyles }} type="text/css" media="screen, print" />
             <body>
-                <div style={{ height: '100%' }} id={appRoot} dangerouslySetInnerHTML={{ __html: content }} />
+                <div id={appRoot} dangerouslySetInnerHTML={{ __html: content }} />
                 <script
                     type="application/javascript"
                     dangerouslySetInnerHTML={{ __html: `window.${namespace}=${JSON.stringify(config)}` }}
