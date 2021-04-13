@@ -11,8 +11,8 @@ export type IntroCard = typeof IntroCard;
  *
  */
 export function IntroCard({ controller }: BaseProps<IntroCardController>): JSX.Element {
-    const { Common, viewHeader, headerText, bodyText, buttonText, onClick } = controller;
-    const { Components } = Common;
+    const { common, viewHeader, headerText, bodyText, buttonText, onClick } = controller;
+    const { Components } = common;
 
     /**
      *

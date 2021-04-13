@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import { AsyncDataLoader } from './AsyncDataLoader';
 
 /**
  *
  */
 export interface Components {
-    AsyncDataLoader: AsyncDataLoader;
     View: typeof View;
     ViewHeader: typeof ViewHeader;
     Card: typeof Card;
@@ -80,7 +78,6 @@ const PrimaryButton = styled.button`
 `;
 
 export const Components: Components = {
-    AsyncDataLoader,
     View,
     ViewHeader,
     Card,

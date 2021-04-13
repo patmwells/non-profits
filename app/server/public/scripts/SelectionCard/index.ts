@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import type { ClientApi } from '../Api';
 import type { AppController } from '../App';
+import type { Store } from '../Store';
 import type { Controller, Common } from '../Common';
 import { SelectionCard } from './SelectionCard';
 
@@ -13,8 +12,9 @@ export type createSelectionCard = typeof createSelectionCard;
  *
  */
 export interface SelectionCardController extends Controller<SelectionCard> {
-    api: ClientApi;
-    Common: Common;
+    app: AppController;
+    store: Store;
+    common: Common;
     options: Options;
     viewHeader: string;
     useAsyncData: typeof useAsyncData;
@@ -44,18 +44,8 @@ function onSecondaryClick(controller: SelectionCardController): void {
  *
  * @param controller
  */
-function useAsyncData(controller: SelectionCardController): { status: string } {
-    const [result, setResult] = useState({ status: '' });
-
-    useEffect(() => {
-        setResult({ status: 'PENDING' });
-
-        controller.api.getGeocoderConfigs()
-            .then(() => setResult({ status: 'SUCCESS' }))
-            .catch(() => setResult({ status: 'FAILED' }));
-    }, []);
-
-    return result;
+function useAsyncData({ app }: SelectionCardController): { status: string } {
+    return app.store.useGeocoderConfigs(app);
 }
 
 /**
@@ -68,19 +58,21 @@ interface Options {
 
 /**
  *
- * @param api
- * @param Common
+ * @param app
  * @param options
  */
-export function createSelectionCard({ api, Common }: AppController, options?: Options): SelectionCardController {
+export function createSelectionCard(app: AppController, options?: Options): SelectionCardController {
+    const { common, store } = app;
+
     const defaultOptions = {
-        next: Common.Utils.noop,
-        previous: Common.Utils.noop
+        next: common.Utils.noop,
+        previous: common.Utils.noop
     };
 
     return {
-        api,
-        Common,
+        app,
+        store,
+        common,
         useAsyncData,
         options: Object.assign({}, defaultOptions, options),
         Component: SelectionCard,

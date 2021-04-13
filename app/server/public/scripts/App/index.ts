@@ -2,6 +2,7 @@ import type { ClientApi } from '../Api';
 import type { Controller } from '../Common';
 import type { StepperController } from '../Stepper';
 import { App } from './App';
+import { Store } from '../Store';
 import { Common } from '../Common';
 import { createIntroCard } from '../IntroCard';
 import { createSelectionCard } from '../SelectionCard';
@@ -17,7 +18,8 @@ export type createApp = typeof createApp;
  */
 export interface AppController extends Controller<App> {
     api: ClientApi;
-    Common: Common;
+    store: Store;
+    common: Common;
     getViewController: typeof getViewController;
     createIntroCard: createIntroCard;
     createSelectionCard: createSelectionCard;
@@ -41,7 +43,8 @@ function getViewController(controller: AppController): StepperController {
 export function createApp(api: ClientApi): AppController {
     return {
         api,
-        Common,
+        store: Store,
+        common: Common,
         Component: App,
         getViewController,
         createIntroCard,

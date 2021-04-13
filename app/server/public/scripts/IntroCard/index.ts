@@ -11,7 +11,7 @@ export type createIntroCard = typeof createIntroCard;
  *
  */
 export interface IntroCardController extends Controller<IntroCard> {
-    Common: Common;
+    common: Common;
     options: Options;
     viewHeader: string;
     headerText: string;
@@ -41,14 +41,14 @@ interface Options {
  * @param Common
  * @param options
  */
-export function createIntroCard({ Common }: AppController, options?: Options): IntroCardController {
+export function createIntroCard({ common }: AppController, options?: Options): IntroCardController {
     const defaultOptions = {
-        next: Common.Utils.noop,
-        previous: Common.Utils.noop
+        next: common.Utils.noop,
+        previous: common.Utils.noop
     };
 
     return {
-        Common,
+        common,
         options: Object.assign({}, defaultOptions, options),
         Component: IntroCard,
         viewHeader: 'We provide tools to help you match data',

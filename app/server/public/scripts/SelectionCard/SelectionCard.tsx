@@ -11,8 +11,16 @@ export type SelectionCard = typeof SelectionCard;
  *
  */
 export function SelectionCard({ controller }: BaseProps<SelectionCardController>): JSX.Element {
-    const { Common, viewHeader, onPrimaryClick, primaryButtonText, onSecondaryClick, secondaryButtonText } = controller;
-    const { Components } = Common;
+    const {
+        store,
+        common,
+        viewHeader,
+        onPrimaryClick,
+        primaryButtonText,
+        onSecondaryClick,
+        secondaryButtonText
+    } = controller;
+    const { Components } = common;
 
     /**
      *
@@ -33,7 +41,7 @@ export function SelectionCard({ controller }: BaseProps<SelectionCardController>
             <Components.ViewHeader>{viewHeader}</Components.ViewHeader>
             <Components.Card>
                 <Components.Container>
-                    <Components.AsyncDataLoader controller={controller}>
+                    <store.AsyncDataLoader controller={controller}>
                         <Components.Header />
                         <Components.Body />
                         <Components.PrimaryButton onClick={handlePrimaryClick}>
@@ -42,7 +50,7 @@ export function SelectionCard({ controller }: BaseProps<SelectionCardController>
                         <Components.PrimaryButton onClick={handleSecondaryClick}>
                             {secondaryButtonText}
                         </Components.PrimaryButton>
-                    </Components.AsyncDataLoader>
+                    </store.AsyncDataLoader>
                 </Components.Container>
             </Components.Card>
         </Components.View>

@@ -1,10 +1,19 @@
 import React from 'react';
-import type { BaseProps } from '../Controller';
+import type { BaseProps } from '../Common';
 
 /**
  *
  */
 export type AsyncDataLoader = typeof AsyncDataLoader;
+
+/**
+ *
+ */
+export enum AsyncStatus {
+    pending = 'PENDING',
+    success = 'SUCCESS',
+    failed = 'FAILED'
+}
 
 /**
  *
@@ -28,11 +37,11 @@ interface AsyncDataLoaderProps extends BaseProps<AsyncDataLoaderController> {
 export function AsyncDataLoader({ controller, children }: AsyncDataLoaderProps): JSX.Element {
     const result = controller.useAsyncData(controller);
 
-    if (!result.status || result.status === 'PENDING') {
+    if (!result.status || result.status === AsyncStatus.pending) {
         return <div>Loading...</div>;
     }
 
-    if (result.status === 'FAILED') {
+    if (result.status === AsyncStatus.failed) {
         return <div>Failed!</div>;
     }
 

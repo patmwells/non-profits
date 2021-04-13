@@ -13,7 +13,7 @@ export type createStepper = typeof createStepper;
  */
 export interface StepperController extends Controller<Stepper> {
     app: AppController;
-    Common: Common;
+    common: Common;
     viewHeader: string;
     steps: Step[];
     useCurrentStep: typeof useCurrentStep;
@@ -75,11 +75,11 @@ interface Options {
  * @param steps
  */
 export function createStepper(app: AppController, { steps }: Options): StepperController {
-    const { Common } = app;
+    const { common } = app;
 
     return {
         app,
-        Common,
+        common,
         Component: Stepper,
         viewHeader: 'Stepper',
         steps,
