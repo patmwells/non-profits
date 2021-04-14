@@ -39,17 +39,17 @@ export interface StoreInterface {
 /**
  *
  */
-export interface State {
-    status: AsyncStatus;
-    data?: unknown;
-    error?: Error;
+interface StoreState {
+    [Actions.FETCH_GEOCODER_CONFIGS]: State;
 }
 
 /**
  *
  */
-interface StoreState {
-    [Actions.FETCH_GEOCODER_CONFIGS]: State;
+export interface State<T = unknown> {
+    status: AsyncStatus;
+    data?: T;
+    error?: Error;
 }
 
 /**

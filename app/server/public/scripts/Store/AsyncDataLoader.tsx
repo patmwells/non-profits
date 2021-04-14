@@ -1,4 +1,5 @@
 import React from 'react';
+import type { State } from './store';
 
 /**
  *
@@ -18,7 +19,7 @@ export enum AsyncStatus {
  *
  */
 interface AsyncDataLoaderController {
-    useAsyncData: (controller: AsyncDataLoaderController) => { status: string };
+    useAsyncData: (controller: AsyncDataLoaderController) => State;
 }
 
 /**

@@ -1,5 +1,5 @@
 import type { AppController } from '../index';
-import type { StoreController } from '../../Store';
+import type { GeocoderConfigState, StoreController } from '../../Store';
 import type { Controller, Common } from '../Common';
 import { SelectionCard } from './SelectionCard';
 
@@ -43,7 +43,7 @@ function onSecondaryClick(controller: SelectionCardController): void {
  *
  * @param controller
  */
-function useAsyncData({ store }: SelectionCardController): { status: string } {
+function useAsyncData({ store }: SelectionCardController): GeocoderConfigState {
     return store.useGeocoderConfigs(store);
 }
 

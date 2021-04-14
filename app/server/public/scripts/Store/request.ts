@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import type { ClientApi, GeocoderConfig } from '../Api';
 import { AsyncStatus } from './AsyncDataLoader';
 import { Actions, State, useStore } from './store';
 
@@ -6,13 +7,21 @@ import { Actions, State, useStore } from './store';
  *
  */
 export type useDataRequest = typeof useDataRequest;
+export type createRequests = typeof createRequests;
 
 /**
  *
  */
-export interface DataRequest {
+export interface Requests {
+    geocoderConfigs: () => GeocoderDataRequest;
+}
+
+/**
+ *
+ */
+interface DataRequest<T> {
     type: Actions;
-    request: () => Promise<unknown>;
+    request: () => Promise<T>;
 }
 
 /**
@@ -20,9 +29,9 @@ export interface DataRequest {
  * @param type
  * @param request
  */
-export function useDataRequest({ type, request }: DataRequest): State {
+export function useDataRequest<T>({ type, request }: DataRequest<T>): State<T> {
     const { state, dispatch } = useStore();
-    const result = state[type];
+    const result = state[type] as State<T>;
 
     useEffect(() => {
 
@@ -47,4 +56,24 @@ export function useDataRequest({ type, request }: DataRequest): State {
     }, [result, dispatch, type, request]);
 
     return result;
+}
+
+/**
+ *
+ */
+type GeocoderDataRequest = DataRequest<GeocoderConfig[]>;
+
+/**
+ *
+ * @param api
+ */
+export function createRequests(api: ClientApi): Requests {
+    return {
+        geocoderConfigs: function (): GeocoderDataRequest {
+            return {
+                type: Actions.FETCH_GEOCODER_CONFIGS,
+                request: (): Promise<GeocoderConfig[]> => api.getGeocoderConfigs()
+            };
+        }
+    };
 }
