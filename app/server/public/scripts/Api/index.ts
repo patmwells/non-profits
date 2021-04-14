@@ -1,29 +1,10 @@
 import type { Client } from '../client';
+import type { ClientApi, GeocoderConfigs } from './types';
 
 /**
  *
  */
 export type createClientApi = typeof createClientApi;
-
-/**
- *
- */
-export interface ClientApi {
-    getGeocoderConfigs: () => Promise<GeocoderConfig[]>;
-}
-
-/**
- *
- */
-export interface GeocoderConfig {
-    returntype: string;
-    searchtype: string[];
-    configs: {
-        onelineaddress: { type: string }[];
-        address: { type: string }[];
-        coordinates?: { type: string }[];
-    };
-}
 
 /**
  *
@@ -45,7 +26,7 @@ class Api implements ClientApi {
     /**
      *
      */
-    async getGeocoderConfigs(): Promise<GeocoderConfig[]> {
+    async getGeocoderConfigs(): Promise<GeocoderConfigs> {
         const response = await this.request.get(this.routes.geocoderConfigs);
 
         return response.data;
