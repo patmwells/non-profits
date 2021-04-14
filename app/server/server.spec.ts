@@ -48,8 +48,7 @@ describe('Server Specification', () => {
                     searchtype: [ 'onelineaddress', 'address' ],
                     configs: {
                         onelineaddress: [ 'address' ],
-                        address: [ 'street', 'city', 'state' ],
-                        coordinates: null
+                        address: [ 'street', 'city', 'state' ]
                     }
                 }
             ];
