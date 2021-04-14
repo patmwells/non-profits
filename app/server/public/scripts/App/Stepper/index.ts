@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { AppController } from '../App';
+import type { AppController } from '../index';
 import type { Controller, Common } from '../Common';
 import { Stepper } from './Stepper';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import type { BaseProps } from '../Common';
 
 /**
  *
@@ -25,7 +24,8 @@ interface AsyncDataLoaderController {
 /**
  *
  */
-interface AsyncDataLoaderProps extends BaseProps<AsyncDataLoaderController> {
+interface AsyncDataLoaderProps {
+    controller: AsyncDataLoaderController;
     children: JSX.Element | JSX.Element[];
 }
 

@@ -1,4 +1,4 @@
-import type { AppController } from '../App';
+import type { AppController } from '../index';
 import type { Controller, Common } from '../Common';
 import { IntroCard } from './IntroCard';
 
@@ -42,14 +42,15 @@ interface Options {
  * @param options
  */
 export function createIntroCard({ common }: AppController, options?: Options): IntroCardController {
-    const defaultOptions = {
+    const defaults = {
         next: common.Utils.noop,
         previous: common.Utils.noop
     };
+    const configOptions = Object.assign({}, defaults, options);
 
     return {
         common,
-        options: Object.assign({}, defaultOptions, options),
+        options: configOptions,
         Component: IntroCard,
         viewHeader: 'We provide tools to help you match data',
         headerText: 'Census Information',

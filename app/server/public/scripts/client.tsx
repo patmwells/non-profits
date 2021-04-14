@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import axios, { AxiosStatic } from 'axios';
 import { createClientApi } from './Api';
+import { createStore } from './Store';
 import { createApp } from './App';
 import { Html } from './Html';
 
@@ -24,6 +25,7 @@ export interface Client {
     renderOnClient: typeof renderOnClient;
     renderOnServer: typeof renderOnServer;
     createApp: createApp;
+    createStore: createStore;
     Html: Html;
 }
 
@@ -82,7 +84,8 @@ interface ClientConfig {
  */
 function renderOnClient(client: Client): void {
     const api = client.createClientApi(client);
-    const app = client.createApp(api);
+    const store = client.createStore(api);
+    const app = client.createApp(store);
 
     ReactDOM.hydrate(<app.Component controller={app} />, document.getElementById(client.renderConfig.appRoot));
 }
@@ -93,7 +96,8 @@ function renderOnClient(client: Client): void {
  */
 function renderOnServer(client: Client): string {
     const api = client.createClientApi(client);
-    const app = client.createApp(api);
+    const store = client.createStore(api);
+    const app = client.createApp(store);
     const content = ReactDOMServer.renderToString(<app.Component controller={app} />);
     const markup = ReactDOMServer.renderToStaticMarkup(<client.Html client={client} content={content} />);
 
@@ -144,9 +148,10 @@ export function createClient({ config, renderConfig }: ClientConfig): Client {
         request: axios,
         renderConfig,
         config,
-        createClientApi,
         renderOnServer,
         renderOnClient,
+        createClientApi,
+        createStore,
         createApp,
         Html
     };

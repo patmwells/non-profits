@@ -1,5 +1,5 @@
-import type { AppController } from '../App';
-import type { Store } from '../Store';
+import type { AppController } from '../index';
+import type { StoreController } from '../../Store';
 import type { Controller, Common } from '../Common';
 import { SelectionCard } from './SelectionCard';
 
@@ -12,8 +12,7 @@ export type createSelectionCard = typeof createSelectionCard;
  *
  */
 export interface SelectionCardController extends Controller<SelectionCard> {
-    app: AppController;
-    store: Store;
+    store: StoreController;
     common: Common;
     options: Options;
     viewHeader: string;
@@ -44,8 +43,8 @@ function onSecondaryClick(controller: SelectionCardController): void {
  *
  * @param controller
  */
-function useAsyncData({ app }: SelectionCardController): { status: string } {
-    return app.store.useGeocoderConfigs(app);
+function useAsyncData({ store }: SelectionCardController): { status: string } {
+    return store.useGeocoderConfigs(store);
 }
 
 /**
@@ -61,20 +60,18 @@ interface Options {
  * @param app
  * @param options
  */
-export function createSelectionCard(app: AppController, options?: Options): SelectionCardController {
-    const { common, store } = app;
-
-    const defaultOptions = {
+export function createSelectionCard({ common, store }: AppController, options?: Options): SelectionCardController {
+    const defaults = {
         next: common.Utils.noop,
         previous: common.Utils.noop
     };
+    const configOptions = Object.assign({}, defaults, options);
 
     return {
-        app,
         store,
         common,
+        options: configOptions,
         useAsyncData,
-        options: Object.assign({}, defaultOptions, options),
         Component: SelectionCard,
         viewHeader: 'SelectionCard',
         onPrimaryClick,

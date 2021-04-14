@@ -1,170 +1,60 @@
-import React, { Dispatch, Provider, useContext, useEffect, useReducer } from 'react';
-import type { AppController } from '../App';
-import { AsyncDataLoader, AsyncStatus } from './AsyncDataLoader';
+import type { Provider } from 'react';
+import type { ClientApi } from '../Api';
+import type { State, StoreInterface } from './store';
+import type { DataRequest } from './request';
+import { AsyncDataLoader } from './AsyncDataLoader';
+import { useDataRequest } from './request';
+import { Actions, StoreProvider, getStore } from './store';
 
 /**
  *
  */
-export interface Store {
+export type createStore = typeof createStore;
+
+/**
+ *
+ */
+export interface StoreController {
     Provider: Provider<StoreInterface>;
     AsyncDataLoader: AsyncDataLoader;
-    createStore: typeof createStore;
+    getStore: getStore;
     useGeocoderConfigs: typeof useGeocoderConfigs;
-}
-
-/**
- *
- */
-const storeContext = React.createContext(null);
-
-/**
- *
- */
-const Provider = storeContext.Provider;
-
-/**
- *
- */
-enum Actions {
-    FETCH_GEOCODER_CONFIGS = 'FETCH_GEOCODER_CONFIGS'
-}
-
-/**
- *
- */
-interface StateSlice {
-    status: AsyncStatus;
-    data?: unknown;
-    error?: Error;
-}
-
-/**
- *
- */
-interface State {
-    [Actions.FETCH_GEOCODER_CONFIGS]: StateSlice;
-}
-
-/**
- *
- */
-interface Action extends StateSlice {
-    type: string;
-    key: Actions;
-}
-
-/**
- *
- */
-interface StoreInterface {
-    dispatch: Dispatch<Action>;
-    state: State;
-}
-
-/**
- *
- */
-interface AsyncRequest {
-    type: Actions;
-    request: () => Promise<unknown>;
-}
-
-/**
- *
- * @param state
- * @param action
- */
-function reducer(state: State, action: Action): State {
-    const { key, status, data, error } = action;
-
-    return {
-        ...state,
-        [key]: { status, data, error }
+    requests: {
+        geocoderConfigs: () => DataRequest;
     };
 }
 
 /**
  *
+ * @param store
  */
-function getInitialState(): State {
-    return {
-        [Actions.FETCH_GEOCODER_CONFIGS]: { status: null, data: null, error: null }
-    };
-}
+function useGeocoderConfigs(store: StoreController): State {
+    const request = store.requests.geocoderConfigs();
 
-/**
- *
- */
-function createStore(): StoreInterface {
-    const [state, dispatch] = useReducer(reducer, getInitialState());
-
-    return { state, dispatch };
-}
-
-/**
- *
- */
-function useDispatch(): (action: AsyncRequest) => void {
-    const { dispatch } = useContext<StoreInterface>(storeContext);
-
-    return function ({ type, request }: AsyncRequest): void {
-        dispatch({ type: `${type}_PENDING`, key: type, status: AsyncStatus.pending });
-
-        request().then(data => {
-            dispatch({ type: `${type}_SUCCESS`, key: type, status: AsyncStatus.success, data });
-        }).catch((error) => {
-            dispatch({ type: `${type}_FAILED`, key: type, status: AsyncStatus.failed, error });
-        });
-    };
-}
-
-/**
- *
- * @param selector
- */
-function useSelector<T>(selector: (state: State) => T): T {
-    const store = useContext<StoreInterface>(storeContext);
-
-    return selector(store.state);
-}
-
-/**
- *
- * @param state
- */
-function selectGeocoderConfigs(state: State): StateSlice {
-    return state[Actions.FETCH_GEOCODER_CONFIGS];
+    return useDataRequest(request);
 }
 
 /**
  *
  * @param api
  */
-function useGeocoderConfigs({ api }: AppController): StateSlice {
-    const dispatch = useDispatch();
-    const result = useSelector(selectGeocoderConfigs);
+export function createStore(api: ClientApi): StoreController {
+    return {
+        Provider: StoreProvider,
+        AsyncDataLoader,
+        getStore,
+        useGeocoderConfigs,
 
-    useEffect(() => {
-        if (result.status) {
-            return;
+        /**
+         *
+         */
+        requests: {
+            geocoderConfigs: function (): DataRequest {
+                return {
+                    type: Actions.FETCH_GEOCODER_CONFIGS,
+                    request: (): Promise<unknown> => api.getGeocoderConfigs()
+                };
+            }
         }
-
-        dispatch({
-            type: Actions.FETCH_GEOCODER_CONFIGS,
-            request: (): Promise<unknown> => api.getGeocoderConfigs()
-        });
-
-    }, [result]);
-
-    return result;
+    };
 }
-
-/**
- *
- */
-export const Store: Store = {
-    Provider,
-    AsyncDataLoader,
-    createStore,
-    useGeocoderConfigs
-};
