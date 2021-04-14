@@ -39,20 +39,13 @@ enum ConfigType {
 /**
  *
  */
-interface Config {
-    type: ConfigType;
-}
-
-/**
- *
- */
 type GeocoderConfig = {
     returntype: ReturnType;
     searchtype: SearchType[];
     configs: {
-        [SearchType.onelineaddress]: Config[];
-        [SearchType.address]: Config[];
-        [SearchType.coordinates]: Config[];
+        [SearchType.onelineaddress]: ConfigType[];
+        [SearchType.address]: ConfigType[];
+        [SearchType.coordinates]?: ConfigType[];
     };
 }
 
@@ -67,17 +60,15 @@ const geographies = {
         SearchType.coordinates
     ],
     configs: {
-        [SearchType.onelineaddress]: [
-            { type: ConfigType.address }
-        ],
+        [SearchType.onelineaddress]: [ConfigType.address],
         [SearchType.address]: [
-            { type: ConfigType.street },
-            { type: ConfigType.city },
-            { type: ConfigType.state }
+            ConfigType.street,
+            ConfigType.city,
+            ConfigType.state
         ],
         [SearchType.coordinates]: [
-            { type: ConfigType.x },
-            { type: ConfigType.y }
+            ConfigType.x,
+            ConfigType.y
         ]
     }
 };
@@ -92,15 +83,12 @@ const locations = {
         SearchType.address
     ],
     configs: {
-        [SearchType.onelineaddress]: [
-            { type: ConfigType.address }
-        ],
+        [SearchType.onelineaddress]: [ConfigType.address],
         [SearchType.address]: [
-            { type: ConfigType.street },
-            { type: ConfigType.city },
-            { type: ConfigType.state }
-        ],
-        [SearchType.coordinates]: null
+            ConfigType.street,
+            ConfigType.city,
+            ConfigType.state
+        ]
     }
 };
 

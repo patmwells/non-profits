@@ -39,16 +39,16 @@ describe('Server Specification', () => {
                 {   returntype: 'geographies',
                     searchtype: [ 'onelineaddress', 'address', 'coordinates' ],
                     configs: {
-                        onelineaddress: [ { type: 'address' } ],
-                        address: [ { type: 'street' }, { type: 'city' }, { type: 'state' } ],
-                        coordinates: [ { type: 'x' }, { type: 'y' } ]
+                        onelineaddress: [ 'address' ],
+                        address: [ 'street', 'city', 'state' ],
+                        coordinates: [ 'x', 'y' ]
                     }
                 },
                 {   returntype: 'locations',
                     searchtype: [ 'onelineaddress', 'address' ],
                     configs: {
-                        onelineaddress: [ { type: 'address' } ],
-                        address: [ { type: 'street' }, { type: 'city' }, { type: 'state' } ],
+                        onelineaddress: [ 'address' ],
+                        address: [ 'street', 'city', 'state' ],
                         coordinates: null
                     }
                 }
