@@ -1,13 +1,6 @@
 /**
  *
  */
-export interface BaseProps<T> {
-    controller: T;
-}
-
-/**
- *
- */
-export interface Controller<T = (props: BaseProps<Controller>) => JSX.Element> {
-    Component: T;
+export interface BaseController<T = unknown> {
+    Component: (props: T) => JSX.Element;
 }

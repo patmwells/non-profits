@@ -1,4 +1,4 @@
-import { Controller, BaseProps } from './Controller';
+import { BaseController } from './Controller';
 import { Components } from './Components';
 import { Utils } from './Utils';
 
@@ -16,7 +16,6 @@ const Common: Common = {
 };
 
 export {
-    Controller,
-    BaseProps,
+    BaseController,
     Common
 };

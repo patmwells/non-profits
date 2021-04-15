@@ -1,5 +1,5 @@
 import React from 'react';
-import type { BaseProps } from '../Common';
+import type { AppController } from '../index';
 import type { SelectionCardController } from './index';
 
 /**
@@ -10,30 +10,46 @@ export type SelectionCard = typeof SelectionCard;
 /**
  *
  */
-export function SelectionCard({ controller }: BaseProps<SelectionCardController>): JSX.Element {
+export interface Options {
+    next: () => void;
+    previous: () => void;
+}
+
+/**
+ *
+ */
+interface SelectionCardProps {
+    app: AppController;
+    options: Options;
+    controller: SelectionCardController;
+}
+
+/**
+ *
+ */
+export function SelectionCard({ app, options, controller }: SelectionCardProps): JSX.Element {
     const {
-        store,
-        common,
         viewHeader,
         onPrimaryClick,
         primaryButtonText,
         onSecondaryClick,
         secondaryButtonText
     } = controller;
+    const { store, common } = app;
     const { Components } = common;
 
     /**
      *
      */
     function handlePrimaryClick(): void {
-        onPrimaryClick(controller);
+        onPrimaryClick(options);
     }
 
     /**
      *
      */
     function handleSecondaryClick(): void {
-        onSecondaryClick(controller);
+        onSecondaryClick(options);
     }
 
     return (
@@ -41,7 +57,7 @@ export function SelectionCard({ controller }: BaseProps<SelectionCardController>
             <Components.ViewHeader>{viewHeader}</Components.ViewHeader>
             <Components.Card>
                 <Components.Container>
-                    <store.AsyncDataLoader controller={controller}>
+                    <store.AsyncDataLoader store={store} controller={controller}>
                         <Components.Header />
                         <Components.Body />
                         <Components.PrimaryButton onClick={handlePrimaryClick}>

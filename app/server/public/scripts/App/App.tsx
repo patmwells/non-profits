@@ -1,5 +1,4 @@
 import React from 'react';
-import type { BaseProps } from './Common';
 import type { AppController } from './index';
 
 /**
@@ -9,15 +8,24 @@ export type App = typeof App;
 
 /**
  *
+ */
+interface AppProps {
+    controller: AppController;
+}
+
+/**
+ *
  * @param props
  */
-export function App({ controller: app }: BaseProps<AppController>): JSX.Element {
+export function App({ controller: app }: AppProps): JSX.Element {
     const store = app.store.getStore();
-    const controller = app.getViewController(app);
 
     return (
         <app.store.Provider value={store}>
-            <controller.Component controller={controller} />
+            <app.StepperController.Component
+                app={app}
+                steps={[app.IntroCardController, app.SelectionCardController]}
+            />
         </app.store.Provider>
     );
 }

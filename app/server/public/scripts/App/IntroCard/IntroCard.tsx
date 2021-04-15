@@ -1,6 +1,14 @@
 import React from 'react';
-import type { BaseProps } from '../Common';
+import type { AppController } from '../index';
 import type { IntroCardController } from './index';
+
+/**
+ *
+ */
+export interface Options {
+    next: () => void;
+    previous: () => void;
+}
 
 /**
  *
@@ -10,15 +18,24 @@ export type IntroCard = typeof IntroCard;
 /**
  *
  */
-export function IntroCard({ controller }: BaseProps<IntroCardController>): JSX.Element {
-    const { common, viewHeader, headerText, bodyText, buttonText, onClick } = controller;
-    const { Components } = common;
+interface IntroCardProps {
+    controller: IntroCardController;
+    app: AppController;
+    options: Options;
+}
+
+/**
+ *
+ */
+export function IntroCard({ app, options, controller }: IntroCardProps): JSX.Element {
+    const { viewHeader, headerText, bodyText, buttonText, onClick } = controller;
+    const { Components } = app.common;
 
     /**
      *
      */
     function handleClick(): void {
-        onClick(controller);
+        onClick(options);
     }
 
     return (

@@ -1,11 +1,9 @@
 import type { StoreController } from '../Store';
-import type { Controller } from './Common';
-import type { StepperController } from './Stepper';
 import { App } from './App';
 import { Common } from './Common';
-import { createIntroCard } from './IntroCard';
-import { createSelectionCard } from './SelectionCard';
-import { createStepper } from './Stepper';
+import { IntroCardController } from './IntroCard';
+import { SelectionCardController } from './SelectionCard';
+import { StepperController } from './Stepper';
 
 /**
  *
@@ -15,23 +13,13 @@ export type createApp = typeof createApp;
 /**
  *
  */
-export interface AppController extends Controller<App> {
+export interface AppController {
     store: StoreController;
     common: Common;
-    getViewController: typeof getViewController;
-    createIntroCard: createIntroCard;
-    createSelectionCard: createSelectionCard;
-    createStepper: createStepper;
-}
-
-/**
- *
- * @param controller
- */
-function getViewController(controller: AppController): StepperController {
-    const steps = [controller.createIntroCard, controller.createSelectionCard];
-
-   return controller.createStepper(controller, { steps });
+    Component: App;
+    IntroCardController: IntroCardController;
+    SelectionCardController: SelectionCardController;
+    StepperController: StepperController;
 }
 
 /**
@@ -43,10 +31,9 @@ export function createApp(store: StoreController): AppController {
         store,
         common: Common,
         Component: App,
-        getViewController,
-        createIntroCard,
-        createSelectionCard,
-        createStepper
+        IntroCardController,
+        SelectionCardController,
+        StepperController
     };
 }
 
