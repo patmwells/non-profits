@@ -31,17 +31,78 @@ type Steps = Step[];
 /**
  *
  */
-export const GeocoderStepper = {
+const IntroCardStep = {
+    viewHeader: 'We provide tools to help you match data',
+    headerText: 'Census Information',
+    bodyText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat erat aliquam vel nibh sed ornare convallis aliquam.',
+    buttonText: 'Explore',
+    Component({ app, options }: StepComponentProps): JSX.Element {
+        return <app.IntroCard options={options} config={IntroCardStep} />;
+    },
+    onClick(options: StepOptions): void {
+        options.next();
+    }
+};
+
+/**
+ *
+ */
+const ReturnTypeStep = {
+    viewHeader: 'SelectionCard',
+    primaryButtonText: 'Primary',
+    secondaryButtonText: 'Secondary',
+    Component({ app, options }: StepComponentProps): JSX.Element {
+        return <app.SelectionCard options={options} config={ReturnTypeStep} />;
+    },
+    useAsyncData(store: StoreController): GeocoderConfigState {
+        return store.useGeocoderConfigs(store);
+    },
+    onPrimaryClick(options: StepOptions): void {
+        options.next();
+    },
+    onSecondaryClick(options: StepOptions): void {
+        options.previous();
+    }
+};
+
+/**
+ *
+ */
+interface CurrentStepOptions {
+    step: Step;
+    options: StepOptions;
+}
+
+/**
+ *
+ */
+interface GeocoderStepper {
+    steps: Steps;
+    viewHeader: string;
+    Component: ({ app: AppController }) => JSX.Element;
+    useAsyncData: (store: StoreController) => GeocoderConfigState;
+    useCurrentStep: (config: GeocoderStepper) => CurrentStepOptions;
+}
+
+/**
+ *
+ */
+export const GeocoderStepper: GeocoderStepper = {
+    steps: [IntroCardStep, ReturnTypeStep],
     viewHeader: 'Stepper',
     Component({ app }: { app: AppController }): JSX.Element {
-        const steps = [
-            IntroCardStep,
-            ReturnTypeStep
-        ];
+        const { store } = app;
 
-        return <app.Stepper app={app} steps={steps} controller={GeocoderStepper} />;
+        return (
+            <store.AsyncDataLoader store={store} config={GeocoderStepper}>
+                <app.Stepper app={app} config={GeocoderStepper} />
+            </store.AsyncDataLoader>
+        );
     },
-    useCurrentStep(steps: Steps): { step: Step; options: StepOptions } {
+    useAsyncData(store: StoreController): GeocoderConfigState {
+        return store.useGeocoderConfigs(store);
+    },
+    useCurrentStep({ steps }: GeocoderStepper): CurrentStepOptions {
         const [step, setCurrentStep] = useState(0);
         const options = {
             next: (): void => {
@@ -64,43 +125,6 @@ export const GeocoderStepper = {
             step: steps[step],
             options
         };
-    }
-};
-
-/**
- *
- */
-const IntroCardStep = {
-    viewHeader: 'We provide tools to help you match data',
-    headerText: 'Census Information',
-    bodyText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat erat aliquam vel nibh sed ornare convallis aliquam.',
-    buttonText: 'Explore',
-    Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.IntroCard app={app} options={options} controller={IntroCardStep} />;
-    },
-    onClick(options: StepOptions): void {
-        options.next();
-    }
-};
-
-/**
- *
- */
-const ReturnTypeStep = {
-    viewHeader: 'SelectionCard',
-    primaryButtonText: 'Primary',
-    secondaryButtonText: 'Secondary',
-    Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.SelectionCard app={app} options={options} controller={ReturnTypeStep} />;
-    },
-    useAsyncData(store: StoreController): GeocoderConfigState {
-        return store.useGeocoderConfigs(store);
-    },
-    onPrimaryClick(options: StepOptions): void {
-        options.next();
-    },
-    onSecondaryClick(options: StepOptions): void {
-        options.previous();
     }
 };
 

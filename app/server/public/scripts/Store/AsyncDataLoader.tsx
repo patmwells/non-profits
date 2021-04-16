@@ -19,7 +19,7 @@ export enum AsyncStatus {
 /**
  *
  */
-interface AsyncDataLoaderController {
+interface AsyncDataLoaderConfig {
     useAsyncData: (store: StoreController) => State;
 }
 
@@ -28,17 +28,18 @@ interface AsyncDataLoaderController {
  */
 interface AsyncDataLoaderProps {
     store: StoreController;
-    controller: AsyncDataLoaderController;
+    config: AsyncDataLoaderConfig;
     children: JSX.Element | JSX.Element[];
 }
 
 /**
  *
- * @param controller
- * @param render
+ * @param store
+ * @param config
+ * @param children
  */
-export function AsyncDataLoader({ store, controller, children }: AsyncDataLoaderProps): JSX.Element {
-    const result = controller.useAsyncData(store);
+export function AsyncDataLoader({ store, config, children }: AsyncDataLoaderProps): JSX.Element {
+    const result = config.useAsyncData(store);
 
     if (!result.status || result.status === AsyncStatus.pending) {
         return <div>Loading...</div>;

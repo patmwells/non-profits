@@ -14,29 +14,23 @@ type Step = BaseController<{ app: AppController; options: unknown }>;
 /**
  *
  */
-type Steps = Step[];
-
-/**
- *
- */
-interface StepperController {
-    useCurrentStep: (steps: Steps) => { step: Step; options: unknown };
+interface StepperConfig {
+    useCurrentStep: (config: StepperConfig) => { step: Step; options: unknown };
 }
 
 /**
  *
  */
 interface StepperProps {
-    controller: StepperController;
+    config: StepperConfig;
     app: AppController;
-    steps: Steps;
 }
 
 /**
  *
  */
-export function Stepper({ app, controller, steps }: StepperProps): JSX.Element {
-    const { step, options } = controller.useCurrentStep(steps);
+export function Stepper({ app, config }: StepperProps): JSX.Element {
+    const { step, options } = config.useCurrentStep(config);
 
     return <step.Component app={app} options={options} />;
 }

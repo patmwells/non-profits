@@ -1,6 +1,5 @@
 import React from 'react';
-import type { AppController } from '@client/App';
-import type { State, StoreController } from '@client/Store';
+import { View, ViewHeader, Header, Body, PrimaryButton, Container, Card } from './Styled';
 
 /**
  *
@@ -10,8 +9,7 @@ export type SelectionCard = typeof SelectionCard;
 /**
  *
  */
-interface SelectionCardController {
-    useAsyncData: (store: StoreController) => State;
+interface SelectionCardConfig {
     viewHeader: string;
     onPrimaryClick: (options: unknown) => void;
     primaryButtonText: string;
@@ -23,23 +21,21 @@ interface SelectionCardController {
  *
  */
 interface SelectionCardProps {
-    app: AppController;
     options: unknown;
-    controller: SelectionCardController;
+    config: SelectionCardConfig;
 }
 
 /**
  *
  */
-export function SelectionCard({ app, options, controller }: SelectionCardProps): JSX.Element {
+export function SelectionCard({ options, config }: SelectionCardProps): JSX.Element {
     const {
         viewHeader,
         onPrimaryClick,
         primaryButtonText,
         onSecondaryClick,
         secondaryButtonText
-    } = controller;
-    const { store, View, ViewHeader, Card, Container, Header, Body, PrimaryButton } = app;
+    } = config;
 
     /**
      *
@@ -60,16 +56,14 @@ export function SelectionCard({ app, options, controller }: SelectionCardProps):
             <ViewHeader>{viewHeader}</ViewHeader>
             <Card>
                 <Container>
-                    <store.AsyncDataLoader store={store} controller={controller}>
-                        <Header />
-                        <Body />
-                        <PrimaryButton onClick={handlePrimaryClick}>
-                            {primaryButtonText}
-                        </PrimaryButton>
-                        <PrimaryButton onClick={handleSecondaryClick}>
-                            {secondaryButtonText}
-                        </PrimaryButton>
-                    </store.AsyncDataLoader>
+                    <Header />
+                    <Body />
+                    <PrimaryButton onClick={handlePrimaryClick}>
+                        {primaryButtonText}
+                    </PrimaryButton>
+                    <PrimaryButton onClick={handleSecondaryClick}>
+                        {secondaryButtonText}
+                    </PrimaryButton>
                 </Container>
             </Card>
         </View>
