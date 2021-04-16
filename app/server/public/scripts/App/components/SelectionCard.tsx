@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, ViewHeader, Header, Body, PrimaryButton, Container, Card } from './Styled';
+import { AppConfig } from '@client/App';
+import { View, ViewHeader, Header, Body, PrimaryButton, Container, Card, SelectionOptions } from './Styled';
 
 /**
  *
@@ -11,16 +12,17 @@ export type SelectionCard = typeof SelectionCard;
  */
 interface SelectionCardConfig {
     viewHeader: string;
-    onPrimaryClick: (options: unknown) => void;
-    primaryButtonText: string;
     onSecondaryClick: (options: unknown) => void;
     secondaryButtonText: string;
+    useSelections: (app: AppConfig, options: unknown) => string[];
+    onSelection: (options: unknown, selection: string) => void;
 }
 
 /**
  *
  */
 interface SelectionCardProps {
+    app: AppConfig;
     options: unknown;
     config: SelectionCardConfig;
 }
@@ -28,21 +30,10 @@ interface SelectionCardProps {
 /**
  *
  */
-export function SelectionCard({ options, config }: SelectionCardProps): JSX.Element {
-    const {
-        viewHeader,
-        onPrimaryClick,
-        primaryButtonText,
-        onSecondaryClick,
-        secondaryButtonText
-    } = config;
+export function SelectionCard({ app, options, config }: SelectionCardProps): JSX.Element {
+    const { viewHeader, onSecondaryClick, secondaryButtonText, onSelection } = config;
 
-    /**
-     *
-     */
-    function handlePrimaryClick(): void {
-        onPrimaryClick(options);
-    }
+    const selections = config.useSelections(app, options);
 
     /**
      *
@@ -58,9 +49,13 @@ export function SelectionCard({ options, config }: SelectionCardProps): JSX.Elem
                 <Container>
                     <Header />
                     <Body />
-                    <PrimaryButton onClick={handlePrimaryClick}>
-                        {primaryButtonText}
-                    </PrimaryButton>
+                    {selections.map((selection, index) => {
+                        return (
+                            <SelectionOptions key={index} onClick={(): void => onSelection(options, selection)}>
+                                {selection}
+                            </SelectionOptions>
+                        );
+                    })}
                     <PrimaryButton onClick={handleSecondaryClick}>
                         {secondaryButtonText}
                     </PrimaryButton>

@@ -63,3 +63,9 @@ export const PrimaryButton = styled.button`
   height: 40px;
   margin-left: auto;
 `;
+
+export const SelectionOptions = styled.button`
+  border: 1px solid black;
+  height: 50px;
+  width: 100%;
+`;

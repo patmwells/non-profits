@@ -13,6 +13,7 @@ export const StoreProvider = storeContext.Provider;
 
 export type getStore = typeof getStore;
 export type useStore = typeof useStore;
+export type useSelector = typeof useSelector;
 
 /**
  *
@@ -39,7 +40,7 @@ export interface StoreInterface {
 /**
  *
  */
-interface StoreState {
+export interface StoreState {
     [Actions.FETCH_GEOCODER_CONFIGS]: State;
 }
 
@@ -86,4 +87,13 @@ export function getStore(): StoreInterface {
  */
 export function useStore(): StoreInterface {
     return useContext(storeContext);
+}
+
+/**
+ *
+ */
+export function useSelector<T>(selector: (state: StoreState) => T): T {
+    const store = useStore();
+
+    return selector(store.state);
 }

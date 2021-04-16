@@ -1,24 +1,25 @@
 import React from 'react';
 import type { StoreController } from '@client/Store';
 import { GeocoderStepper } from './GeocoderStepper';
-import { IntroCard, SelectionCard, Stepper } from './components';
+import { FormCard, IntroCard, SelectionCard, Stepper } from './components';
 
 /**
  *
  */
-export interface BaseController<T = { app: AppController }> {
+export interface BaseConfig<T = { app: AppConfig }> {
     Component: (props: T) => JSX.Element;
 }
 
 /**
  *
  */
-export interface AppController {
+export interface AppConfig {
     store: StoreController;
     IntroCard: IntroCard;
     SelectionCard: SelectionCard;
+    FormCard: FormCard;
     Stepper: Stepper;
-    GeocoderStepper: BaseController;
+    GeocoderStepper: BaseConfig;
 }
 
 /**
@@ -31,17 +32,18 @@ interface AppProps {
 /**
  *
  */
-export type App = BaseController<AppProps>;
+export type App = BaseConfig<AppProps>;
 
 /**
  *
  */
 export const App: App = {
     Component({ store }: AppProps): JSX.Element {
-        const app: AppController = {
+        const app: AppConfig = {
             store,
             IntroCard,
             SelectionCard,
+            FormCard,
             Stepper,
             GeocoderStepper
         };

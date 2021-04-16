@@ -1,5 +1,5 @@
 import React from 'react';
-import type { AppController, BaseController } from '@client/App';
+import type { AppConfig, BaseConfig } from '@client/App';
 
 /**
  *
@@ -9,13 +9,22 @@ export type Stepper = typeof Stepper;
 /**
  *
  */
-type Step = BaseController<{ app: AppController; options: unknown }>;
+interface CurrentStep {
+    step: Step;
+    next: (...args) => void;
+    previous: (...args) => void;
+}
+
+/**
+ *
+ */
+type Step = BaseConfig<{ app: AppConfig; options: CurrentStep }>;
 
 /**
  *
  */
 interface StepperConfig {
-    useCurrentStep: (config: StepperConfig) => { step: Step; options: unknown };
+    useCurrentStep: (config: StepperConfig) => CurrentStep;
 }
 
 /**
@@ -23,14 +32,14 @@ interface StepperConfig {
  */
 interface StepperProps {
     config: StepperConfig;
-    app: AppController;
+    app: AppConfig;
 }
 
 /**
  *
  */
 export function Stepper({ app, config }: StepperProps): JSX.Element {
-    const { step, options } = config.useCurrentStep(config);
+    const current = config.useCurrentStep(config);
 
-    return <step.Component app={app} options={options} />;
+    return <current.step.Component app={app} options={current} />;
 }

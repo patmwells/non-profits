@@ -8,12 +8,14 @@ export interface ClientApi {
 /**
  *
  */
-export type GeocoderConfigs = Array<{
-    returntype: string;
-    searchtype: string[];
-    configs: {
-        onelineaddress: { type: string }[];
-        address: { type: string }[];
-        coordinates?: { type: string }[];
-    };
-}>
+export type GeocoderConfigs = {
+    returnTypes: string[];
+    returnTypeConfigs: Record<string, {
+        searchTypes: string[];
+        searchTypeConfigs: {
+            onelineaddress: { type: string }[];
+            address: { type: string }[];
+            coordinates?: { type: string }[];
+        };
+    }>;
+};

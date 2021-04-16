@@ -40,64 +40,59 @@ enum ConfigType {
  *
  */
 type GeocoderConfig = {
-    returntype: ReturnType;
-    searchtype: SearchType[];
-    configs: {
-        [SearchType.onelineaddress]: ConfigType[];
-        [SearchType.address]: ConfigType[];
-        [SearchType.coordinates]?: ConfigType[];
-    };
+    returnTypes: ReturnType[];
+    returnTypeConfigs: Record<ReturnType, {
+        searchTypes: SearchType[];
+        searchTypeConfigs: {
+            [SearchType.onelineaddress]: ConfigType[];
+            [SearchType.address]: ConfigType[];
+            [SearchType.coordinates]?: ConfigType[];
+        };
+    }>;
 }
 
-/**
- *
- */
-const geographies = {
-    returntype: ReturnType.geographies,
-    searchtype: [
-        SearchType.onelineaddress,
-        SearchType.address,
-        SearchType.coordinates
-    ],
-    configs: {
-        [SearchType.onelineaddress]: [ConfigType.address],
-        [SearchType.address]: [
-            ConfigType.street,
-            ConfigType.city,
-            ConfigType.state
-        ],
-        [SearchType.coordinates]: [
-            ConfigType.x,
-            ConfigType.y
-        ]
+const GeocoderConfig: GeocoderConfig = {
+    returnTypes: [ReturnType.locations, ReturnType.geographies],
+    returnTypeConfigs: {
+        [ReturnType.locations]: {
+            searchTypes: [
+                SearchType.onelineaddress,
+                SearchType.address
+            ],
+            searchTypeConfigs: {
+                [SearchType.onelineaddress]: [ConfigType.address],
+                [SearchType.address]: [
+                    ConfigType.street,
+                    ConfigType.city,
+                    ConfigType.state
+                ]
+            }
+        },
+        [ReturnType.geographies]: {
+            searchTypes: [
+                SearchType.onelineaddress,
+                SearchType.address,
+                SearchType.coordinates
+            ],
+            searchTypeConfigs: {
+                [SearchType.onelineaddress]: [ConfigType.address],
+                [SearchType.address]: [
+                    ConfigType.street,
+                    ConfigType.city,
+                    ConfigType.state
+                ],
+                [SearchType.coordinates]: [
+                    ConfigType.x,
+                    ConfigType.y
+                ]
+            }
+        }
     }
 };
 
 /**
  *
  */
-const locations = {
-    returntype: ReturnType.locations,
-    searchtype: [
-        SearchType.onelineaddress,
-        SearchType.address
-    ],
-    configs: {
-        [SearchType.onelineaddress]: [ConfigType.address],
-        [SearchType.address]: [
-            ConfigType.street,
-            ConfigType.city,
-            ConfigType.state
-        ]
-    }
-};
-
-/**
- *
- */
-export function getGeocoderConfigs(): GeocoderConfig[] {
-    return [
-        geographies,
-        locations
-    ];
+export function getGeocoderConfigs(): GeocoderConfig {
+    return GeocoderConfig;
 }

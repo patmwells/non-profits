@@ -1,27 +1,40 @@
-import React, { useState } from 'react';
-import type { AppController, BaseController } from '@client/App';
+import React, { useReducer } from 'react';
+import type { AppConfig, BaseConfig } from '@client/App';
 import type { GeocoderConfigState, StoreController } from '@client/Store';
+import type { Form } from '@client/App/components/FormCard';
+import {
+    Actions,
+    getInitialState,
+    stepperReducer,
+    Stepper,
+    FormActions,
+    formReducer,
+    getInitialFormState
+} from './state';
 
 /**
  *
  */
 interface StepOptions {
-    next: () => void;
-    previous: () => void;
+    step: Step;
+    state: Stepper;
+    next: (name: string, value?: string | { label: string; name: string; value: string }[]) => void;
+    previous: (name: string) => void;
+    complete: () => void;
 }
 
 /**
  *
  */
 interface StepComponentProps {
-    app: AppController;
+    app: AppConfig;
     options: StepOptions;
 }
 
 /**
  *
  */
-type Step = BaseController<StepComponentProps>;
+type Step = BaseConfig<StepComponentProps>;
 
 /**
  *
@@ -40,7 +53,7 @@ const IntroCardStep = {
         return <app.IntroCard options={options} config={IntroCardStep} />;
     },
     onClick(options: StepOptions): void {
-        options.next();
+        options.next('intro');
     }
 };
 
@@ -48,30 +61,92 @@ const IntroCardStep = {
  *
  */
 const ReturnTypeStep = {
-    viewHeader: 'SelectionCard',
-    primaryButtonText: 'Primary',
-    secondaryButtonText: 'Secondary',
+    viewHeader: 'Return Type',
+    secondaryButtonText: 'Back',
     Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.SelectionCard options={options} config={ReturnTypeStep} />;
+        return <app.SelectionCard app={app} options={options} config={ReturnTypeStep} />;
     },
-    useAsyncData(store: StoreController): GeocoderConfigState {
-        return store.useGeocoderConfigs(store);
+    useSelections({ store }: AppConfig): string[] {
+        const configs = store.useSelector(store.selectGeocoderConfigs);
+
+        return configs.returnTypes;
     },
-    onPrimaryClick(options: StepOptions): void {
-        options.next();
+    onSelection(options: StepOptions, selection: string): void {
+        options.next('returnType', selection);
     },
     onSecondaryClick(options: StepOptions): void {
-        options.previous();
+        options.previous('returnType');
     }
 };
 
 /**
  *
  */
-interface CurrentStepOptions {
-    step: Step;
-    options: StepOptions;
-}
+const SearchTypeStep = {
+    viewHeader: 'Search Type',
+    secondaryButtonText: 'Back',
+    Component({ app, options }: StepComponentProps): JSX.Element {
+        return <app.SelectionCard app={app} options={options} config={SearchTypeStep} />;
+    },
+    useSelections({ store }: AppConfig, { state }: StepOptions): string[] {
+        const configs = store.useSelector(store.selectGeocoderConfigs);
+
+        return configs.returnTypeConfigs[state.returnType].searchTypes;
+    },
+    onSelection(options: StepOptions, selection: string): void {
+        options.next('searchType', selection);
+    },
+    onSecondaryClick(options: StepOptions): void {
+        options.previous('searchType');
+    }
+};
+
+/**
+ *
+ */
+const SearchConfigTypeStep = {
+    viewHeader: 'Search Config Type',
+    submitButtonText: 'Submit',
+    secondaryButtonText: 'Back',
+    Component({ app, options }: StepComponentProps): JSX.Element {
+        return <app.FormCard app={app} options={options} config={SearchConfigTypeStep} />;
+    },
+    useForm({ store }: AppConfig, options: StepOptions): Form {
+        const { state } = options;
+        const configs = store.useSelector(store.selectGeocoderConfigs);
+        const searchTypeConfigs = configs.returnTypeConfigs[state.returnType].searchTypeConfigs[state.searchType];
+        const [{ fields }, dispatch] = useReducer(formReducer, getInitialFormState(searchTypeConfigs));
+
+        return {
+            fields,
+            onChange: function (name, value): void {
+                dispatch({ type: FormActions.change, name, value });
+            },
+            onSubmit: function (): void {
+                options.next('configType', fields);
+            }
+        };
+    },
+    onSecondaryClick(options: StepOptions): void {
+        options.previous('configType');
+    }
+};
+
+/**
+ *
+ */
+const DoneCardStep = {
+    viewHeader: 'Done!!',
+    headerText: '',
+    bodyText: '',
+    buttonText: 'Done',
+    Component({ app, options }: StepComponentProps): JSX.Element {
+        return <app.IntroCard options={options} config={DoneCardStep} />;
+    },
+    onClick(options: StepOptions): void {
+        options.complete();
+    }
+};
 
 /**
  *
@@ -81,16 +156,22 @@ interface GeocoderStepper {
     viewHeader: string;
     Component: ({ app: AppController }) => JSX.Element;
     useAsyncData: (store: StoreController) => GeocoderConfigState;
-    useCurrentStep: (config: GeocoderStepper) => CurrentStepOptions;
+    useCurrentStep: (config: GeocoderStepper) => StepOptions;
 }
 
 /**
  *
  */
 export const GeocoderStepper: GeocoderStepper = {
-    steps: [IntroCardStep, ReturnTypeStep],
+    steps: [
+        IntroCardStep,
+        ReturnTypeStep,
+        SearchTypeStep,
+        SearchConfigTypeStep,
+        DoneCardStep
+    ],
     viewHeader: 'Stepper',
-    Component({ app }: { app: AppController }): JSX.Element {
+    Component({ app }: { app: AppConfig }): JSX.Element {
         const { store } = app;
 
         return (
@@ -102,28 +183,22 @@ export const GeocoderStepper: GeocoderStepper = {
     useAsyncData(store: StoreController): GeocoderConfigState {
         return store.useGeocoderConfigs(store);
     },
-    useCurrentStep({ steps }: GeocoderStepper): CurrentStepOptions {
-        const [step, setCurrentStep] = useState(0);
-        const options = {
-            next: (): void => {
-                const nextStep = step + 1;
-
-                if (nextStep <= (steps.length - 1)) {
-                    setCurrentStep(nextStep);
-                }
-            },
-            previous: (): void => {
-                const previousStep = step - 1;
-
-                if (previousStep >= 0) {
-                    setCurrentStep(previousStep);
-                }
-            }
-        };
+    useCurrentStep({ steps }: GeocoderStepper): StepOptions {
+        const [state, dispatch] = useReducer(stepperReducer, getInitialState(steps));
+        const step = steps[state.currentStep];
 
         return {
-            step: steps[step],
-            options
+            step,
+            state,
+            next: (name: string, value: string | { label: string; name: string; value: string }[]): void => {
+                dispatch({ type: Actions.next, name, value });
+            },
+            previous: (name: string): void => {
+                dispatch({ type: Actions.previous, name });
+            },
+            complete: (): void => {
+                dispatch({ type: Actions.complete });
+            }
         };
     }
 };
