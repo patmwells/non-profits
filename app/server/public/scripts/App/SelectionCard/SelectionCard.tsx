@@ -35,8 +35,7 @@ export function SelectionCard({ app, options, controller }: SelectionCardProps):
         onSecondaryClick,
         secondaryButtonText
     } = controller;
-    const { store, common } = app;
-    const { Components } = common;
+    const { store, View, ViewHeader, Card, Container, Header, Body, PrimaryButton } = app;
 
     /**
      *
@@ -53,22 +52,22 @@ export function SelectionCard({ app, options, controller }: SelectionCardProps):
     }
 
     return (
-        <Components.View>
-            <Components.ViewHeader>{viewHeader}</Components.ViewHeader>
-            <Components.Card>
-                <Components.Container>
+        <View>
+            <ViewHeader>{viewHeader}</ViewHeader>
+            <Card>
+                <Container>
                     <store.AsyncDataLoader store={store} controller={controller}>
-                        <Components.Header />
-                        <Components.Body />
-                        <Components.PrimaryButton onClick={handlePrimaryClick}>
+                        <Header />
+                        <Body />
+                        <PrimaryButton onClick={handlePrimaryClick}>
                             {primaryButtonText}
-                        </Components.PrimaryButton>
-                        <Components.PrimaryButton onClick={handleSecondaryClick}>
+                        </PrimaryButton>
+                        <PrimaryButton onClick={handleSecondaryClick}>
                             {secondaryButtonText}
-                        </Components.PrimaryButton>
+                        </PrimaryButton>
                     </store.AsyncDataLoader>
-                </Components.Container>
-            </Components.Card>
-        </Components.View>
+                </Container>
+            </Card>
+        </View>
     );
 }

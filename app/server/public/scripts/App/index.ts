@@ -1,9 +1,10 @@
+import type { StyledComponent } from 'styled-components';
 import type { StoreController } from '../Store';
 import { App } from './App';
-import { Common } from './Common';
 import { IntroCardController } from './IntroCard';
 import { SelectionCardController } from './SelectionCard';
 import { StepperController } from './Stepper';
+import { Body, Card, Container, Header, PrimaryButton, View, ViewHeader } from './components';
 
 /**
  *
@@ -15,8 +16,14 @@ export type createApp = typeof createApp;
  */
 export interface AppController {
     store: StoreController;
-    common: Common;
     Component: App;
+    Body: StyledComponent;
+    Card: StyledComponent;
+    Container: StyledComponent;
+    Header: StyledComponent;
+    PrimaryButton: StyledComponent;
+    View: StyledComponent;
+    ViewHeader: StyledComponent;
     IntroCardController: IntroCardController;
     SelectionCardController: SelectionCardController;
     StepperController: StepperController;
@@ -29,8 +36,14 @@ export interface AppController {
 export function createApp(store: StoreController): AppController {
     return {
         store,
-        common: Common,
         Component: App,
+        View,
+        ViewHeader,
+        Card,
+        Container,
+        Header,
+        Body,
+        PrimaryButton,
         IntroCardController,
         SelectionCardController,
         StepperController

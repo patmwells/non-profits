@@ -29,7 +29,7 @@ interface IntroCardProps {
  */
 export function IntroCard({ app, options, controller }: IntroCardProps): JSX.Element {
     const { viewHeader, headerText, bodyText, buttonText, onClick } = controller;
-    const { Components } = app.common;
+    const { View, ViewHeader, Card, Container, Header, Body, PrimaryButton } = app;
 
     /**
      *
@@ -39,15 +39,15 @@ export function IntroCard({ app, options, controller }: IntroCardProps): JSX.Ele
     }
 
     return (
-        <Components.View>
-            <Components.ViewHeader>{viewHeader}</Components.ViewHeader>
-            <Components.Card>
-                <Components.Container>
-                    <Components.Header>{headerText}</Components.Header>
-                    <Components.Body>{bodyText}</Components.Body>
-                    <Components.PrimaryButton onClick={handleClick}>{buttonText}</Components.PrimaryButton>
-                </Components.Container>
-            </Components.Card>
-        </Components.View>
+        <View>
+            <ViewHeader>{viewHeader}</ViewHeader>
+            <Card>
+                <Container>
+                    <Header>{headerText}</Header>
+                    <Body>{bodyText}</Body>
+                    <PrimaryButton onClick={handleClick}>{buttonText}</PrimaryButton>
+                </Container>
+            </Card>
+        </View>
     );
 }
