@@ -1,6 +1,6 @@
 import React from 'react';
-import type { AppController } from '../index';
-import type { SelectionCardController } from './index';
+import type { AppController } from '@client/App';
+import type { State, StoreController } from '@client/Store';
 
 /**
  *
@@ -10,9 +10,13 @@ export type SelectionCard = typeof SelectionCard;
 /**
  *
  */
-export interface Options {
-    next: () => void;
-    previous: () => void;
+interface SelectionCardController {
+    useAsyncData: (store: StoreController) => State;
+    viewHeader: string;
+    onPrimaryClick: (options: unknown) => void;
+    primaryButtonText: string;
+    onSecondaryClick: (options: unknown) => void;
+    secondaryButtonText: string;
 }
 
 /**
@@ -20,7 +24,7 @@ export interface Options {
  */
 interface SelectionCardProps {
     app: AppController;
-    options: Options;
+    options: unknown;
     controller: SelectionCardController;
 }
 

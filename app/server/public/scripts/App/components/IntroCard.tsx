@@ -1,14 +1,5 @@
 import React from 'react';
-import type { AppController } from '../index';
-import type { IntroCardController } from './index';
-
-/**
- *
- */
-export interface Options {
-    next: () => void;
-    previous: () => void;
-}
+import type { AppController } from '@client/App';
 
 /**
  *
@@ -18,10 +9,21 @@ export type IntroCard = typeof IntroCard;
 /**
  *
  */
+interface IntroCardController {
+    viewHeader: string;
+    headerText: string;
+    bodyText: string;
+    buttonText: string;
+    onClick: (options: unknown) => void;
+}
+
+/**
+ *
+ */
 interface IntroCardProps {
     controller: IntroCardController;
     app: AppController;
-    options: Options;
+    options: unknown;
 }
 
 /**

@@ -1,7 +1,5 @@
 import React from 'react';
-import type { AppController } from '../index';
-import type { BaseController } from '../Common';
-import type { StepperController } from './index';
+import type { AppController, BaseController } from '@client/App';
 
 /**
  *
@@ -11,28 +9,19 @@ export type Stepper = typeof Stepper;
 /**
  *
  */
-export interface StepOptions {
-    next: () => void;
-    previous: () => void;
+type Step = BaseController<{ app: AppController; options: unknown }>;
+
+/**
+ *
+ */
+type Steps = Step[];
+
+/**
+ *
+ */
+interface StepperController {
+    useCurrentStep: (steps: Steps) => { step: Step; options: unknown };
 }
-
-/**
- *
- */
-interface StepProps {
-    app: AppController;
-    options: StepOptions;
-}
-
-/**
- *
- */
-export type Step = BaseController<StepProps>;
-
-/**
- *
- */
-export type Steps = Step[];
 
 /**
  *

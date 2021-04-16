@@ -9,6 +9,8 @@ import { useDataRequest } from './request';
 /**
  *
  */
+export type { State } from './store';
+export type GeocoderConfigState = State<GeocoderConfigs>;
 export type createStore = typeof createStore;
 
 /**
@@ -23,11 +25,6 @@ export interface StoreController {
         geocoderConfigs: () => DataRequest<GeocoderConfigs>;
     };
 }
-
-/**
- *
- */
-export type GeocoderConfigState = State<GeocoderConfigs>;
 
 /**
  *
