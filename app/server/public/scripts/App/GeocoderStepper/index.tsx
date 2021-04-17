@@ -63,8 +63,8 @@ const SearchTypeStep = {
         return <app.SelectionCard app={app} options={options} config={SearchTypeStep} />;
     },
     useSelections({ store }: AppConfig, options: StepperOptions): string[] {
-        const returnType = options.getState<string>('returnType');
         const configs = store.useSelector(store.selectGeocoderConfigs);
+        const returnType = options.getState<string>('returnType');
 
         return configs.returnTypeConfigs[returnType].searchTypes;
     },
@@ -89,9 +89,9 @@ const SearchConfigTypeStep = {
         return <app.FormCard app={app} options={options} config={SearchConfigTypeStep} />;
     },
     useForm({ store }: AppConfig, options: StepperOptions): Form {
+        const configs = store.useSelector(store.selectGeocoderConfigs);
         const returnType = options.getState<string>('returnType');
         const searchType = options.getState<string>('searchType');
-        const configs = store.useSelector(store.selectGeocoderConfigs);
         const searchTypeConfigs = configs.returnTypeConfigs[returnType].searchTypeConfigs[searchType];
         const [{ fields }, dispatch] = useReducer(formReducer, getInitialFormState(searchTypeConfigs));
 
