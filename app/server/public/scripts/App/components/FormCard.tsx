@@ -56,6 +56,7 @@ export function FormCard({ app, options, config }: FormCardProps): JSX.Element {
 
     /**
      *
+     * @param event
      */
     function handleOnSubmit(event: FormEvent): void {
         event.preventDefault();

@@ -10,7 +10,7 @@ import { FormActions, formReducer, getInitialFormState } from './state';
  */
 interface StepComponentProps {
     app: AppConfig;
-    options: StepperOptions;
+    stepper: StepperOptions;
 }
 
 /**
@@ -21,11 +21,11 @@ const IntroCardStep = {
     headerText: 'Census Information',
     bodyText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat erat aliquam vel nibh sed ornare convallis aliquam.',
     buttonText: 'Explore',
-    Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.IntroCard options={options} config={IntroCardStep} />;
+    Component({ app, stepper }: StepComponentProps): JSX.Element {
+        return <app.IntroCard options={stepper} config={IntroCardStep} />;
     },
-    onClick(options: StepperOptions): void {
-        options.next();
+    onClick(stepper: StepperOptions): void {
+        stepper.next();
     }
 };
 
@@ -35,21 +35,21 @@ const IntroCardStep = {
 const ReturnTypeStep = {
     viewHeader: 'Return Type',
     secondaryButtonText: 'Back',
-    Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.SelectionCard app={app} options={options} config={ReturnTypeStep} />;
+    Component({ app, stepper }: StepComponentProps): JSX.Element {
+        return <app.SelectionCard app={app} options={stepper} config={ReturnTypeStep} />;
     },
     useSelections({ store }: AppConfig): string[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
 
         return configs.returnTypes;
     },
-    onSelection(options: StepperOptions, selection: string): void {
-        options.setState('returnType', selection);
-        options.next();
+    onSelection(stepper: StepperOptions, selection: string): void {
+        stepper.setState('returnType', selection);
+        stepper.next();
     },
-    onSecondaryClick(options: StepperOptions): void {
-        options.setState('returnType', null);
-        options.previous();
+    onSecondaryClick(stepper: StepperOptions): void {
+        stepper.setState('returnType', null);
+        stepper.previous();
     }
 };
 
@@ -59,22 +59,22 @@ const ReturnTypeStep = {
 const SearchTypeStep = {
     viewHeader: 'Search Type',
     secondaryButtonText: 'Back',
-    Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.SelectionCard app={app} options={options} config={SearchTypeStep} />;
+    Component({ app, stepper }: StepComponentProps): JSX.Element {
+        return <app.SelectionCard app={app} options={stepper} config={SearchTypeStep} />;
     },
-    useSelections({ store }: AppConfig, options: StepperOptions): string[] {
+    useSelections({ store }: AppConfig, stepper: StepperOptions): string[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
-        const returnType = options.getState<string>('returnType');
+        const returnType = stepper.getState<string>('returnType');
 
         return configs.returnTypeConfigs[returnType].searchTypes;
     },
-    onSelection(options: StepperOptions, selection: string): void {
-        options.setState('searchType', selection);
-        options.next();
+    onSelection(stepper: StepperOptions, selection: string): void {
+        stepper.setState('searchType', selection);
+        stepper.next();
     },
-    onSecondaryClick(options: StepperOptions): void {
-        options.setState('searchType', null);
-        options.previous();
+    onSecondaryClick(stepper: StepperOptions): void {
+        stepper.setState('searchType', null);
+        stepper.previous();
     }
 };
 
@@ -85,13 +85,13 @@ const SearchConfigTypeStep = {
     viewHeader: 'Search Config Type',
     submitButtonText: 'Submit',
     secondaryButtonText: 'Back',
-    Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.FormCard app={app} options={options} config={SearchConfigTypeStep} />;
+    Component({ app, stepper }: StepComponentProps): JSX.Element {
+        return <app.FormCard app={app} options={stepper} config={SearchConfigTypeStep} />;
     },
-    useForm({ store }: AppConfig, options: StepperOptions): Form {
+    useForm({ store }: AppConfig, stepper: StepperOptions): Form {
         const configs = store.useSelector(store.selectGeocoderConfigs);
-        const returnType = options.getState<string>('returnType');
-        const searchType = options.getState<string>('searchType');
+        const returnType = stepper.getState<string>('returnType');
+        const searchType = stepper.getState<string>('searchType');
         const searchTypeConfigs = configs.returnTypeConfigs[returnType].searchTypeConfigs[searchType];
         const [{ fields }, dispatch] = useReducer(formReducer, getInitialFormState(searchTypeConfigs));
 
@@ -101,14 +101,14 @@ const SearchConfigTypeStep = {
                 dispatch({ type: FormActions.change, name, value });
             },
             onSubmit: function (): void {
-                options.setState('configType', fields);
-                options.next();
+                stepper.setState('configType', fields);
+                stepper.next();
             }
         };
     },
-    onSecondaryClick(options: StepperOptions): void {
-        options.setState('configType', null);
-        options.previous();
+    onSecondaryClick(stepper: StepperOptions): void {
+        stepper.setState('configType', null);
+        stepper.previous();
     }
 };
 
@@ -120,11 +120,11 @@ const DoneCardStep = {
     headerText: '',
     bodyText: '',
     buttonText: 'Done',
-    Component({ app, options }: StepComponentProps): JSX.Element {
-        return <app.IntroCard options={options} config={DoneCardStep} />;
+    Component({ app, stepper }: StepComponentProps): JSX.Element {
+        return <app.IntroCard options={stepper} config={DoneCardStep} />;
     },
-    onClick(options: StepperOptions): void {
-        options.complete();
+    onClick(stepper: StepperOptions): void {
+        stepper.complete();
     }
 };
 

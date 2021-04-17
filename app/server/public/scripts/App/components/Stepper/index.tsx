@@ -15,7 +15,7 @@ export type Stepper = typeof Stepper;
 /**
  *
  */
-type Step = BaseConfig<{ app: AppConfig; options: StepperOptions }>;
+type Step = BaseConfig<{ app: AppConfig; stepper: StepperOptions }>;
 
 /**
  *
@@ -38,5 +38,5 @@ interface StepperProps {
 export function Stepper({ app, config }: StepperProps): JSX.Element {
     const stepper = useStepper(config.steps);
 
-    return <stepper.step.Component app={app} options={stepper} />;
+    return <stepper.step.Component app={app} stepper={stepper} />;
 }
