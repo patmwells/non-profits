@@ -1,45 +1,17 @@
 import React, { useReducer } from 'react';
-import type { AppConfig, BaseConfig } from '@client/App';
+import type { AppConfig } from '@client/App';
 import type { GeocoderConfigState, StoreController } from '@client/Store';
 import type { Form } from '@client/App/components/FormCard';
-import {
-    Actions,
-    getInitialState,
-    stepperReducer,
-    Stepper,
-    FormActions,
-    formReducer,
-    getInitialFormState
-} from './state';
-
-/**
- *
- */
-interface StepOptions {
-    step: Step;
-    state: Stepper;
-    next: (name: string, value?: string | { label: string; name: string; value: string }[]) => void;
-    previous: (name: string) => void;
-    complete: () => void;
-}
+import type { StepperOptions } from '@client/App/components/Stepper';
+import { FormActions, formReducer, getInitialFormState } from './state';
 
 /**
  *
  */
 interface StepComponentProps {
     app: AppConfig;
-    options: StepOptions;
+    options: StepperOptions;
 }
-
-/**
- *
- */
-type Step = BaseConfig<StepComponentProps>;
-
-/**
- *
- */
-type Steps = Step[];
 
 /**
  *
@@ -52,8 +24,8 @@ const IntroCardStep = {
     Component({ app, options }: StepComponentProps): JSX.Element {
         return <app.IntroCard options={options} config={IntroCardStep} />;
     },
-    onClick(options: StepOptions): void {
-        options.next('intro');
+    onClick(options: StepperOptions): void {
+        options.next();
     }
 };
 
@@ -71,11 +43,13 @@ const ReturnTypeStep = {
 
         return configs.returnTypes;
     },
-    onSelection(options: StepOptions, selection: string): void {
-        options.next('returnType', selection);
+    onSelection(options: StepperOptions, selection: string): void {
+        options.setState('returnType', selection);
+        options.next();
     },
-    onSecondaryClick(options: StepOptions): void {
-        options.previous('returnType');
+    onSecondaryClick(options: StepperOptions): void {
+        options.setState('returnType', null);
+        options.previous();
     }
 };
 
@@ -88,16 +62,19 @@ const SearchTypeStep = {
     Component({ app, options }: StepComponentProps): JSX.Element {
         return <app.SelectionCard app={app} options={options} config={SearchTypeStep} />;
     },
-    useSelections({ store }: AppConfig, { state }: StepOptions): string[] {
+    useSelections({ store }: AppConfig, options: StepperOptions): string[] {
+        const returnType = options.getState<string>('returnType');
         const configs = store.useSelector(store.selectGeocoderConfigs);
 
-        return configs.returnTypeConfigs[state.returnType].searchTypes;
+        return configs.returnTypeConfigs[returnType].searchTypes;
     },
-    onSelection(options: StepOptions, selection: string): void {
-        options.next('searchType', selection);
+    onSelection(options: StepperOptions, selection: string): void {
+        options.setState('searchType', selection);
+        options.next();
     },
-    onSecondaryClick(options: StepOptions): void {
-        options.previous('searchType');
+    onSecondaryClick(options: StepperOptions): void {
+        options.setState('searchType', null);
+        options.previous();
     }
 };
 
@@ -111,10 +88,11 @@ const SearchConfigTypeStep = {
     Component({ app, options }: StepComponentProps): JSX.Element {
         return <app.FormCard app={app} options={options} config={SearchConfigTypeStep} />;
     },
-    useForm({ store }: AppConfig, options: StepOptions): Form {
-        const { state } = options;
+    useForm({ store }: AppConfig, options: StepperOptions): Form {
+        const returnType = options.getState<string>('returnType');
+        const searchType = options.getState<string>('searchType');
         const configs = store.useSelector(store.selectGeocoderConfigs);
-        const searchTypeConfigs = configs.returnTypeConfigs[state.returnType].searchTypeConfigs[state.searchType];
+        const searchTypeConfigs = configs.returnTypeConfigs[returnType].searchTypeConfigs[searchType];
         const [{ fields }, dispatch] = useReducer(formReducer, getInitialFormState(searchTypeConfigs));
 
         return {
@@ -123,12 +101,14 @@ const SearchConfigTypeStep = {
                 dispatch({ type: FormActions.change, name, value });
             },
             onSubmit: function (): void {
-                options.next('configType', fields);
+                options.setState('configType', fields);
+                options.next();
             }
         };
     },
-    onSecondaryClick(options: StepOptions): void {
-        options.previous('configType');
+    onSecondaryClick(options: StepperOptions): void {
+        options.setState('configType', null);
+        options.previous();
     }
 };
 
@@ -143,7 +123,7 @@ const DoneCardStep = {
     Component({ app, options }: StepComponentProps): JSX.Element {
         return <app.IntroCard options={options} config={DoneCardStep} />;
     },
-    onClick(options: StepOptions): void {
+    onClick(options: StepperOptions): void {
         options.complete();
     }
 };
@@ -151,18 +131,7 @@ const DoneCardStep = {
 /**
  *
  */
-interface GeocoderStepper {
-    steps: Steps;
-    viewHeader: string;
-    Component: ({ app: AppController }) => JSX.Element;
-    useAsyncData: (store: StoreController) => GeocoderConfigState;
-    useCurrentStep: (config: GeocoderStepper) => StepOptions;
-}
-
-/**
- *
- */
-export const GeocoderStepper: GeocoderStepper = {
+export const GeocoderStepper = {
     steps: [
         IntroCardStep,
         ReturnTypeStep,
@@ -182,24 +151,6 @@ export const GeocoderStepper: GeocoderStepper = {
     },
     useAsyncData(store: StoreController): GeocoderConfigState {
         return store.useGeocoderConfigs(store);
-    },
-    useCurrentStep({ steps }: GeocoderStepper): StepOptions {
-        const [state, dispatch] = useReducer(stepperReducer, getInitialState(steps));
-        const step = steps[state.currentStep];
-
-        return {
-            step,
-            state,
-            next: (name: string, value: string | { label: string; name: string; value: string }[]): void => {
-                dispatch({ type: Actions.next, name, value });
-            },
-            previous: (name: string): void => {
-                dispatch({ type: Actions.previous, name });
-            },
-            complete: (): void => {
-                dispatch({ type: Actions.complete });
-            }
-        };
     }
 };
 
