@@ -6,6 +6,7 @@ import type { ServerConfig } from '../server';
  */
 export type onFaviconRequest = typeof onFaviconRequest;
 export type onGeocoderConfigRequest = typeof onGeocoderConfigRequest;
+export type onGeocoderSubmissionRequest = typeof onGeocoderSubmissionRequest;
 export type onRenderViewRequest = typeof onRenderViewRequest;
 
 /**
@@ -37,6 +38,19 @@ export function onGeocoderConfigRequest(req: Request, res: Response): void {
 
     res.status(200);
     res.send(configs);
+    res.end();
+}
+
+/**
+ *
+ * @param req
+ * @param res
+ */
+export function onGeocoderSubmissionRequest(req: Request, res: Response): void {
+    const server = getServer(req);
+    server.submitGeocoder(req.body);
+
+    res.status(200);
     res.end();
 }
 

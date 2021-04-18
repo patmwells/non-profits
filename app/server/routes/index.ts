@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { onFaviconRequest, onGeocoderConfigRequest, onRenderViewRequest } from './controllers';
+import {
+    onFaviconRequest,
+    onGeocoderConfigRequest,
+    onGeocoderSubmissionRequest,
+    onRenderViewRequest
+} from './controllers';
 
 /**
  *
@@ -14,12 +19,20 @@ export type getViewRouter = typeof getViewRouter;
  */
 export interface apiRoutes {
     geocoderConfigs: string;
+    submitGeocoder: string;
 }
 
+/**
+ *
+ */
 export const apiRoutes = {
-    geocoderConfigs: '/api/v1/census/geocoder/configs'
+    geocoderConfigs: '/api/v1/census/geocoder/configs',
+    submitGeocoder: '/api/v1/census/geocoder/submit'
 };
 
+/**
+ *
+ */
 const serverRoutes = {
     favicon: '/favicon.ico',
     view: '*'
@@ -43,6 +56,7 @@ export function getCensusRouter(): Router {
     const router = Router();
 
     router.get(apiRoutes.geocoderConfigs, onGeocoderConfigRequest);
+    router.post(apiRoutes.submitGeocoder, onGeocoderSubmissionRequest);
 
     return router;
 }

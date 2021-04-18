@@ -1,9 +1,10 @@
 import type { Application } from 'express';
 import express from 'express';
+import bodyParser from 'body-parser';
 
 import type { AppConfig } from './config';
 import { getClientView } from './view';
-import { getGeocoderConfigs } from './census';
+import { getGeocoderConfigs, submitGeocoder } from './census';
 import { logger } from './middleware';
 import { apiRoutes, getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
 
@@ -21,6 +22,7 @@ export interface ServerConfig {
     apiRoutes: apiRoutes;
     getClientView: getClientView;
     getGeocoderConfigs: getGeocoderConfigs;
+    submitGeocoder: submitGeocoder;
 }
 
 /**
@@ -32,7 +34,8 @@ export function createServerConfig(config: AppConfig): ServerConfig {
         config,
         apiRoutes,
         getClientView,
-        getGeocoderConfigs
+        getGeocoderConfigs,
+        submitGeocoder
     };
 }
 
@@ -44,6 +47,7 @@ export function createServer(server: ServerConfig): Application {
     const app = express();
 
     app.locals.server = server;
+    app.use(bodyParser.json());
     app.use(logger);
     app.use(express.static(server.config.assets()));
     app.use(getFaviconRouter());

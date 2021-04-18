@@ -1,5 +1,5 @@
 import type { Client } from '../client';
-import type { ClientApi, GeocoderConfigs } from './types';
+import type { ClientApi, GeocoderConfigs, GeocoderOptions } from './types';
 
 /**
  *
@@ -30,6 +30,14 @@ class Api implements ClientApi {
         const response = await this.request.get(this.routes.geocoderConfigs);
 
         return response.data;
+    }
+
+    /**
+     *
+     * @param options
+     */
+    async submitGeocoderOptions(options: GeocoderOptions): Promise<void> {
+        await this.request.post(this.routes.submitGeocoder, options);
     }
 
 }

@@ -119,7 +119,7 @@ const VerificationCardStep = {
         const state = VerificationCardStep.getStepperState(stepper);
 
         return (
-            <app.PresentationCard options={stepper} config={VerificationCardStep}>
+            <app.PresentationCard app={app} options={stepper} config={VerificationCardStep}>
                 <hr />
                 <div>ReturnType: {state.returnType}</div>
                 <hr />
@@ -137,7 +137,9 @@ const VerificationCardStep = {
             configType: stepper.getState<FormField[]>('configType')
         };
     },
-    handlePrimaryClick(stepper: StepperOptions): void {
+    async handlePrimaryClick(app: AppConfig, stepper: StepperOptions): Promise<void> {
+        const options = VerificationCardStep.getStepperState(stepper);
+        await app.api.submitGeocoderOptions(options);
         stepper.next();
     },
     handleSecondaryClick(stepper: StepperOptions): void {

@@ -41,6 +41,7 @@ const ClientNamespace = '__client_config__';
  */
 interface ClientApiRoutes {
     geocoderConfigs: string;
+    submitGeocoder: string;
 }
 
 /**
@@ -86,7 +87,10 @@ function renderOnClient(client: Client): void {
     const api = client.createClientApi(client);
     const store = client.createStore(api);
 
-    ReactDOM.hydrate(<client.App.Component store={store} />, document.getElementById(client.renderConfig.appRoot));
+    ReactDOM.hydrate(
+        <client.App.Component api={api} store={store} />,
+        document.getElementById(client.renderConfig.appRoot)
+    );
 }
 
 /**
@@ -96,7 +100,7 @@ function renderOnClient(client: Client): void {
 function renderOnServer(client: Client): string {
     const api = client.createClientApi(client);
     const store = client.createStore(api);
-    const content = ReactDOMServer.renderToString(<client.App.Component store={store} />);
+    const content = ReactDOMServer.renderToString(<client.App.Component api={api} store={store} />);
     const markup = ReactDOMServer.renderToStaticMarkup(<client.Html client={client} content={content} />);
 
     return `<!DOCTYPE html>${markup}`;

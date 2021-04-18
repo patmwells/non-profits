@@ -3,6 +3,7 @@
  */
 export interface ClientApi {
     getGeocoderConfigs: () => Promise<GeocoderConfigs>;
+    submitGeocoderOptions: (options: GeocoderOptions) => Promise<void>;
 }
 
 /**
@@ -19,3 +20,12 @@ export type GeocoderConfigs = {
         };
     }>;
 };
+
+/**
+ *
+ */
+export type GeocoderOptions = {
+    returnType: string;
+    searchType: string;
+    configType: { label: string; name: string; value: string }[];
+}

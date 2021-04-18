@@ -1,4 +1,5 @@
 import React from 'react';
+import type { ClientApi } from '@client/Api/types';
 import type { StoreController } from '@client/Store';
 import { GeocoderStepper } from './GeocoderStepper';
 import { FormCard, IntroCard, PresentationCard, SelectionCard, Stepper } from './components';
@@ -14,6 +15,7 @@ export interface BaseConfig<T = { app: AppConfig }> {
  *
  */
 export interface AppConfig {
+    api: ClientApi;
     store: StoreController;
     IntroCard: IntroCard;
     SelectionCard: SelectionCard;
@@ -27,6 +29,7 @@ export interface AppConfig {
  *
  */
 interface AppProps {
+    api: ClientApi;
     store: StoreController;
 }
 
@@ -39,8 +42,9 @@ export type App = BaseConfig<AppProps>;
  *
  */
 export const App: App = {
-    Component({ store }: AppProps): JSX.Element {
+    Component({ api, store }: AppProps): JSX.Element {
         const app: AppConfig = {
+            api,
             store,
             IntroCard,
             SelectionCard,

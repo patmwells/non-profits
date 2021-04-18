@@ -1,4 +1,5 @@
 import React, { SyntheticEvent } from 'react';
+import type { AppConfig } from '@client/App';
 import { Body, Card, Container, Header, PrimaryButton, View, ViewHeader } from './Styled';
 
 /**
@@ -12,7 +13,7 @@ export type PresentationCard = typeof PresentationCard;
 interface PresentationCardConfig {
     viewHeader: string;
     headerText: string;
-    handlePrimaryClick: (options: unknown) => void;
+    handlePrimaryClick: (app: AppConfig, options: unknown) => Promise<void>;
     primaryButtonText: string;
     handleSecondaryClick: (options: unknown) => void;
     secondaryButtonText: string;
@@ -22,6 +23,7 @@ interface PresentationCardConfig {
  *
  */
 interface PresentationCardProps {
+    app: AppConfig;
     options: unknown;
     config: PresentationCardConfig;
     children: JSX.Element | JSX.Element[];
@@ -29,19 +31,19 @@ interface PresentationCardProps {
 
 /**
  *
+ * @param app
  * @param options
  * @param config
  * @param children
- * @constructor
  */
-export function PresentationCard({ options, config, children }: PresentationCardProps): JSX.Element {
+export function PresentationCard({ app, options, config, children }: PresentationCardProps): JSX.Element {
 
     /**
      *
      * @param event
      */
-    function handlePrimaryClick(event: SyntheticEvent): void {
-        config.handlePrimaryClick(options);
+    async function handlePrimaryClick(event: SyntheticEvent): Promise<void> {
+        await config.handlePrimaryClick(app, options);
     }
 
     /**
