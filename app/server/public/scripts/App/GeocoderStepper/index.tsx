@@ -1,9 +1,7 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import type { AppConfig } from '@client/App';
+import type { FormField, StepperOptions } from '@client/App/components';
 import type { GeocoderConfigState, StoreController } from '@client/Store';
-import type { Form } from '@client/App/components/FormCard';
-import type { StepperOptions } from '@client/App/components/Stepper';
-import { FormActions, formReducer, getInitialFormState } from './state';
 
 /**
  *
@@ -83,28 +81,25 @@ const SearchTypeStep = {
  */
 const SearchConfigTypeStep = {
     viewHeader: 'Search Config Type',
+    submittingText: 'Submitting...',
     submitButtonText: 'Submit',
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
         return <app.FormCard app={app} options={stepper} config={SearchConfigTypeStep} />;
     },
-    useForm({ store }: AppConfig, stepper: StepperOptions): Form {
+    useFormFields({ store }: AppConfig, stepper: StepperOptions): FormField[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
         const returnType = stepper.getState<string>('returnType');
         const searchType = stepper.getState<string>('searchType');
-        const searchTypeConfigs = configs.returnTypeConfigs[returnType].searchTypeConfigs[searchType];
-        const [{ fields }, dispatch] = useReducer(formReducer, getInitialFormState(searchTypeConfigs));
 
-        return {
-            fields,
-            onChange: function (name, value): void {
-                dispatch({ type: FormActions.change, name, value });
-            },
-            onSubmit: function (): void {
-                stepper.setState('configType', fields);
-                stepper.next();
-            }
-        };
+        return configs
+            .returnTypeConfigs[returnType]
+            .searchTypeConfigs[searchType]
+            .map((label) => ({ label, name: label, value: '' }));
+    },
+    onSubmit(stepper: StepperOptions, fields: FormField[]): void {
+        stepper.setState('configType', fields);
+        stepper.next();
     },
     onSecondaryClick(stepper: StepperOptions): void {
         stepper.setState('configType', null);
@@ -153,4 +148,3 @@ export const GeocoderStepper = {
         return store.useGeocoderConfigs(store);
     }
 };
-

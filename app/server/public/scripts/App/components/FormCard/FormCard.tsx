@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { AppConfig } from '@client/App';
-import { View, ViewHeader, Header, Body, PrimaryButton, Container, Card } from './Styled';
+import { View, ViewHeader, Header, Body, PrimaryButton, Container, Card } from '../Styled';
+import { FormField, useForm } from './state';
 
 /**
  *
@@ -10,21 +11,14 @@ export type FormCard = typeof FormCard;
 /**
  *
  */
-export interface Form {
-    fields: { label: string; name: string; value: string }[];
-    onChange: (name: string, value: string) => void;
-    onSubmit: () => void;
-}
-
-/**
- *
- */
 interface FormCardConfig {
     viewHeader: string;
+    submittingText: string;
     submitButtonText: string;
     onSecondaryClick: (options: unknown) => void;
     secondaryButtonText: string;
-    useForm: (app: AppConfig, options: unknown) => Form;
+    useFormFields: (app: AppConfig, options: unknown) => FormField[];
+    onSubmit: (options: unknown, fields: FormField[]) => void;
 }
 
 /**
@@ -42,7 +36,8 @@ interface FormCardProps {
 export function FormCard({ app, options, config }: FormCardProps): JSX.Element {
     const { viewHeader, submitButtonText, onSecondaryClick, secondaryButtonText } = config;
 
-    const form = config.useForm(app, options);
+    const fields = config.useFormFields(app, options);
+    const form = useForm(fields);
 
     /**
      *
@@ -50,8 +45,7 @@ export function FormCard({ app, options, config }: FormCardProps): JSX.Element {
      */
     function handleOnChange(event: ChangeEvent<HTMLInputElement>): void {
         event.preventDefault();
-
-       form.onChange(event.currentTarget.name, event.currentTarget.value);
+        form.onChange(event.currentTarget.name, event.currentTarget.value);
     }
 
     /**
@@ -60,8 +54,9 @@ export function FormCard({ app, options, config }: FormCardProps): JSX.Element {
      */
     function handleOnSubmit(event: FormEvent): void {
         event.preventDefault();
-
-        form.onSubmit();
+        form.isSubmitting(true);
+        config.onSubmit(options, form.state.fields);
+        form.isSubmitting(false);
     }
 
     /**
@@ -78,7 +73,7 @@ export function FormCard({ app, options, config }: FormCardProps): JSX.Element {
                 <Container>
                     <Header />
                     <Body />
-                    {form.fields.map((field, index) => {
+                    {form.state.fields.map((field, index) => {
                         return (
                             <label key={index}>
                                 {field.label}
@@ -86,7 +81,9 @@ export function FormCard({ app, options, config }: FormCardProps): JSX.Element {
                             </label>
                         );
                     })}
-                    <PrimaryButton onClick={handleOnSubmit}>{submitButtonText}</PrimaryButton>
+                    <PrimaryButton onClick={handleOnSubmit}>
+                        {form.state.submitting ? config.submittingText : submitButtonText}
+                    </PrimaryButton>
                     <PrimaryButton onClick={handleSecondaryClick}>
                         {secondaryButtonText}
                     </PrimaryButton>
