@@ -1,7 +1,7 @@
 import React from 'react';
 import type { StoreController } from '@client/Store';
 import { GeocoderStepper } from './GeocoderStepper';
-import { FormCard, IntroCard, SelectionCard, Stepper } from './components';
+import { FormCard, IntroCard, PresentationCard, SelectionCard, Stepper } from './components';
 
 /**
  *
@@ -18,6 +18,7 @@ export interface AppConfig {
     IntroCard: IntroCard;
     SelectionCard: SelectionCard;
     FormCard: FormCard;
+    PresentationCard: PresentationCard;
     Stepper: Stepper;
     GeocoderStepper: BaseConfig;
 }
@@ -44,6 +45,7 @@ export const App: App = {
             IntroCard,
             SelectionCard,
             FormCard,
+            PresentationCard,
             Stepper,
             GeocoderStepper
         };

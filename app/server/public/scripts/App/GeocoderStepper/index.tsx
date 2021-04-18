@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import type { AppConfig } from '@client/App';
 import type { FormField, StepperOptions } from '@client/App/components';
 import type { GeocoderConfigState, StoreController } from '@client/Store';
@@ -110,6 +110,44 @@ const SearchConfigTypeStep = {
 /**
  *
  */
+const VerificationCardStep = {
+    viewHeader: 'Verification',
+    headerText: 'Is this information correct?',
+    primaryButtonText: 'Yes!',
+    secondaryButtonText: 'Back',
+    Component({ app, stepper }: StepComponentProps): JSX.Element {
+        const state = VerificationCardStep.getStepperState(stepper);
+
+        return (
+            <app.PresentationCard options={stepper} config={VerificationCardStep}>
+                <hr />
+                <div>ReturnType: {state.returnType}</div>
+                <hr />
+                <div>SearchType: {state.searchType}</div>
+                <hr />
+                <>{state.configType.map((field, index) => <div key={index}>{field.label}: {field.value}</div>)}</>
+                <hr />
+            </app.PresentationCard>
+        );
+    },
+    getStepperState(stepper: StepperOptions): { returnType: string; searchType: string; configType: FormField[] } {
+        return {
+            returnType: stepper.getState<string>('returnType'),
+            searchType: stepper.getState<string>('searchType'),
+            configType: stepper.getState<FormField[]>('configType')
+        };
+    },
+    handlePrimaryClick(stepper: StepperOptions): void {
+        stepper.next();
+    },
+    handleSecondaryClick(stepper: StepperOptions): void {
+        stepper.previous();
+    }
+};
+
+/**
+ *
+ */
 const DoneCardStep = {
     viewHeader: 'Done!!',
     headerText: '',
@@ -132,6 +170,7 @@ export const GeocoderStepper = {
         ReturnTypeStep,
         SearchTypeStep,
         SearchConfigTypeStep,
+        VerificationCardStep,
         DoneCardStep
     ],
     viewHeader: 'Stepper',
