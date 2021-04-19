@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
+import type { apiRoutes } from '@server/routes';
 import axios, { AxiosStatic } from 'axios';
 import { createClientApi } from './Api';
 import { createStore } from './Store';
@@ -39,25 +40,17 @@ const ClientNamespace = '__client_config__';
 /**
  *
  */
-interface ClientApiRoutes {
-    geocoderConfigs: string;
-    submitGeocoder: string;
-}
-
-/**
- *
- */
 interface SSRClientOptions {
     headerScript: string;
     clientScript: string;
-    apiRoutes: ClientApiRoutes;
+    apiRoutes: apiRoutes;
 }
 
 /**
  *
  */
 interface ClientConfigFromServer {
-    apiRoutes: ClientApiRoutes;
+    apiRoutes: apiRoutes;
 }
 
 /**

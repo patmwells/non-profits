@@ -1,2 +1,2 @@
-export { getGeocoderConfigs } from './geocoderConfig';
-export { submitGeocoder } from './submitGeocoder';
+export { getGeocoderConfigs, GeocoderConfig } from './geocoderConfig';
+export { submitGeocoder, GeocoderOptions } from './submitGeocoder';

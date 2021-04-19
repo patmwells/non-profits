@@ -39,7 +39,7 @@ enum ConfigType {
 /**
  *
  */
-type GeocoderConfig = {
+export interface GeocoderConfig {
     returnTypes: ReturnType[];
     returnTypeConfigs: Record<ReturnType, {
         searchTypes: SearchType[];

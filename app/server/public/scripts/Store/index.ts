@@ -1,6 +1,6 @@
 import type { Provider } from 'react';
-import type { ClientApi, GeocoderConfigs } from '../Api/types';
-import type {State, StoreInterface, StoreState} from './store';
+import type { ClientApi, GeocoderConfig } from '@client/Api';
+import type { State, StoreInterface, StoreState } from './store';
 import type { DataRequest } from './request';
 import { StoreProvider, getStore, Actions, useSelector } from './store';
 import { AsyncDataLoader } from './AsyncDataLoader';
@@ -10,7 +10,7 @@ import { useDataRequest } from './request';
  *
  */
 export type { State } from './store';
-export type GeocoderConfigState = State<GeocoderConfigs>;
+export type GeocoderConfigState = State<GeocoderConfig>;
 export type createStore = typeof createStore;
 
 /**
@@ -24,7 +24,7 @@ export interface StoreController {
     useGeocoderConfigs: typeof useGeocoderConfigs;
     selectGeocoderConfigs: typeof selectGeocoderConfigs;
     requests: {
-        geocoderConfigs: () => DataRequest<GeocoderConfigs>;
+        geocoderConfigs: () => DataRequest<GeocoderConfig>;
     };
 }
 
@@ -32,8 +32,8 @@ export interface StoreController {
  *
  * @param state
  */
-function selectGeocoderConfigs(state: StoreState): GeocoderConfigs {
-    return state[Actions.FETCH_GEOCODER_CONFIGS].data as GeocoderConfigs;
+function selectGeocoderConfigs(state: StoreState): GeocoderConfig {
+    return state[Actions.FETCH_GEOCODER_CONFIGS].data as GeocoderConfig;
 }
 
 /**
@@ -63,10 +63,10 @@ export function createStore(api: ClientApi): StoreController {
          *
          */
         requests: {
-            geocoderConfigs: function (): DataRequest<GeocoderConfigs> {
+            geocoderConfigs: function (): DataRequest<GeocoderConfig> {
                 return {
                     type: Actions.FETCH_GEOCODER_CONFIGS,
-                    request: (): Promise<GeocoderConfigs> => api.getGeocoderConfigs()
+                    request: (): Promise<GeocoderConfig> => api.getGeocoderConfigs()
                 };
             }
         }

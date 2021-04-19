@@ -6,7 +6,7 @@ export type submitGeocoder = typeof submitGeocoder;
 /**
  *
  */
-interface GeocoderOptions {
+export interface GeocoderOptions {
     returnType: string;
     searchType: string;
     configType: { label: string; name: string; value: string }[];

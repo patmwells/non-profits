@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ClientApi } from '@client/Api/types';
+import type { ClientApi } from '@client/Api';
 import type { StoreController } from '@client/Store';
 import { GeocoderStepper } from './GeocoderStepper';
 import { FormCard, IntroCard, PresentationCard, SelectionCard, Stepper } from './components';

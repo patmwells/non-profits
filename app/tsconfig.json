@@ -9,6 +9,7 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
+      "@server/*": ["server/*"],
       "@client/*": ["server/public/scripts/*"]
     }
   }
