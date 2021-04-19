@@ -1,12 +1,3 @@
-// https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf
-// https://geocoding.geo.census.gov/geocoder/benchmarks
-// https://geocoding.geo.census.gov/geocoder/geographies/address?benchmark=Public_AR_Census2020&vintage=Census2020_Census2020&layers=10&format=json
-
-/**
- *
- */
-export type getGeocoderConfigs = typeof getGeocoderConfigs;
-
 /**
  *
  */
@@ -32,6 +23,7 @@ enum ConfigType {
     street = 'street',
     city = 'city',
     state = 'state',
+    zip = 'zip',
     x = 'x',
     y = 'y'
 }
@@ -51,6 +43,9 @@ export interface GeocoderConfig {
     }>;
 }
 
+/**
+ *
+ */
 const GeocoderConfig: GeocoderConfig = {
     returnTypes: [ReturnType.locations, ReturnType.geographies],
     returnTypeConfigs: {
@@ -64,7 +59,8 @@ const GeocoderConfig: GeocoderConfig = {
                 [SearchType.address]: [
                     ConfigType.street,
                     ConfigType.city,
-                    ConfigType.state
+                    ConfigType.state,
+                    ConfigType.zip
                 ]
             }
         },
@@ -79,7 +75,8 @@ const GeocoderConfig: GeocoderConfig = {
                 [SearchType.address]: [
                     ConfigType.street,
                     ConfigType.city,
-                    ConfigType.state
+                    ConfigType.state,
+                    ConfigType.zip
                 ],
                 [SearchType.coordinates]: [
                     ConfigType.x,

@@ -1,0 +1,1 @@
+export { GeocoderData } from './GeocoderData';

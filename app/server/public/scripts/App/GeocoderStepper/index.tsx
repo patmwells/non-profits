@@ -1,5 +1,6 @@
 import React  from 'react';
 import type { AppConfig } from '@client/App';
+import type { GeocoderData } from '@client/Api';
 import type { FormField, StepperOptions } from '@client/App/components';
 import type { GeocoderConfigState, StoreController } from '@client/Store';
 
@@ -113,6 +114,7 @@ const SearchConfigTypeStep = {
 const VerificationCardStep = {
     viewHeader: 'Verification',
     headerText: 'Is this information correct?',
+    loadingText: 'Loading...',
     primaryButtonText: 'Yes!',
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
@@ -139,7 +141,8 @@ const VerificationCardStep = {
     },
     async handlePrimaryClick(app: AppConfig, stepper: StepperOptions): Promise<void> {
         const options = VerificationCardStep.getStepperState(stepper);
-        await app.api.submitGeocoderOptions(options);
+        const data = await app.api.submitGeocoderRequest(options);
+        stepper.setState('data', data);
         stepper.next();
     },
     handleSecondaryClick(stepper: StepperOptions): void {
@@ -152,14 +155,48 @@ const VerificationCardStep = {
  */
 const DoneCardStep = {
     viewHeader: 'Done!!',
-    headerText: '',
-    bodyText: '',
-    buttonText: 'Done',
+    headerText: 'Census - Data',
+    loadingText: 'Loading...',
+    primaryButtonText: 'Complete',
+    secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
-        return <app.IntroCard options={stepper} config={DoneCardStep} />;
+        const data = stepper.getState<GeocoderData>('data');
+        return (
+            <app.PresentationCard app={app} options={stepper} config={DoneCardStep}>
+                <hr />
+                <>{data.addresses.map(({ matched, coordinates, address, censusBlocks }, index) => {
+                    return (
+                        <div key={index}>
+                            <div>Matched Address</div>
+                            <div>{matched}</div>
+                            <hr />
+                            <div>Coordinates</div>
+                            <div>x: {coordinates.x}</div>
+                            <div>y: {coordinates.y}</div>
+                            <hr />
+                            <div>Address</div>
+                            <div>From: {address.from} - To: {address.to}</div>
+                            <div>Street: {address.street} {address.streetType}</div>
+                            <div>City: {address.city}</div>
+                            <div>State: {address.state}</div>
+                            <div>Zip: {address.zip}</div>
+                            <hr />
+                            <div>Census Blocks</div>
+                            <>{censusBlocks.map(({ tract}, index) => {
+                                return <div key={index}>{index + 1}) {tract}</div>;
+                            })}</>
+                        </div>
+                    );
+                })}</>
+                <hr />
+            </app.PresentationCard>
+        );
     },
-    onClick(stepper: StepperOptions): void {
+    handlePrimaryClick(app: AppConfig, stepper: StepperOptions): void {
         stepper.complete();
+    },
+    handleSecondaryClick(stepper: StepperOptions): void {
+        stepper.previous();
     }
 };
 

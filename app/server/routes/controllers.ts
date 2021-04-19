@@ -34,7 +34,7 @@ export function onFaviconRequest(req: Request, res: Response): void {
  */
 export function onGeocoderConfigRequest(req: Request, res: Response): void {
     const server = getServer(req);
-    const configs = server.getGeocoderConfigs();
+    const configs = server.CensusGeocoder.getConfigs();
 
     res.status(200);
     res.send(configs);
@@ -46,11 +46,12 @@ export function onGeocoderConfigRequest(req: Request, res: Response): void {
  * @param req
  * @param res
  */
-export function onGeocoderSubmissionRequest(req: Request, res: Response): void {
+export async function onGeocoderSubmissionRequest(req: Request, res: Response): Promise<void> {
     const server = getServer(req);
-    server.submitGeocoder(req.body);
+    const data = await server.CensusGeocoder.submitRequest(req.body);
 
     res.status(200);
+    res.send(data);
     res.end();
 }
 

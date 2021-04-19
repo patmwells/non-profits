@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import type { AppConfig } from '@client/App';
 import { Body, Card, Container, Header, PrimaryButton, View, ViewHeader } from './Styled';
 
@@ -13,7 +13,8 @@ export type PresentationCard = typeof PresentationCard;
 interface PresentationCardConfig {
     viewHeader: string;
     headerText: string;
-    handlePrimaryClick: (app: AppConfig, options: unknown) => Promise<void>;
+    loadingText: string;
+    handlePrimaryClick: (app: AppConfig, options: unknown) => Promise<void> | void;
     primaryButtonText: string;
     handleSecondaryClick: (options: unknown) => void;
     secondaryButtonText: string;
@@ -37,12 +38,14 @@ interface PresentationCardProps {
  * @param children
  */
 export function PresentationCard({ app, options, config, children }: PresentationCardProps): JSX.Element {
+    const [loading, setIsLoading] = useState(false);
 
     /**
      *
      * @param event
      */
     async function handlePrimaryClick(event: SyntheticEvent): Promise<void> {
+        setIsLoading(true);
         await config.handlePrimaryClick(app, options);
     }
 
@@ -62,7 +65,7 @@ export function PresentationCard({ app, options, config, children }: Presentatio
                     <Header>{config.headerText}</Header>
                     <Body>{children}</Body>
                     <PrimaryButton onClick={handlePrimaryClick}>
-                        {config.primaryButtonText}
+                        {loading ? config.loadingText : config.primaryButtonText}
                     </PrimaryButton>
                     <PrimaryButton onClick={handleSecondaryClick}>
                         {config.secondaryButtonText}

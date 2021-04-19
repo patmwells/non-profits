@@ -1,4 +1,4 @@
-import type { GeocoderConfig, GeocoderOptions } from '@server/census';
+import type { GeocoderConfig, GeocoderOptions, GeocoderData } from '@server/census';
 import type { Client } from '../client';
 
 /**
@@ -11,7 +11,7 @@ export type createClientApi = typeof createClientApi;
  */
 export interface ClientApi {
     getGeocoderConfigs: () => Promise<GeocoderConfig>;
-    submitGeocoderOptions: (options: GeocoderOptions) => Promise<void>;
+    submitGeocoderRequest: (options: GeocoderOptions) => Promise<GeocoderData>;
 }
 
 /**
@@ -44,8 +44,10 @@ class Api implements ClientApi {
      *
      * @param options
      */
-    async submitGeocoderOptions(options: GeocoderOptions): Promise<void> {
-        await this.request.post(this.routes.submitGeocoder, options);
+    async submitGeocoderRequest(options: GeocoderOptions): Promise<GeocoderData> {
+        const response = await this.request.post(this.routes.submitGeocoder, options);
+
+        return response.data;
     }
 
 }

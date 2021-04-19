@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 
 import type { AppConfig } from './config';
 import { getClientView } from './view';
-import { getGeocoderConfigs, submitGeocoder } from './census';
+import { CensusGeocoder } from './census';
 import { logger } from './middleware';
 import { apiRoutes, getCensusRouter, getFaviconRouter, getViewRouter } from './routes';
 
@@ -21,8 +21,7 @@ export interface ServerConfig {
     config: AppConfig;
     apiRoutes: apiRoutes;
     getClientView: getClientView;
-    getGeocoderConfigs: getGeocoderConfigs;
-    submitGeocoder: submitGeocoder;
+    CensusGeocoder: CensusGeocoder;
 }
 
 /**
@@ -34,8 +33,7 @@ export function createServerConfig(config: AppConfig): ServerConfig {
         config,
         apiRoutes,
         getClientView,
-        getGeocoderConfigs,
-        submitGeocoder
+        CensusGeocoder
     };
 }
 
