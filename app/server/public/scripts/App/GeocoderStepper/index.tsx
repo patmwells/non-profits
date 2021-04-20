@@ -16,7 +16,6 @@ interface StepComponentProps {
  *
  */
 const IntroCardStep = {
-    viewHeader: 'We provide tools to help you match data',
     headerText: 'Census Information',
     bodyText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat erat aliquam vel nibh sed ornare convallis aliquam.',
     buttonText: 'Explore',
@@ -32,7 +31,6 @@ const IntroCardStep = {
  *
  */
 const ReturnTypeStep = {
-    viewHeader: 'Return Type',
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
         return <app.SelectionCard app={app} options={stepper} config={ReturnTypeStep} />;
@@ -56,7 +54,6 @@ const ReturnTypeStep = {
  *
  */
 const SearchTypeStep = {
-    viewHeader: 'Search Type',
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
         return <app.SelectionCard app={app} options={stepper} config={SearchTypeStep} />;
@@ -81,7 +78,6 @@ const SearchTypeStep = {
  *
  */
 const SearchConfigTypeStep = {
-    viewHeader: 'Search Config Type',
     submittingText: 'Submitting...',
     submitButtonText: 'Submit',
     secondaryButtonText: 'Back',
@@ -112,7 +108,6 @@ const SearchConfigTypeStep = {
  *
  */
 const VerificationCardStep = {
-    viewHeader: 'Verification',
     headerText: 'Is this information correct?',
     loadingText: 'Loading...',
     primaryButtonText: 'Yes!',
@@ -154,7 +149,6 @@ const VerificationCardStep = {
  *
  */
 const DoneCardStep = {
-    viewHeader: 'Done!!',
     headerText: 'Census - Data',
     loadingText: 'Loading...',
     primaryButtonText: 'Complete',
@@ -163,7 +157,6 @@ const DoneCardStep = {
         const data = stepper.getState<GeocoderData>('data');
         return (
             <app.PresentationCard app={app} options={stepper} config={DoneCardStep}>
-                <hr />
                 <>{data.addresses.map(({ matched, coordinates, address, censusBlocks }, index) => {
                     return (
                         <div key={index}>
@@ -182,13 +175,12 @@ const DoneCardStep = {
                             <div>Zip: {address.zip}</div>
                             <hr />
                             <div>Census Blocks</div>
-                            <>{censusBlocks.map(({ tract}, index) => {
+                            <>{censusBlocks.map(({ tract }, index) => {
                                 return <div key={index}>{index + 1}) {tract}</div>;
                             })}</>
                         </div>
                     );
                 })}</>
-                <hr />
             </app.PresentationCard>
         );
     },
@@ -212,7 +204,6 @@ export const GeocoderStepper = {
         VerificationCardStep,
         DoneCardStep
     ],
-    viewHeader: 'Stepper',
     Component({ app }: { app: AppConfig }): JSX.Element {
         const { store } = app;
 

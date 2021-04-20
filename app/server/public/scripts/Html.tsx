@@ -24,8 +24,8 @@ const globalStyles = css`
   body {
     height: 100vh;
     margin: 0;
-    font-family: Poppins, sans-serif;
-    background: linear-gradient(180deg, #98EBEC 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(343.68deg, #3D77A4 -3.36%, rgba(255, 255, 255, 0) 119.22%), #3D77A4;
+    font-family: sans-serif;
+    background: #e2e2e2;
   }
 
   button:focus {

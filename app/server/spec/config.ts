@@ -31,14 +31,14 @@ export interface TestConfig {
 export const TestConfig: TestConfig = {
     request,
     expect,
+    fixtures: {
+        build: BuildFixtures,
+        census: CensusFixtures
+    },
     setup({ env, config }: SetupOptions): Application {
         const appConfig = createAppConfig(TestConfig.fixtures.build.config, env);
         const serverConfig = Object.assign(createServerConfig(appConfig), config);
 
         return createServer(serverConfig);
-    },
-    fixtures: {
-        build: BuildFixtures,
-        census: CensusFixtures
     }
 };

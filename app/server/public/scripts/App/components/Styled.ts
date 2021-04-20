@@ -11,7 +11,7 @@ const colors = {
 };
 
 export const View = styled.div`
-  padding: 95px 16px;
+  padding: 50px 15px;
   display: flex;
   flex-direction: column;
 `;
@@ -27,6 +27,7 @@ export const Card = styled.div`
   min-width: 340px;
   border-radius: 12px;
   background: ${colors.white};
+  box-shadow: 0 0 10px 1px #bcbcbc;
 `;
 
 export const Container = styled.div`

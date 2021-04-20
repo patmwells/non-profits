@@ -2,7 +2,7 @@ import React from 'react';
 import type { ClientApi } from '@client/Api';
 import type { StoreController } from '@client/Store';
 import { GeocoderStepper } from './GeocoderStepper';
-import { FormCard, IntroCard, PresentationCard, SelectionCard, Stepper } from './components';
+import { AppContainer, FormCard, IntroCard, PresentationCard, SelectionCard, Stepper } from './components';
 
 /**
  *
@@ -56,7 +56,7 @@ export const App: App = {
 
         return (
             <store.Provider value={store.getStore()}>
-                <app.GeocoderStepper.Component app={app} />
+                <AppContainer app={app} />
             </store.Provider>
         );
     }

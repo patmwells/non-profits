@@ -1,5 +1,5 @@
 import React from 'react';
-import { Body, Card, Container, Header, PrimaryButton, View, ViewHeader } from './Styled';
+import { Body, Header, PrimaryButton } from './Styled';
 
 /**
  *
@@ -10,7 +10,6 @@ export type IntroCard = typeof IntroCard;
  *
  */
 interface IntroCardConfig {
-    viewHeader: string;
     headerText: string;
     bodyText: string;
     buttonText: string;
@@ -29,7 +28,7 @@ interface IntroCardProps {
  *
  */
 export function IntroCard({ options, config }: IntroCardProps): JSX.Element {
-    const { viewHeader, headerText, bodyText, buttonText, onClick } = config;
+    const { headerText, bodyText, buttonText, onClick } = config;
 
     /**
      *
@@ -39,15 +38,10 @@ export function IntroCard({ options, config }: IntroCardProps): JSX.Element {
     }
 
     return (
-        <View>
-            <ViewHeader>{viewHeader}</ViewHeader>
-            <Card>
-                <Container>
-                    <Header>{headerText}</Header>
-                    <Body>{bodyText}</Body>
-                    <PrimaryButton onClick={handleClick}>{buttonText}</PrimaryButton>
-                </Container>
-            </Card>
-        </View>
+        <>
+            <Header>{headerText}</Header>
+            <Body>{bodyText}</Body>
+            <PrimaryButton onClick={handleClick}>{buttonText}</PrimaryButton>
+        </>
     );
 }

@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import type { AppConfig } from '@client/App';
-import { Body, Card, Container, Header, PrimaryButton, View, ViewHeader } from './Styled';
+import { Body, Header, PrimaryButton } from './Styled';
 
 /**
  *
@@ -11,7 +11,6 @@ export type PresentationCard = typeof PresentationCard;
  *
  */
 interface PresentationCardConfig {
-    viewHeader: string;
     headerText: string;
     loadingText: string;
     handlePrimaryClick: (app: AppConfig, options: unknown) => Promise<void> | void;
@@ -58,20 +57,15 @@ export function PresentationCard({ app, options, config, children }: Presentatio
     }
 
     return (
-        <View>
-            <ViewHeader>{config.viewHeader}</ViewHeader>
-            <Card>
-                <Container>
-                    <Header>{config.headerText}</Header>
-                    <Body>{children}</Body>
-                    <PrimaryButton onClick={handlePrimaryClick}>
-                        {loading ? config.loadingText : config.primaryButtonText}
-                    </PrimaryButton>
-                    <PrimaryButton onClick={handleSecondaryClick}>
-                        {config.secondaryButtonText}
-                    </PrimaryButton>
-                </Container>
-            </Card>
-        </View>
+        <>
+            <Header>{config.headerText}</Header>
+            <Body>{children}</Body>
+            <PrimaryButton onClick={handlePrimaryClick}>
+                {loading ? config.loadingText : config.primaryButtonText}
+            </PrimaryButton>
+            <PrimaryButton onClick={handleSecondaryClick}>
+                {config.secondaryButtonText}
+            </PrimaryButton>
+        </>
     );
 }
