@@ -1,6 +1,8 @@
 import type { Application } from 'express';
+import type { AxiosStatic } from 'axios';
 import express from 'express';
 import bodyParser from 'body-parser';
+import axios from 'axios';
 
 import type { AppConfig } from './config';
 import { getClientView } from './view';
@@ -18,6 +20,7 @@ export type createServer = typeof createServer;
  *
  */
 export interface ServerConfig {
+    request: AxiosStatic;
     config: AppConfig;
     apiRoutes: apiRoutes;
     getClientView: getClientView;
@@ -30,6 +33,7 @@ export interface ServerConfig {
  */
 export function createServerConfig(config: AppConfig): ServerConfig {
     return {
+        request: axios,
         config,
         apiRoutes,
         getClientView,

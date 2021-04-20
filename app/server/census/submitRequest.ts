@@ -1,4 +1,5 @@
-import axios from 'axios';
+import assert from 'assert';
+import type { ServerConfig } from '@server/server';
 import { GeocoderData } from './models';
 
 /**
@@ -44,9 +45,12 @@ const template = 'https://geocoding.geo.census.gov/geocoder/{returnType}/{search
 
 /**
  *
+ * @param server
  * @param options
  */
-export async function submitGeocoderRequest(options: GeocoderOptions): Promise<GeocoderData> {
+export async function submitGeocoderRequest(server: ServerConfig, options: GeocoderOptions): Promise<GeocoderData> {
+    assert(options, 'Missing Geocoder Request Options');
+
     const { configType, returnType, searchType } = options;
     const params = configType
         .concat(baseParameters)
@@ -56,7 +60,7 @@ export async function submitGeocoderRequest(options: GeocoderOptions): Promise<G
         .replace('{returnType}', returnType)
         .replace('{searchType}', searchType)
         .replace('{params}', params);
-    const response = await axios.get(url);
+    const response = await server.request.get(url);
 
     return new GeocoderData(response.data);
 }

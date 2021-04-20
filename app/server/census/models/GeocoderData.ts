@@ -30,7 +30,7 @@ interface GeocoderAddressResponse {
         state: string;
         zip: string;
     };
-    geographies: {
+    geographies?: {
         [ResponseFields.censusBlocks]: Array<GeocoderCensusBlockResponse>;
     };
 }
@@ -38,7 +38,7 @@ interface GeocoderAddressResponse {
 /**
  *
  */
-interface GeocoderResponse {
+export interface GeocoderResponse {
     result: {
         addressMatches: Array<GeocoderAddressResponse>;
     };

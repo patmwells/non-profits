@@ -1,1 +1,1 @@
-export { GeocoderData } from './GeocoderData';
+export { GeocoderData, GeocoderResponse } from './GeocoderData';

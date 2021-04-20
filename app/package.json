@@ -8,7 +8,7 @@
   "scripts": {
     "task:lint": "eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
     "task:build": "webpack --config build/webpack",
-    "task:test:integration": "mocha --require ts-node/register --require source-map-support/register server/**/*.spec.ts",
+    "task:test:integration": "mocha",
     "task:test:coverage": "nyc npm run task:test:integration",
     "dev:build": "npm run task:build -- --env dev",
     "dev:build:watch": "npm run dev:build -- --watch",
@@ -47,6 +47,7 @@
     "mocha": "8.3.2",
     "nodemon": "2.0.7",
     "nyc": "15.1.0",
+    "sinon": "10.0.0",
     "source-map-support": "0.5.19",
     "ts-loader": "8.0.18",
     "ts-node": "9.1.1",
@@ -140,6 +141,13 @@
         }
       }
     ]
+  },
+  "mocha": {
+    "require": [
+      "ts-node/register",
+      "source-map-support/register"
+    ],
+    "spec": ["server/**/*.spec.ts"]
   },
   "nyc": {
     "require": "ts-node/register",

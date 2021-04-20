@@ -48,7 +48,7 @@ export function onGeocoderConfigRequest(req: Request, res: Response): void {
  */
 export async function onGeocoderSubmissionRequest(req: Request, res: Response): Promise<void> {
     const server = getServer(req);
-    const data = await server.CensusGeocoder.submitRequest(req.body);
+    const data = await server.CensusGeocoder.submitRequest(server, req.body);
 
     res.status(200);
     res.send(data);
