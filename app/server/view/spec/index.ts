@@ -1,4 +1,4 @@
-import type { TestConfig } from '@server/server.spec';
+import type { TestConfig } from '@server/spec';
 
 /**
  *

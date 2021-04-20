@@ -1,4 +1,4 @@
-import { GeocoderData, GeocoderOptions, GeocoderResponse } from '@server/census';
+import type { GeocoderData, GeocoderOptions, GeocoderResponse } from '@server/census';
 
 /**
  *

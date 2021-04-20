@@ -1,0 +1,1 @@
+export { TestConfig } from './config';

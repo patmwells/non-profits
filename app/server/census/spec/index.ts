@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import axios from 'axios';
-import type { TestConfig } from '@server/server.spec';
+import type { TestConfig } from '@server/spec';
 import {
     emptyGeocoderData,
     emptyGeocoderResponse,
