@@ -2,7 +2,7 @@ import type { Application } from 'express';
 import { expect, request } from '../../test/chai';
 import { createAppConfig, EnvConfig } from '../config';
 import { createServer, createServerConfig, ServerConfig } from '../server';
-import { buildConfig } from './fixtures';
+import { BuildFixtures, CensusFixtures } from './fixtures';
 
 /**
  *
@@ -19,6 +19,10 @@ export interface TestConfig {
     request: typeof request;
     expect: Chai.ExpectStatic;
     setup: (options: SetupOptions) => Application;
+    fixtures: {
+        build: BuildFixtures;
+        census: CensusFixtures;
+    };
 }
 
 /**
@@ -28,9 +32,13 @@ export const TestConfig: TestConfig = {
     request,
     expect,
     setup({ env, config }: SetupOptions): Application {
-        const appConfig = createAppConfig(buildConfig, env);
+        const appConfig = createAppConfig(TestConfig.fixtures.build.config, env);
         const serverConfig = Object.assign(createServerConfig(appConfig), config);
 
         return createServer(serverConfig);
+    },
+    fixtures: {
+        build: BuildFixtures,
+        census: CensusFixtures
     }
 };

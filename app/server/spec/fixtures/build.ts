@@ -1,7 +1,7 @@
 /**
  *
  */
-export const buildConfig = {
+const config = {
     client: {
         output: {
             path: 'bin/public',
@@ -11,4 +11,18 @@ export const buildConfig = {
             script: 'livereload.js'
         }
     }
+};
+
+/**
+ *
+ */
+export interface BuildFixtures {
+    config: typeof config;
+}
+
+/**
+ *
+ */
+export const BuildFixtures: BuildFixtures = {
+    config
 };

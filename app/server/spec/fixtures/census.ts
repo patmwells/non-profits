@@ -3,7 +3,7 @@ import type { GeocoderData, GeocoderOptions, GeocoderResponse } from '@server/ce
 /**
  *
  */
-export const expectedGeocoderConfig = {
+const geocoderConfig = {
     returnTypes: ['locations', 'geographies'],
     returnTypeConfigs: {
         locations: {
@@ -27,7 +27,7 @@ export const expectedGeocoderConfig = {
 /**
  *
  */
-export const geocoderSubmissionOptions: GeocoderOptions = {
+const geocoderSubmissionOptions = {
     returnType: 'locations',
     searchType: 'onelineaddress',
     configType: [{ name: 'address', value: '1415 Gary Dr. Concord CA 94518' }]
@@ -36,14 +36,14 @@ export const geocoderSubmissionOptions: GeocoderOptions = {
 /**
  *
  */
-export const geocoderRequestURL = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?' +
+const geocoderRequestURL = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?' +
     'address=1415%20Gary%20Dr.%20Concord%20CA%2094518&benchmark=Public_AR_Census2020&' +
     'vintage=Census2020_Census2020&layers=10&format=json';
 
 /**
  *
  */
-export const emptyGeocoderResponse: GeocoderResponse = {
+const emptyGeocoderResponse: GeocoderResponse = {
     result: {
         addressMatches: []
     }
@@ -52,7 +52,7 @@ export const emptyGeocoderResponse: GeocoderResponse = {
 /**
  *
  */
-export const locationsGeocoderResponse: GeocoderResponse = {
+const locationsGeocoderResponse: GeocoderResponse = {
     result: {
         addressMatches: [{
             matchedAddress: '1415 GARY DR. CONCORD CA 94518',
@@ -73,7 +73,7 @@ export const locationsGeocoderResponse: GeocoderResponse = {
 /**
  *
  */
-export const geographiesGeocoderResponse: GeocoderResponse = {
+const geographiesGeocoderResponse: GeocoderResponse = {
     result: {
         addressMatches: [{
             matchedAddress: '1415 GARY DR. CONCORD CA 94518',
@@ -95,14 +95,14 @@ export const geographiesGeocoderResponse: GeocoderResponse = {
 /**
  *
  */
-export const emptyGeocoderData: GeocoderData = {
+const emptyGeocoderData: GeocoderData = {
     addresses: []
 };
 
 /**
  *
  */
-export const locationsGeocoderData: GeocoderData = {
+const locationsGeocoderData: GeocoderData = {
     addresses: [{
         address: {
             city: 'Concord',
@@ -122,7 +122,7 @@ export const locationsGeocoderData: GeocoderData = {
 /**
  *
  */
-export const geographiesGeocoderData: GeocoderData = {
+const geographiesGeocoderData: GeocoderData = {
     addresses: [{
         address: {
             city: 'Concord',
@@ -137,4 +137,34 @@ export const geographiesGeocoderData: GeocoderData = {
         coordinates:  { x: '1', y: '2' },
         matched: '1415 GARY DR. CONCORD CA 94518'
     }]
+};
+
+/**
+ *
+ */
+export interface CensusFixtures {
+    geocoderConfig: typeof geocoderConfig;
+    geocoderSubmissionOptions: GeocoderOptions;
+    geocoderRequestURL: string;
+    emptyGeocoderResponse: GeocoderResponse;
+    locationsGeocoderResponse: GeocoderResponse;
+    geographiesGeocoderResponse: GeocoderResponse;
+    emptyGeocoderData: GeocoderData;
+    locationsGeocoderData: GeocoderData;
+    geographiesGeocoderData: GeocoderData;
+}
+
+/**
+ *
+ */
+export const CensusFixtures: CensusFixtures = {
+    geocoderConfig,
+    geocoderSubmissionOptions,
+    geocoderRequestURL,
+    emptyGeocoderResponse,
+    locationsGeocoderResponse,
+    geographiesGeocoderResponse,
+    emptyGeocoderData,
+    locationsGeocoderData,
+    geographiesGeocoderData
 };
