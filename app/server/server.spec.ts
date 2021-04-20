@@ -1,34 +1,58 @@
-import { request, expect } from '../test/chai';
-import { buildConfig } from '../test/helpers';
-import { createAppConfig } from './config';
-import { createServer, createServerConfig } from './server';
+import type { Application } from 'express';
 
+import { expect, request } from '../test/chai';
+
+import type { EnvConfig } from './config';
+import { createAppConfig } from './config';
+import { createServer, createServerConfig, ServerConfig } from './server';
+
+import { view } from './view/spec';
+import { census } from './census/spec';
+
+/**
+ *
+ */
+export interface TestConfig {
+    request: typeof request;
+    expect: Chai.ExpectStatic;
+    setup: (options: { env: Partial<EnvConfig>; config?: Partial<ServerConfig> }) => Application;
+}
+
+/**
+ *
+ */
+const buildConfig = {
+    client: {
+        output: {
+            path: 'bin/public',
+            filename: 'scripts/index.bundle.js'
+        },
+        liveReload: {
+            script: 'livereload.js'
+        }
+    }
+};
+
+/**
+ *
+ */
+const TestConfig: TestConfig = {
+    request,
+    expect,
+    setup({ env, config }): Application {
+        const appConfig = createAppConfig(buildConfig, env);
+        const serverConfig = Object.assign(createServerConfig(appConfig), config);
+
+        return createServer(serverConfig);
+    }
+};
+
+/**
+ *
+ */
 describe('Server Specification', () => {
 
-    it('should return 404 for the /favicon.ico route', () => {
-        const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
-        const server = createServer(createServerConfig(config));
+    view(TestConfig);
 
-        return request(server).get('/favicon.ico').then((response) => {
-            expect(response).to.have.status(404);
-        });
-    });
-
-    it('should return 200 for the / route when NODE_ENV=development', () => {
-        const config = createAppConfig(buildConfig, { NODE_ENV: 'development', SERVER_PORT: '3000' });
-        const server = createServer(createServerConfig(config));
-
-        return request(server).get('/').then((response) => {
-            expect(response).to.have.status(200);
-        });
-    });
-
-    it('should return 200 for the / route when NODE_ENV=production', () => {
-        const config = createAppConfig(buildConfig, { NODE_ENV: 'production', SERVER_PORT: '3000' });
-        const server = createServer(createServerConfig(config));
-
-        return request(server).get('/').then((response) => {
-            expect(response).to.have.status(200);
-        });
-    });
+    census(TestConfig);
 });

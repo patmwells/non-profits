@@ -32,7 +32,7 @@ interface BuildConfig {
 /**
  *
  */
-interface EnvConfig {
+export interface EnvConfig {
     NODE_ENV: string;
     SERVER_PORT: string;
 }
