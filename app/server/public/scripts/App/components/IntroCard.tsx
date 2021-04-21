@@ -4,11 +4,6 @@ import { Body, Header, PrimaryButton } from './Styled';
 /**
  *
  */
-export type IntroCard = typeof IntroCard;
-
-/**
- *
- */
 interface IntroCardConfig {
     headerText: string;
     bodyText: string;
@@ -22,6 +17,13 @@ interface IntroCardConfig {
 interface IntroCardProps {
     config: IntroCardConfig;
     options: unknown;
+}
+
+/**
+ *
+ */
+export interface IntroCard {
+    (props: IntroCardProps): JSX.Element;
 }
 
 /**

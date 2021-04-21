@@ -5,11 +5,6 @@ import { Actions, State, useStore } from './store';
 /**
  *
  */
-export type useDataRequest = typeof useDataRequest;
-
-/**
- *
- */
 export interface DataRequest<T> {
     type: Actions;
     request: () => Promise<T>;

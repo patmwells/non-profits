@@ -3,14 +3,6 @@ import type { ServerConfig } from '../server';
 
 /**
  *
- */
-export type onFaviconRequest = typeof onFaviconRequest;
-export type onGeocoderConfigRequest = typeof onGeocoderConfigRequest;
-export type onGeocoderSubmissionRequest = typeof onGeocoderSubmissionRequest;
-export type onRenderViewRequest = typeof onRenderViewRequest;
-
-/**
- *
  * @param req
  */
 function getServer(req: Request): ServerConfig {

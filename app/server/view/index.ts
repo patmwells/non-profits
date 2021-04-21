@@ -3,11 +3,6 @@ import { createClient, getSSRClientConfig } from '../public/scripts/client';
 
 /**
  *
- */
-export type getClientView = typeof getClientView;
-
-/**
- *
  * @param config
  * @param apiRoutes
  */

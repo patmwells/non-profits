@@ -6,13 +6,6 @@ import {
     onRenderViewRequest
 } from './controllers';
 
-/**
- *
- */
-export type getFaviconRouter = typeof getFaviconRouter;
-export type getCensusRouter = typeof getCensusRouter;
-export type getViewRouter = typeof getViewRouter;
-
 
 /**
  *

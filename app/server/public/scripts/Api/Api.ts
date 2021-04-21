@@ -4,11 +4,6 @@ import type { Client } from '../client';
 /**
  *
  */
-export type createClientApi = typeof createClientApi;
-
-/**
- *
- */
 export interface ClientApi {
     getGeocoderConfigs: () => Promise<GeocoderConfig>;
     submitGeocoderRequest: (options: GeocoderOptions) => Promise<GeocoderData>;

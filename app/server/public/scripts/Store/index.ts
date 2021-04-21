@@ -11,7 +11,6 @@ import { useDataRequest } from './request';
  */
 export type { State } from './store';
 export type GeocoderConfigState = State<GeocoderConfig>;
-export type createStore = typeof createStore;
 
 /**
  *
@@ -19,10 +18,10 @@ export type createStore = typeof createStore;
 export interface StoreController {
     Provider: Provider<StoreInterface>;
     AsyncDataLoader: AsyncDataLoader;
-    getStore: getStore;
-    useSelector: useSelector;
-    useGeocoderConfigs: typeof useGeocoderConfigs;
-    selectGeocoderConfigs: typeof selectGeocoderConfigs;
+    getStore: () => StoreInterface;
+    useSelector: <T>(selector: (state: StoreState) => T) => T;
+    useGeocoderConfigs: (store: StoreController) => GeocoderConfigState;
+    selectGeocoderConfigs: (state: StoreState) => GeocoderConfig;
     requests: {
         geocoderConfigs: () => DataRequest<GeocoderConfig>;
     };

@@ -5,11 +5,6 @@ import { Header, Body, PrimaryButton, SelectionOptions } from './Styled';
 /**
  *
  */
-export type SelectionCard = typeof SelectionCard;
-
-/**
- *
- */
 interface SelectionCardConfig {
     onSecondaryClick: (options: unknown) => void;
     secondaryButtonText: string;
@@ -24,6 +19,13 @@ interface SelectionCardProps {
     app: AppConfig;
     options: unknown;
     config: SelectionCardConfig;
+}
+
+/**
+ *
+ */
+export interface SelectionCard {
+    (props: SelectionCardProps): JSX.Element;
 }
 
 /**

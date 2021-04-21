@@ -5,11 +5,6 @@ import { Body, Header, PrimaryButton } from './Styled';
 /**
  *
  */
-export type PresentationCard = typeof PresentationCard;
-
-/**
- *
- */
 interface PresentationCardConfig {
     headerText: string;
     loadingText: string;
@@ -27,6 +22,13 @@ interface PresentationCardProps {
     options: unknown;
     config: PresentationCardConfig;
     children: JSX.Element | JSX.Element[];
+}
+
+/**
+ *
+ */
+export interface PresentationCard {
+    (props: PresentationCardProps): JSX.Element;
 }
 
 /**

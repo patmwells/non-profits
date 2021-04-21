@@ -5,11 +5,6 @@ import { StepperOptions, useStepper } from './state';
 /**
  *
  */
-export type Stepper = typeof Stepper;
-
-/**
- *
- */
 type Step = BaseConfig<{ app: AppConfig; stepper: StepperOptions }>;
 
 /**
@@ -25,6 +20,13 @@ interface StepperConfig {
 interface StepperProps {
     config: StepperConfig;
     app: AppConfig;
+}
+
+/**
+ *
+ */
+export interface Stepper {
+    (props: StepperProps): JSX.Element;
 }
 
 /**
