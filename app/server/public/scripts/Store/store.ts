@@ -10,14 +10,6 @@ export const StoreProvider = storeContext.Provider;
 /**
  *
  */
-
-export type getStore = typeof getStore;
-export type useStore = typeof useStore;
-export type useSelector = typeof useSelector;
-
-/**
- *
- */
 export enum Actions {
     FETCH_GEOCODER_CONFIGS = 'FETCH_GEOCODER_CONFIGS'
 }

@@ -5,11 +5,6 @@ import type { StoreController } from './index';
 /**
  *
  */
-export type AsyncDataLoader = typeof AsyncDataLoader;
-
-/**
- *
- */
 export enum AsyncStatus {
     pending = 'PENDING',
     success = 'SUCCESS',
@@ -30,6 +25,13 @@ interface AsyncDataLoaderProps {
     store: StoreController;
     config: AsyncDataLoaderConfig;
     children: JSX.Element | JSX.Element[];
+}
+
+/**
+ *
+ */
+export interface AsyncDataLoader {
+    (props: AsyncDataLoaderProps): JSX.Element;
 }
 
 /**

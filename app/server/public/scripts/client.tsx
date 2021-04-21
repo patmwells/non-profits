@@ -3,17 +3,10 @@ import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import type { apiRoutes } from '@server/routes';
 import axios, { AxiosStatic } from 'axios';
-import { createClientApi } from './Api';
-import { createStore } from './Store';
+import { ClientApi, createClientApi } from './Api';
+import { StoreController, createStore } from './Store';
 import { App } from './App';
 import { Html } from './Html';
-
-/**
- *
- */
-export type getClientConfig = typeof getClientConfig;
-export type getSSRClientConfig = typeof getSSRClientConfig;
-export type createClient = typeof createClient;
 
 /**
  *
@@ -22,11 +15,11 @@ export interface Client {
     request: AxiosStatic;
     renderConfig: ClientRenderConfig;
     config: ClientConfigFromServer;
-    createClientApi: createClientApi;
-    renderOnClient: typeof renderOnClient;
-    renderOnServer: typeof renderOnServer;
+    createClientApi: (client: Client) => ClientApi;
+    renderOnClient: (client: Client) => void;
+    renderOnServer: (client: Client) => string;
     App: App;
-    createStore: createStore;
+    createStore: (api: ClientApi) => StoreController;
     Html: Html;
 }
 

@@ -6,11 +6,6 @@ import { FormField, useForm } from './state';
 /**
  *
  */
-export type FormCard = typeof FormCard;
-
-/**
- *
- */
 interface FormCardConfig {
     submittingText: string;
     submitButtonText: string;
@@ -27,6 +22,13 @@ interface FormCardProps {
     app: AppConfig;
     options: unknown;
     config: FormCardConfig;
+}
+
+/**
+ *
+ */
+export interface FormCard {
+    (props: FormCardProps): JSX.Element;
 }
 
 /**

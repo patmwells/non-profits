@@ -1,11 +1,6 @@
 /**
  *
  */
-export type createAppConfig = typeof createAppConfig;
-
-/**
- *
- */
 export interface AppConfig {
     assets: () => string;
     clientScript: () => string;

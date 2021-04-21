@@ -5,11 +5,6 @@ import type { Client } from './client';
 /**
  *
  */
-export type Html = typeof Html;
-
-/**
- *
- */
 interface HtmlProps {
     client: Client;
     content: string;
@@ -32,6 +27,13 @@ const globalStyles = css`
     outline: none;
   }
 `;
+
+/**
+ *
+ */
+export interface Html {
+    (props: HtmlProps): JSX.Element;
+}
 
 /**
  *
