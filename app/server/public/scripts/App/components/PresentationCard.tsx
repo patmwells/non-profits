@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import type { AppConfig } from '@client/App';
-import { Body, Header, PrimaryButton } from './Styled';
+import { Body, Header, CardFooter } from './presentation';
 
 /**
  *
@@ -62,12 +62,12 @@ export function PresentationCard({ app, options, config, children }: Presentatio
         <>
             <Header>{config.headerText}</Header>
             <Body>{children}</Body>
-            <PrimaryButton onClick={handlePrimaryClick}>
-                {loading ? config.loadingText : config.primaryButtonText}
-            </PrimaryButton>
-            <PrimaryButton onClick={handleSecondaryClick}>
-                {config.secondaryButtonText}
-            </PrimaryButton>
+            <CardFooter
+                onPrimaryClick={handlePrimaryClick}
+                primaryButtonText={loading ? config.loadingText : config.primaryButtonText}
+                onSecondaryClick={handleSecondaryClick}
+                secondaryButtonText={config.secondaryButtonText}
+            />
         </>
     );
 }

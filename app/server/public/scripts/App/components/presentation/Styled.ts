@@ -51,18 +51,25 @@ export const Body = styled.div`
   line-height: 30px;
 `;
 
-export const PrimaryButton = styled.button`
-  color: ${colors.white};
-  margin-top: 24px;
+const Button = styled.button`
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
-  border-radius: 2px;
+  border-radius: 16px;
+  min-width: 120px;
+  min-height: 40px;
+`;
+
+export const PrimaryButton = styled(Button)`
+  color: ${colors.white};
   background: ${colors.lightBlue};
   border: none;
-  width: 120px;
-  height: 40px;
-  margin-left: auto;
+`;
+
+export const SecondaryButton = styled(Button)`
+  color: ${colors.lightBlue};
+  background: ${colors.white};
+  border: 2px solid ${colors.lightBlue};
 `;
 
 export const SelectionOptions = styled.button`

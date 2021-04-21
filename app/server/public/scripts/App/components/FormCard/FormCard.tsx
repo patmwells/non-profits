@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { AppConfig } from '@client/App';
-import { Header, Body, PrimaryButton } from '../Styled';
+import { Header, Body, CardFooter } from '../presentation';
 import { FormField, useForm } from './state';
 
 /**
@@ -79,12 +79,12 @@ export function FormCard({ app, options, config }: FormCardProps): JSX.Element {
                     </label>
                 );
             })}
-            <PrimaryButton onClick={handleOnSubmit}>
-                {form.state.submitting ? config.submittingText : submitButtonText}
-            </PrimaryButton>
-            <PrimaryButton onClick={handleSecondaryClick}>
-                {secondaryButtonText}
-            </PrimaryButton>
+            <CardFooter
+                onPrimaryClick={handleOnSubmit}
+                primaryButtonText={form.state.submitting ? config.submittingText : submitButtonText}
+                onSecondaryClick={handleSecondaryClick}
+                secondaryButtonText={secondaryButtonText}
+            />
         </>
     );
 }

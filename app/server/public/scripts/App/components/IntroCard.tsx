@@ -1,5 +1,5 @@
 import React from 'react';
-import { Body, Header, PrimaryButton } from './Styled';
+import { Body, Header, CardFooter } from './presentation';
 
 /**
  *
@@ -43,7 +43,7 @@ export function IntroCard({ options, config }: IntroCardProps): JSX.Element {
         <>
             <Header>{headerText}</Header>
             <Body>{bodyText}</Body>
-            <PrimaryButton onClick={handleClick}>{buttonText}</PrimaryButton>
+            <CardFooter onPrimaryClick={handleClick} primaryButtonText={buttonText} />
         </>
     );
 }

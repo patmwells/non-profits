@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppConfig } from '@client/App';
-import { Header, Body, PrimaryButton, SelectionOptions } from './Styled';
+import { Header, Body, SelectionOptions, CardFooter } from './presentation';
 
 /**
  *
@@ -54,9 +54,7 @@ export function SelectionCard({ app, options, config }: SelectionCardProps): JSX
                     </SelectionOptions>
                 );
             })}
-            <PrimaryButton onClick={handleSecondaryClick}>
-                {secondaryButtonText}
-            </PrimaryButton>
+            <CardFooter onSecondaryClick={handleSecondaryClick} secondaryButtonText={secondaryButtonText} />
         </>
     );
 }

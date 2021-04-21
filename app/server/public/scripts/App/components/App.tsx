@@ -1,6 +1,6 @@
 import React from 'react';
 import type { AppConfig } from '@client/App';
-import { Card, Container, View } from './Styled';
+import { Card, Container, View } from './presentation';
 
 /**
  *
