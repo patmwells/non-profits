@@ -15,6 +15,26 @@ interface StepComponentProps {
 /**
  *
  */
+enum State {
+    returnType = 'returnType',
+    searchType = 'searchType',
+    configType = 'configType',
+    geocoderResponse = 'geocoderResponse'
+}
+
+/**
+ *
+ */
+interface StepperState {
+    [State.returnType]: string;
+    [State.searchType]: string;
+    [State.configType]: FormField[];
+    [State.geocoderResponse]: GeocoderData;
+}
+
+/**
+ *
+ */
 const IntroCardStep = {
     headerText: 'Census Information',
     bodyText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat erat aliquam vel nibh sed ornare convallis aliquam.',
@@ -41,11 +61,11 @@ const ReturnTypeStep = {
         return configs.returnTypes;
     },
     onSelection(stepper: StepperOptions, selection: string): void {
-        stepper.setState('returnType', selection);
+        stepper.setState(State.returnType, selection);
         stepper.next();
     },
     onSecondaryClick(stepper: StepperOptions): void {
-        stepper.setState('returnType', null);
+        stepper.setState(State.returnType, null);
         stepper.previous();
     }
 };
@@ -60,16 +80,16 @@ const SearchTypeStep = {
     },
     useSelections({ store }: AppConfig, stepper: StepperOptions): string[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
-        const returnType = stepper.getState<string>('returnType');
+        const state = stepper.getState<StepperState>();
 
-        return configs.returnTypeConfigs[returnType].searchTypes;
+        return configs.returnTypeConfigs[state.returnType].searchTypes;
     },
     onSelection(stepper: StepperOptions, selection: string): void {
-        stepper.setState('searchType', selection);
+        stepper.setState(State.searchType, selection);
         stepper.next();
     },
     onSecondaryClick(stepper: StepperOptions): void {
-        stepper.setState('searchType', null);
+        stepper.setState(State.searchType, null);
         stepper.previous();
     }
 };
@@ -86,20 +106,19 @@ const SearchConfigTypeStep = {
     },
     useFormFields({ store }: AppConfig, stepper: StepperOptions): FormField[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
-        const returnType = stepper.getState<string>('returnType');
-        const searchType = stepper.getState<string>('searchType');
+        const state = stepper.getState<StepperState>();
 
         return configs
-            .returnTypeConfigs[returnType]
-            .searchTypeConfigs[searchType]
+            .returnTypeConfigs[state.returnType]
+            .searchTypeConfigs[state.searchType]
             .map((label) => ({ label, name: label, value: '' }));
     },
     onSubmit(stepper: StepperOptions, fields: FormField[]): void {
-        stepper.setState('configType', fields);
+        stepper.setState(State.configType, fields);
         stepper.next();
     },
     onSecondaryClick(stepper: StepperOptions): void {
-        stepper.setState('configType', null);
+        stepper.setState(State.configType, null);
         stepper.previous();
     }
 };
@@ -113,7 +132,7 @@ const VerificationCardStep = {
     primaryButtonText: 'Yes!',
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
-        const state = VerificationCardStep.getStepperState(stepper);
+        const state = stepper.getState<StepperState>();
 
         return (
             <app.PresentationCard app={app} options={stepper} config={VerificationCardStep}>
@@ -127,17 +146,10 @@ const VerificationCardStep = {
             </app.PresentationCard>
         );
     },
-    getStepperState(stepper: StepperOptions): { returnType: string; searchType: string; configType: FormField[] } {
-        return {
-            returnType: stepper.getState<string>('returnType'),
-            searchType: stepper.getState<string>('searchType'),
-            configType: stepper.getState<FormField[]>('configType')
-        };
-    },
     async handlePrimaryClick(app: AppConfig, stepper: StepperOptions): Promise<void> {
-        const options = VerificationCardStep.getStepperState(stepper);
-        const data = await app.api.submitGeocoderRequest(options);
-        stepper.setState('data', data);
+        const options = stepper.getState<StepperState>();
+        const geocoderResponse = await app.api.submitGeocoderRequest(options);
+        stepper.setState(State.geocoderResponse, geocoderResponse);
         stepper.next();
     },
     handleSecondaryClick(stepper: StepperOptions): void {
@@ -154,10 +166,10 @@ const DoneCardStep = {
     primaryButtonText: 'Complete',
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
-        const data = stepper.getState<GeocoderData>('data');
+        const state = stepper.getState<StepperState>();
         return (
             <app.PresentationCard app={app} options={stepper} config={DoneCardStep}>
-                <>{data.addresses.map(({ matched, coordinates, address, censusBlocks }, index) => {
+                <>{state.geocoderResponse.addresses.map(({ matched, coordinates, address, censusBlocks }, index) => {
                     return (
                         <div key={index}>
                             <div>Matched Address</div>
