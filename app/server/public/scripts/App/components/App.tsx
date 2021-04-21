@@ -1,6 +1,6 @@
 import React from 'react';
 import type { AppConfig } from '@client/App';
-import { Card, Container, View } from './presentation';
+import { Page } from './Styled';
 
 /**
  *
@@ -15,12 +15,8 @@ interface AppProps {
  */
 export function AppContainer({ app }: AppProps): JSX.Element {
     return (
-        <View>
-            <Card>
-                <Container>
-                    <app.GeocoderStepper.Component app={app} />
-                </Container>
-            </Card>
-        </View>
+        <Page>
+            <app.GeocoderStepperConfig.Component app={app} />
+        </Page>
     );
 }

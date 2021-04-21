@@ -1,8 +1,8 @@
 import React from 'react';
 import type { ClientApi } from '@client/Api';
 import type { StoreController } from '@client/Store';
-import { GeocoderStepper } from './GeocoderStepper';
-import { AppContainer, FormCard, IntroCard, PresentationCard, SelectionCard, Stepper } from './components';
+import { AppContainer } from './components';
+import { GeocoderStepperConfig } from './GeocoderStepper';
 
 /**
  *
@@ -17,12 +17,7 @@ export interface BaseConfig<T = { app: AppConfig }> {
 export interface AppConfig {
     api: ClientApi;
     store: StoreController;
-    IntroCard: IntroCard;
-    SelectionCard: SelectionCard;
-    FormCard: FormCard;
-    PresentationCard: PresentationCard;
-    Stepper: Stepper;
-    GeocoderStepper: BaseConfig;
+    GeocoderStepperConfig: BaseConfig;
 }
 
 /**
@@ -46,12 +41,7 @@ export const App: App = {
         const app: AppConfig = {
             api,
             store,
-            IntroCard,
-            SelectionCard,
-            FormCard,
-            PresentationCard,
-            Stepper,
-            GeocoderStepper
+            GeocoderStepperConfig
         };
 
         return (

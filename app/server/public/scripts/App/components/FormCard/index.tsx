@@ -1,2 +1,2 @@
-export { FormCard } from './FormCard';
+export { Form } from './Form';
 export { FormField } from './state';
