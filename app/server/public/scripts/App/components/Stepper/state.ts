@@ -126,8 +126,8 @@ function stepperReducer(state: StepperState, action: Action): StepperState {
  */
 export interface StepperOptions<T = unknown> {
     step: T;
-    setState: (key: string, value: unknown) => void;
-    getState: <S>(key: string) => S;
+    setState: <S>(key: string, value: S) => void;
+    getState: <S>() => S;
     next: () => void;
     previous: () => void;
     complete: () => void;
@@ -143,11 +143,11 @@ export function useStepper<T>(steps: T[]): StepperOptions<T> {
 
     return {
         step,
-        setState: function (key: string, value: unknown): void {
+        setState: function <S>(key: string, value: S): void {
             dispatch({ type: Actions.setState, key, value });
         },
-        getState: function <S>(key: string): S {
-            return stepper.state[key] as S;
+        getState: function <S>(): S {
+            return stepper.state as unknown as S;
         },
         next: (): void => {
             dispatch({ type: Actions.next });
