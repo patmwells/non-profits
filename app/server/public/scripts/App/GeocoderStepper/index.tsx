@@ -3,6 +3,7 @@ import type { AppConfig } from '@client/App';
 import type { GeocoderData } from '@client/Api';
 import type { FormField, StepperOptions } from '@client/App/components';
 import type { GeocoderConfigState, StoreController } from '@client/Store';
+import { GeocoderStepper, Intro, Selection, FormCard, Presentation } from './components';
 
 /**
  *
@@ -35,12 +36,40 @@ interface StepperState {
 /**
  *
  */
+export const GeocoderStepperConfig = {
+    Component({ app }: { app: AppConfig }): JSX.Element {
+        const { store } = app;
+
+        return (
+            <store.AsyncDataLoader store={store} config={GeocoderStepperConfig}>
+                <GeocoderStepper
+                    app={app}
+                    steps={[
+                        IntroCardStep,
+                        ReturnTypeStep,
+                        SearchTypeStep,
+                        SearchConfigTypeStep,
+                        VerificationCardStep,
+                        DoneCardStep
+                    ]}
+                />
+            </store.AsyncDataLoader>
+        );
+    },
+    useAsyncData(store: StoreController): GeocoderConfigState {
+        return store.useGeocoderConfigs(store);
+    }
+};
+
+/**
+ *
+ */
 const IntroCardStep = {
     headerText: 'Census Information',
     bodyText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat erat aliquam vel nibh sed ornare convallis aliquam.',
     buttonText: 'Explore',
-    Component({ app, stepper }: StepComponentProps): JSX.Element {
-        return <app.IntroCard options={stepper} config={IntroCardStep} />;
+    Component({ stepper }: StepComponentProps): JSX.Element {
+        return <Intro stepper={stepper} config={IntroCardStep} />;
     },
     onClick(stepper: StepperOptions): void {
         stepper.next();
@@ -53,7 +82,7 @@ const IntroCardStep = {
 const ReturnTypeStep = {
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
-        return <app.SelectionCard app={app} options={stepper} config={ReturnTypeStep} />;
+        return <Selection app={app} stepper={stepper} config={ReturnTypeStep} />;
     },
     useSelections({ store }: AppConfig): string[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
@@ -76,7 +105,7 @@ const ReturnTypeStep = {
 const SearchTypeStep = {
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
-        return <app.SelectionCard app={app} options={stepper} config={SearchTypeStep} />;
+        return <Selection app={app} stepper={stepper} config={SearchTypeStep} />;
     },
     useSelections({ store }: AppConfig, stepper: StepperOptions): string[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
@@ -102,7 +131,7 @@ const SearchConfigTypeStep = {
     submitButtonText: 'Submit',
     secondaryButtonText: 'Back',
     Component({ app, stepper }: StepComponentProps): JSX.Element {
-        return <app.FormCard app={app} options={stepper} config={SearchConfigTypeStep} />;
+        return <FormCard app={app} stepper={stepper} config={SearchConfigTypeStep} />;
     },
     useFormFields({ store }: AppConfig, stepper: StepperOptions): FormField[] {
         const configs = store.useSelector(store.selectGeocoderConfigs);
@@ -135,7 +164,7 @@ const VerificationCardStep = {
         const state = stepper.getState<StepperState>();
 
         return (
-            <app.PresentationCard app={app} options={stepper} config={VerificationCardStep}>
+            <Presentation app={app} stepper={stepper} config={VerificationCardStep}>
                 <hr />
                 <div>ReturnType: {state.returnType}</div>
                 <hr />
@@ -143,7 +172,7 @@ const VerificationCardStep = {
                 <hr />
                 <>{state.configType.map((field, index) => <div key={index}>{field.label}: {field.value}</div>)}</>
                 <hr />
-            </app.PresentationCard>
+            </Presentation>
         );
     },
     async handlePrimaryClick(app: AppConfig, stepper: StepperOptions): Promise<void> {
@@ -168,7 +197,7 @@ const DoneCardStep = {
     Component({ app, stepper }: StepComponentProps): JSX.Element {
         const state = stepper.getState<StepperState>();
         return (
-            <app.PresentationCard app={app} options={stepper} config={DoneCardStep}>
+            <Presentation app={app} stepper={stepper} config={DoneCardStep}>
                 <>{state.geocoderResponse.addresses.map(({ matched, coordinates, address, censusBlocks }, index) => {
                     return (
                         <div key={index}>
@@ -193,7 +222,7 @@ const DoneCardStep = {
                         </div>
                     );
                 })}</>
-            </app.PresentationCard>
+            </Presentation>
         );
     },
     handlePrimaryClick(app: AppConfig, stepper: StepperOptions): void {
@@ -201,31 +230,5 @@ const DoneCardStep = {
     },
     handleSecondaryClick(stepper: StepperOptions): void {
         stepper.previous();
-    }
-};
-
-/**
- *
- */
-export const GeocoderStepper = {
-    steps: [
-        IntroCardStep,
-        ReturnTypeStep,
-        SearchTypeStep,
-        SearchConfigTypeStep,
-        VerificationCardStep,
-        DoneCardStep
-    ],
-    Component({ app }: { app: AppConfig }): JSX.Element {
-        const { store } = app;
-
-        return (
-            <store.AsyncDataLoader store={store} config={GeocoderStepper}>
-                <app.Stepper app={app} config={GeocoderStepper} />
-            </store.AsyncDataLoader>
-        );
-    },
-    useAsyncData(store: StoreController): GeocoderConfigState {
-        return store.useGeocoderConfigs(store);
     }
 };

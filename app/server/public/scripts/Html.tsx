@@ -19,8 +19,8 @@ const globalStyles = css`
   body {
     height: 100vh;
     margin: 0;
-    font-family: sans-serif;
-    background: #e2e2e2;
+    font-family: Poppins, sans-serif;
+    background: #E5E5E5;
   }
 
   button:focus {
