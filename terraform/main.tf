@@ -5,7 +5,7 @@ terraform {
   required_providers {
     heroku = {
       source  = "heroku/heroku"
-      version = "~> 4.2.0"
+      version = "~> 4.0"
     }
   }
 }
@@ -52,24 +52,4 @@ resource "heroku_app_config_association" "non-profits" {
   app_id = heroku_app.non-profits.id
 
   vars = heroku_config.common.vars
-}
-
-variable "app_directory" {
-  description = "The directory for the app source code"
-}
-
-resource "heroku_build" "non-profits" {
-  app = heroku_app.non-profits.id
-
-  source {
-    path = var.app_directory
-  }
-}
-
-resource "heroku_formation" "non-profits" {
-  app = heroku_app.non-profits.id
-  type= "web"
-  quantity = 1
-  size = "Free"
-  depends_on = [heroku_build.non-profits]
 }

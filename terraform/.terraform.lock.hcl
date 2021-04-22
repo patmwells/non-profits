@@ -3,7 +3,7 @@
 
 provider "registry.terraform.io/heroku/heroku" {
   version     = "4.2.0"
-  constraints = "~> 4.2.0"
+  constraints = "~> 4.0"
   hashes = [
     "h1:JNlyTBN+7dRSQUbKCG6dmvgmPA080DQ/nUsCqcL8Qns=",
     "zh:13b10d57a05c65fcd4a0fcbcf5120df5fd7eb67b0cdf153262fcaee02ff5e1c3",

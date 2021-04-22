@@ -1,5 +1,5 @@
 build:
   docker:
     web:
-      dockerfile: Dockerfile
+      dockerfile: app/Dockerfile
       target: prod
