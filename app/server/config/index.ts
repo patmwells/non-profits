@@ -29,7 +29,7 @@ interface BuildConfig {
  */
 export interface EnvConfig {
     NODE_ENV: string;
-    SERVER_PORT: string;
+    PORT: string;
 }
 
 /**
@@ -56,7 +56,7 @@ class Config implements AppConfig {
      *
      */
     port(): string {
-        return this.env.SERVER_PORT;
+        return this.env.PORT;
     }
 
     /**

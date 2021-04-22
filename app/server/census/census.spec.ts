@@ -8,7 +8,7 @@ describe('Census Integration Specification', () => {
     const stub = sinon.stub(axios);
 
     it('should return 200 and a GeocoderConfig for the /census/geocoder/configs route', async () => {
-        const server = setup({ env: { NODE_ENV: 'production', SERVER_PORT: '3000' } });
+        const server = setup({ env: { NODE_ENV: 'production', PORT: '3000' } });
         const response = await request(server).get('/api/v1/census/geocoder/configs');
 
         expect(response).to.have.status(200);
@@ -18,7 +18,7 @@ describe('Census Integration Specification', () => {
     it('should return 200 and an empty object when no addresses match for /census/geocoder/submit route', async () => {
         stub.get.returns({ data: fixtures.census.emptyGeocoderData });
 
-        const server = setup({ env: { NODE_ENV: 'production', SERVER_PORT: '3000' }, config: { request: stub } });
+        const server = setup({ env: { NODE_ENV: 'production', PORT: '3000' }, config: { request: stub } });
         const response = await request(server)
             .post('/api/v1/census/geocoder/submit')
             .send(fixtures.census.geocoderSubmissionOptions);
@@ -30,7 +30,7 @@ describe('Census Integration Specification', () => {
     it('should return 200 and an object containing matched addresses for /census/geocoder/submit route', async () => {
         stub.get.returns({ data: fixtures.census.locationsGeocoderResponse });
 
-        const server = setup({ env: { NODE_ENV: 'production', SERVER_PORT: '3000' }, config: { request: stub } });
+        const server = setup({ env: { NODE_ENV: 'production', PORT: '3000' }, config: { request: stub } });
         const response = await request(server)
             .post('/api/v1/census/geocoder/submit')
             .send(fixtures.census.geocoderSubmissionOptions);
@@ -43,7 +43,7 @@ describe('Census Integration Specification', () => {
     it('should return 200 and an object including geographies for /census/geocoder/submit route', async () => {
         stub.get.returns({ data: fixtures.census.geographiesGeocoderResponse });
 
-        const server = setup({ env: { NODE_ENV: 'production', SERVER_PORT: '3000' }, config: { request: stub } });
+        const server = setup({ env: { NODE_ENV: 'production', PORT: '3000' }, config: { request: stub } });
         const response = await request(server)
             .post('/api/v1/census/geocoder/submit')
             .send(fixtures.census.geocoderSubmissionOptions);

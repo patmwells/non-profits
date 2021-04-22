@@ -4,7 +4,7 @@ services:
     image: "${IMAGE_TAG}"
     environment:
       - NODE_ENV
-      - SERVER_PORT
+      - PORT
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
   automation:
@@ -12,4 +12,4 @@ services:
     depends_on:
       - app
     environment:
-      - CYPRESS_BASE_URL=http://app:${SERVER_PORT}
+      - CYPRESS_BASE_URL=http://app:${PORT}
