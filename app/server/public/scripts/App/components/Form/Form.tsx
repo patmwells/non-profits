@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { FormField, useForm } from './state';
+import { TextField } from './TextField';
 
 /**
  *
@@ -45,20 +46,14 @@ export function Form({ fields, onSubmit, render }: FormProps): JSX.Element {
 
     return render({
         handleSubmit,
-        fields: form.state.fields.map((field, index) => {
-            return (
-                <div key={index}>
-                    <label>
-                        {field.label}
-                        <input
-                            type="text"
-                            name={field.name}
-                            value={field.value}
-                            onChange={handleOnChange}
-                        />
-                    </label>
-                </div>
-            );
-        })
+        fields: form.state.fields.map((field, index) => (
+            <TextField
+                key={index}
+                label={field.label}
+                name={field.name}
+                value={field.value}
+                onChange={handleOnChange}
+            />
+        ))
     });
 }

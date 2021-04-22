@@ -20,7 +20,7 @@ const Button = styled.button`
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
-  border-radius: 16px;
+  border-radius: 50px;
   min-width: 120px;
   min-height: 40px;
 `;
