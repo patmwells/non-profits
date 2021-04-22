@@ -6,7 +6,7 @@
   "license": "ISC",
   "main": "server/index.ts",
   "scripts": {
-    "task:lint": "eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
+    "task:lint": "eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin --ignore-pattern node_modules",
     "task:build": "webpack --config build/webpack",
     "task:test:integration": "mocha",
     "task:test:coverage": "nyc npm run task:test:integration",
