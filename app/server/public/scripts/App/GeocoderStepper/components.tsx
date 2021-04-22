@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, SyntheticEvent, useState } from 'react';
 import type { AppConfig, BaseConfig } from '@client/App';
 import type { StepperOptions, FormField } from '@client/App/components';
 import { Card, Form, Stepper, SelectionOptions } from '../components';
@@ -98,11 +98,19 @@ export function Selection({ app, stepper, config }: SelectionProps): JSX.Element
         onSecondaryClick(stepper);
     }
 
+    /**
+     *
+     * @param event
+     */
+    function handleSelection(event: SyntheticEvent<HTMLInputElement>): void {
+        onSelection(stepper, event.currentTarget.value);
+    }
+
     return (
         <Card secondaryButtonText={secondaryButtonText} onSecondaryClick={handleSecondaryClick}>
             {selections.map((selection, index) => {
                 return (
-                    <SelectionOptions key={index} onClick={(): void => onSelection(stepper, selection)}>
+                    <SelectionOptions key={index} value={selection} onClick={handleSelection}>
                         {selection}
                     </SelectionOptions>
                 );

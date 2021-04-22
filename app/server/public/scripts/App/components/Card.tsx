@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { colors, PrimaryButton, SecondaryButton } from './Styled';
 
 const Container = styled.div`
-  margin-top: 40px;
-  min-width: 340px;
+  margin: 40px auto 0 auto;
   border-radius: 12px;
   background: ${colors.white};
   box-shadow: 0 0 10px 1px #bcbcbc;
+  max-width: 500px;
+  min-width: 450px;
 `;
 
 const Content = styled.div`

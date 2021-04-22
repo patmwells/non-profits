@@ -37,8 +37,7 @@ export const SecondaryButton = styled(Button)`
   border: 2px solid ${colors.lightBlue};
 `;
 
-export const SelectionOptions = styled.button`
-  border: 1px solid black;
-  height: 50px;
+export const SelectionOptions = styled(PrimaryButton)`
+  margin-top: 20px;
   width: 100%;
 `;
