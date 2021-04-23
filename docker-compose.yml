@@ -1,15 +1,20 @@
 version: "3.9"
 services:
   app:
-    image: "${IMAGE_TAG}"
+    image: app:local
     environment:
       - NODE_ENV
-      - PORT
+      - PORT=3000
     ports:
-      - "${PORT}:${PORT}"
+      - "3000:3000"
+      - "35729:35729"
+    volumes:
+      - ./app:/home/node/app
   automation:
     build: ./app/test/automation
     depends_on:
       - app
     environment:
-      - CYPRESS_BASE_URL
+      - CYPRESS_BASE_URL=http://app:3000
+    volumes:
+      - ./app/test/automation:/automation

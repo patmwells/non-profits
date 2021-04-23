@@ -1,17 +1,13 @@
 app: down build start logs
 
-ci: build automation down
-
 build:
-	docker build --tag $(IMAGE_TAG) --target $(BUILD_TARGET) --rm ./app
+	docker build --tag app:local --target dev --rm ./app
 start:
-	docker-compose $(COMPOSE_CONFIGS) up --detach app
+	docker-compose up --detach app
 logs:
 	docker-compose logs --follow app
 shell:
 	docker-compose exec app /bin/bash
-automation:
-	docker-compose $(COMPOSE_CONFIGS) up --build automation
 down:
 	docker-compose down
 clean:
@@ -19,12 +15,9 @@ clean:
 hooks:
 	cp -a .hooks/. .git/hooks/
 	chmod +x .git/hooks/*
-dev:
-	@echo "\n ### DEV environment ### \n";
-	set -o allexport && source .env.dev && $(SHELL);
-prod:
-	@echo "\n ### PROD environment ### \n";
-	set -o allexport && source .env.prod && $(SHELL);
 verify:
-	@echo "\n ### Running local CI with PROD environment ### \n";
-	set -o allexport && source .env.prod && $(SHELL) -c "make ci";
+	heroku login;
+	docker build --tag app:local --target prod --rm ./app;
+	NODE_ENV=$$(heroku config:get -a non-profits NODE_ENV) docker-compose up --build automation;
+	docker-compose down;
+	heroku logout;
