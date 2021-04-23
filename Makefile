@@ -15,6 +15,8 @@ clean:
 hooks:
 	cp -a .hooks/. .git/hooks/
 	chmod +x .git/hooks/*
+infra:
+	cd ops/terraform && terraform apply;
 verify:
 	heroku login;
 	docker build --tag app:local --target prod --rm ./app;

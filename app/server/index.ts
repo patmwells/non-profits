@@ -14,5 +14,6 @@ const server = createServer(createServerConfig(config));
 const port = config.port();
 
 server.listen(port, () => {
+    console.log(process.env);
     console.log('-> Server running on port:', port);
 });
