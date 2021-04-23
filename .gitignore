@@ -4,6 +4,7 @@ app/.nyc_output
 app/node_modules
 .env*
 docker-compose.dev.yml
-terraform
-!terraform/.terraform.lock.hcl
-!terraform/main.tf
+!ops/*
+ops/terraform/*
+!ops/terraform/.terraform.lock.hcl
+!ops/terraform/main.tf
