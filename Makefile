@@ -28,11 +28,3 @@ prod:
 verify:
 	@echo "\n ### Running local CI with PROD environment ### \n";
 	set -o allexport && source .env.prod && $(SHELL) -c "make ci";
-release:
-	heroku login;
-	echo $$(heroku auth:token) | docker login --username=_ --password-stdin registry.heroku.com;
-	docker build --tag non-profits:latest --target prod --rm ./app;
-	docker tag non-profits:latest registry.heroku.com/non-profits/web;
-	docker push registry.heroku.com/non-profits/web;
-	heroku container:release --app non-profits web;
-	heroku logout;
