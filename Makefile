@@ -17,14 +17,13 @@ down:
 clean:
 	docker image prune --all --force
 release:
-	heroku login
-	echo $$(heroku auth:token) | docker login --username=_ --password-stdin registry.heroku.com
-	docker build --tag non-profits:$$(git rev-parse HEAD) --target prod --rm ./app
-	docker tag non-profits:$$(git rev-parse HEAD) registry.heroku.com/non-profits/web
-	docker push registry.heroku.com/non-profits/web
-	heroku container:release --app non-profits web
-	PORT=3000 IMAGE_TAG=app:latest CYPRESS_BASE_URL=https://non-profits.herokuapp.com/ docker-compose up automation
-	heroku logout
+	heroku login;
+	heroku container:login;
+	cd app && heroku container:push --app non-profits web;
+	heroku container:release --app non-profits web;
+	heroku container:logout;
+	heroku logout;
+	PORT=3000 IMAGE_TAG=app:latest CYPRESS_BASE_URL=https://non-profits.herokuapp.com/ docker-compose up --build automation;
 
 dev:
 	@echo "\n ### DEV environment ### \n";
