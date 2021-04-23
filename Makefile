@@ -16,6 +16,18 @@ down:
 	docker-compose down
 clean:
 	docker image prune --all --force
+hooks:
+	cp -a .hooks/. .git/hooks/
+	chmod +x .git/hooks/*
+dev:
+	@echo "\n ### DEV environment ### \n";
+	set -o allexport && source .env.dev && $(SHELL);
+prod:
+	@echo "\n ### PROD environment ### \n";
+	set -o allexport && source .env.prod && $(SHELL);
+verify:
+	@echo "\n ### Running local CI with PROD environment ### \n";
+	set -o allexport && source .env.prod && $(SHELL) -c "make ci";
 release:
 	heroku login;
 	heroku container:login;
@@ -23,17 +35,3 @@ release:
 	heroku container:release --app non-profits web;
 	heroku container:logout;
 	heroku logout;
-	PORT=3000 IMAGE_TAG=app:latest CYPRESS_BASE_URL=https://non-profits.herokuapp.com/ docker-compose up --build automation;
-
-dev:
-	@echo "\n ### DEV environment ### \n";
-	set -o allexport && source .env.dev && $(SHELL);
-hooks:
-	cp -a .hooks/. .git/hooks/
-	chmod +x .git/hooks/*
-prod:
-	@echo "\n ### PROD environment ### \n";
-	set -o allexport && source .env.prod && $(SHELL);
-verify:
-	@echo "\n ### Running local CI with PROD environment ### \n";
-	set -o allexport && source .env.prod && $(SHELL) -c "make ci";

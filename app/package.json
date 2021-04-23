@@ -6,10 +6,10 @@
   "license": "ISC",
   "main": "server/index.ts",
   "scripts": {
-    "task:lint": "node_modules/eslint/bin/eslint.js . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
-    "task:build": "node_modules/webpack/bin/webpack.js --config build/webpack",
+    "task:lint": "node_modules/eslint/bin/eslint . --ext .ts,.tsx,.js,.jsx --ignore-pattern bin",
+    "task:build": "node_modules/webpack/bin/webpack --config build/webpack",
     "task:test:integration": "node_modules/mocha/bin/mocha",
-    "task:test:coverage": "node_modules/nyc/bin/nyc.js npm run task:test:integration",
+    "task:test:coverage": "node_modules/nyc/bin/nyc npm run task:test:integration",
     "dev:build": "npm run task:build -- --env dev",
     "dev:build:watch": "npm run dev:build -- --watch",
     "dev:start": "nodemon --watch bin bin/server/index.js",
