@@ -16,6 +16,11 @@ variable "node_env" {
   description = "The NODE_ENV for the application"
 }
 
+variable "log_solution" {
+  description = "The logging solution for the application"
+  sensitive = true
+}
+
 terraform {
   backend "local" {}
 
@@ -40,4 +45,9 @@ resource "heroku_app" "non-profits" {
   config_vars = {
     NODE_ENV = var.node_env
   }
+}
+
+resource "heroku_addon" "logging" {
+  app = heroku_app.non-profits.name
+  plan = var.log_solution
 }
