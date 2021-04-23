@@ -8,7 +8,6 @@ const Container = styled.div`
   background: ${colors.white};
   box-shadow: 0 0 10px 1px #bcbcbc;
   max-width: 500px;
-  min-width: 400px;
 `;
 
 const Content = styled.div`

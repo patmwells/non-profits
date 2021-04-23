@@ -30,8 +30,9 @@ verify:
 	set -o allexport && source .env.prod && $(SHELL) -c "make ci";
 release:
 	heroku login;
-	heroku container:login;
-	cd app && heroku container:push --app non-profits web;
+	docker login --username=_ --password=$(heroku auth:token) registry.heroku.com;
+	docker build --tag non-profits:latest --target prod --rm ./app;
+	docker tag non-profits:latest registry.heroku.com/non-profits/web;
+	docker push registry.heroku.com/non-profits/web;
 	heroku container:release --app non-profits web;
-	heroku container:logout;
 	heroku logout;
