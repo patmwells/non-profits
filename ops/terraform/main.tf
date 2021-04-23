@@ -16,10 +16,6 @@ variable "node_env" {
   description = "The NODE_ENV for the application"
 }
 
-variable "some_env" {
-
-}
-
 terraform {
   backend "local" {}
 
@@ -43,6 +39,5 @@ resource "heroku_app" "non-profits" {
 
   config_vars = {
     NODE_ENV = var.node_env
-    SOMETHING = var.some_env
   }
 }
