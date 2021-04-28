@@ -3,6 +3,7 @@ app/bin
 app/.nyc_output
 app/node_modules
 .env*
+docker-compose.override.yml
 !ops/*
 ops/terraform/*
 !ops/terraform/.terraform.lock.hcl
